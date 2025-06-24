@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran Bilangan Bulat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pembelajaran Bilangan Bulat</h1>
+        <div class="input-group">
+            <input type="number" id="num1" placeholder="Angka pertama" oninput="startAnimation()">
+            <select id="operator" oninput="startAnimation()">
+                <option value="+">+</option>
+                <option value="-">−</option>
+            </select>
+            <input type="number" id="num2" placeholder="Angka kedua" oninput="startAnimation()">
+        </div>
+        <canvas id="garis" width="600" height="150"></canvas>
+        <p id="hasil"></p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("garis");
+        const ctx = canvas.getContext("2d");
+        let animationFrameId;
+
+        function drawNumberLine(minVal, maxVal) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate scale
+            const padding = 50; // Padding on both sides
+            const canvasWidth = canvas.width - 2 * padding;
+            const range = maxVal - minVal;
+            const scale = range === 0 ? 20 : canvasWidth / range; // Pixels per unit
+
+            // Adjust minVal and maxVal to ensure integer ticks
+            const tickInterval = Math.max(1, Math.ceil(range / 10)); // Aim for ~10 ticks
+            const adjustedMin = Math.floor(minVal / tickInterval) * tickInterval;
+            const adjustedMax = Math.ceil(maxVal / tickInterval) * tickInterval;
+
+            // Draw number line
+            ctx.beginPath();
+            ctx.moveTo(padding, 75);
+            ctx.lineTo(canvas.width - padding, 75);
+            ctx.strokeStyle = "#333";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw ticks and labels
+            ctx.font = "12px Arial";
+            ctx.fillStyle = "#333";
+            ctx.textAlign = "center";
+            for (let i = adjustedMin; i <= adjustedMax; i += tickInterval) {
+                const x = padding + (i - minVal) * scale;
+                ctx.beginPath();
+                ctx.moveTo(x, 70);
+                ctx.lineTo(x, 80);
+                ctx.stroke();
+                ctx.fillText(i, x, 95);
+            }
+
+            // Draw arrowheads for number line
+            ctx.beginPath();
+            ctx.moveTo(canvas.width - padding, 75);
+            ctx.lineTo(canvas.width - padding - 5, 70);
+            ctx.moveTo(canvas.width - padding, 75);
+            ctx.lineTo(canvas.width - padding - 5, 80);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(padding, 75);
+            ctx.lineTo(padding + 5, 70);
+            ctx.moveTo(padding, 75);
+            ctx.lineTo(padding + 5, 80);
+            ctx.stroke();
+
+            return scale;
+        }
+
+        // Initial draw with default range
+        drawNumberLine(-10, 10);
+
+        function drawArrowhead(x, y, direction, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            if (direction === "right") {
+                ctx.lineTo(x - 5, y - 5);
+                ctx.lineTo(x - 5, y + 5);
+            } else {
+                ctx.lineTo(x + 5, y - 5);
+                ctx.lineTo(x + 5, y + 5);
+            }
+            ctx.fill();
+        }
+
+        function startAnimation() {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            const num1 = parseInt(document.getElementById("num1").value) || 0;
+            const num2 = parseInt(document.getElementById("num2").value) || 0;
+            const operator = document.getElementById("operator").value;
+            const hasil = operator === '+' ? num1 + num2 : num1 - num2;
+
+            // Determine min and max values for the number line
+            const values = [0, num1, hasil];
+            const minVal = Math.min(...values) - 2; // Add padding
+            const maxVal = Math.max(...values) + 2; // Add padding
+
+            const scale = drawNumberLine(minVal, maxVal);
+            const padding = 50;
+
+            const startX = padding + (0 - minVal) * scale;
+            const targetMidX = padding + (num1 - minVal) * scale;
+            const targetEndX = padding + (hasil - minVal) * scale;
+
+            let currentX = startX;
+            let midXReached = false;
+            const animationDuration = 1000; // 1 second per segment
+            let startTime;
+
+            function animate(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = (timestamp - startTime) / animationDuration;
+
+                drawNumberLine(minVal, maxVal);
+
+                if (!midXReached) {
+                    // Animate first arrow (num1) at y=40
+                    currentX = startX + (targetMidX - startX) * Math.min(progress, 1);
+                    ctx.strokeStyle = "#4a90e2";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(startX, 40);
+                    ctx.lineTo(currentX, 40);
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Draw arrowhead based on direction
+                    const num1Direction = num1 >= 0 ? "right" : "left";
+                    drawArrowhead(currentX, 40, num1Direction, "#4a90e2");
+
+                    if (progress >= 1) {
+                        midXReached = true;
+                        startTime = timestamp;
+                        currentX = targetMidX;
+                    }
+                } else {
+                    // Animate second arrow (num2) at y=60
+                    const secondProgress = (timestamp - startTime) / animationDuration;
+                    currentX = targetMidX + (targetEndX - targetMidX) * Math.min(secondProgress, 1);
+
+                    // Draw first arrow (num1) at y=40
+                    ctx.strokeStyle = "#4a90e2";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(startX, 40);
+                    ctx.lineTo(targetMidX, 40);
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Draw first arrowhead
+                    const num1Direction = num1 >= 0 ? "right" : "left";
+                    drawArrowhead(targetMidX, 40, num1Direction, "#4a90e2");
+
+                    // Draw second arrow (num2) at y=60
+                    ctx.strokeStyle = "#e94e4e";
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(targetMidX, 60);
+                    ctx.lineTo(currentX, 60);
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Draw second arrowhead based on direction
+                    const num2Direction = (operator === '+' ? num2 : -num2) >= 0 ? "right" : "left";
+                    drawArrowhead(currentX, 60, num2Direction, "#e94e4e");
+
+                    // Display result
+                    document.getElementById("hasil").textContent = `Hasil: ${hasil}`;
+
+                    if (secondProgress >= 1) return; // Stop animation
+                }
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+    </script>
+</body>
+</html>
