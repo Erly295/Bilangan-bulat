@@ -17,7 +17,7 @@
             </select>
             <input type="number" id="num2" placeholder="Angka kedua" oninput="startAnimation()">
         </div>
-        <canvas id="garis" width="600" height="150"></canvas>
+        <canvas id="garis" width="700" height="200"></canvas>
         <p id="hasil"></p>
     </div>
 
@@ -29,72 +29,93 @@
         function drawNumberLine(minVal, maxVal) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Calculate scale
-            const padding = 50; // Padding on both sides
+            // Calculate scale with extra padding
+            const padding = 60;
             const canvasWidth = canvas.width - 2 * padding;
-            const range = maxVal - minVal;
-            const scale = range === 0 ? 20 : canvasWidth / range; // Pixels per unit
+            const range = Math.max(Math.abs(maxVal - minVal), 1);
+            const scale = canvasWidth / (range + 4);
 
-            // Adjust minVal and maxVal to ensure integer ticks
-            const tickInterval = Math.max(1, Math.ceil(range / 10)); // Aim for ~10 ticks
-            const adjustedMin = Math.floor(minVal / tickInterval) * tickInterval;
-            const adjustedMax = Math.ceil(maxVal / tickInterval) * tickInterval;
+            // Adjust minVal and maxVal for integer ticks
+            const tickInterval = Math.max(1, Math.ceil(range / 8));
+            const adjustedMin = Math.floor(minVal / tickInterval) * tickInterval - tickInterval;
+            const adjustedMax = Math.ceil(maxVal / tickInterval) * tickInterval + tickInterval;
 
             // Draw number line
             ctx.beginPath();
-            ctx.moveTo(padding, 75);
-            ctx.lineTo(canvas.width - padding, 75);
-            ctx.strokeStyle = "#333";
-            ctx.lineWidth = 2;
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(canvas.width - padding, 100);
+            ctx.strokeStyle = "#1a3c6d";
+            ctx.lineWidth = 4;
             ctx.stroke();
 
             // Draw ticks and labels
-            ctx.font = "12px Arial";
-            ctx.fillStyle = "#333";
+            ctx.font = "16px 'Segoe UI', Arial";
+            ctx.fillStyle = "#1a3c6d";
             ctx.textAlign = "center";
             for (let i = adjustedMin; i <= adjustedMax; i += tickInterval) {
                 const x = padding + (i - minVal) * scale;
-                ctx.beginPath();
-                ctx.moveTo(x, 70);
-                ctx.lineTo(x, 80);
-                ctx.stroke();
-                ctx.fillText(i, x, 95);
+                if (x >= padding - 10 && x <= canvas.width - padding + 10) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 95);
+                    ctx.lineTo(x, 105);
+                    ctx.strokeStyle = "#1a3c6d";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.fillText(i, x, 125);
+                }
             }
 
-            // Draw arrowheads for number line
+            // Draw arrowheads
             ctx.beginPath();
-            ctx.moveTo(canvas.width - padding, 75);
-            ctx.lineTo(canvas.width - padding - 5, 70);
-            ctx.moveTo(canvas.width - padding, 75);
-            ctx.lineTo(canvas.width - padding - 5, 80);
+            ctx.moveTo(canvas.width - padding, 100);
+            ctx.lineTo(canvas.width - padding - 8, 92);
+            ctx.moveTo(canvas.width - padding, 100);
+            ctx.lineTo(canvas.width - padding - 8, 108);
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.moveTo(padding, 75);
-            ctx.lineTo(padding + 5, 70);
-            ctx.moveTo(padding, 75);
-            ctx.lineTo(padding + 5, 80);
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(padding + 8, 92);
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(padding + 8, 108);
             ctx.stroke();
 
             return scale;
         }
-
-        // Initial draw with default range
-        drawNumberLine(-10, 10);
 
         function drawArrowhead(x, y, direction, color) {
             ctx.fillStyle = color;
             ctx.beginPath();
             ctx.moveTo(x, y);
             if (direction === "right") {
-                ctx.lineTo(x - 5, y - 5);
-                ctx.lineTo(x - 5, y + 5);
+                ctx.lineTo(x - 8, y - 8);
+                ctx.lineTo(x - 8, y + 8);
             } else {
-                ctx.lineTo(x + 5, y - 5);
-                ctx.lineTo(x + 5, y + 5);
+                ctx.lineTo(x + 8, y - 8);
+                ctx.lineTo(x + 8, y + 8);
             }
             ctx.fill();
         }
+
+        function drawResultMarker(x, y, result) {
+            // Draw a dot on the number line
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, 2 * Math.PI);
+            ctx.fillStyle = "#2ecc71";
+            ctx.fill();
+            ctx.strokeStyle = "#1a3c6d";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw result label further below to avoid tick label overlap
+            ctx.font = "18px 'Segoe UI', Arial";
+            ctx.fillStyle = "#2ecc71";
+            ctx.textAlign = "center";
+            ctx.fillText(result, x, y + 40); // Moved further down to y=140
+        }
+
+        // Initial draw
+        drawNumberLine(-10, 10);
 
         function startAnimation() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -104,13 +125,13 @@
             const operator = document.getElementById("operator").value;
             const hasil = operator === '+' ? num1 + num2 : num1 - num2;
 
-            // Determine min and max values for the number line
+            // Determine min and max values
             const values = [0, num1, hasil];
-            const minVal = Math.min(...values) - 2; // Add padding
-            const maxVal = Math.max(...values) + 2; // Add padding
+            const minVal = Math.min(...values) - 3;
+            const maxVal = Math.max(...values) + 3;
 
             const scale = drawNumberLine(minVal, maxVal);
-            const padding = 50;
+            const padding = 60;
 
             const startX = padding + (0 - minVal) * scale;
             const targetMidX = padding + (num1 - minVal) * scale;
@@ -118,7 +139,7 @@
 
             let currentX = startX;
             let midXReached = false;
-            const animationDuration = 1000; // 1 second per segment
+            const animationDuration = 1000;
             let startTime;
 
             function animate(timestamp) {
@@ -128,20 +149,18 @@
                 drawNumberLine(minVal, maxVal);
 
                 if (!midXReached) {
-                    // Animate first arrow (num1) at y=40
                     currentX = startX + (targetMidX - startX) * Math.min(progress, 1);
                     ctx.strokeStyle = "#4a90e2";
-                    ctx.lineWidth = 3;
+                    ctx.lineWidth = 4;
                     ctx.beginPath();
-                    ctx.moveTo(startX, 40);
-                    ctx.lineTo(currentX, 40);
-                    ctx.setLineDash([5, 5]);
+                    ctx.moveTo(startX, 60);
+                    ctx.lineTo(currentX, 60);
+                    ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
 
-                    // Draw arrowhead based on direction
                     const num1Direction = num1 >= 0 ? "right" : "left";
-                    drawArrowhead(currentX, 40, num1Direction, "#4a90e2");
+                    drawArrowhead(currentX, 60, num1Direction, "#4a90e2");
 
                     if (progress >= 1) {
                         midXReached = true;
@@ -149,42 +168,42 @@
                         currentX = targetMidX;
                     }
                 } else {
-                    // Animate second arrow (num2) at y=60
                     const secondProgress = (timestamp - startTime) / animationDuration;
                     currentX = targetMidX + (targetEndX - targetMidX) * Math.min(secondProgress, 1);
 
-                    // Draw first arrow (num1) at y=40
                     ctx.strokeStyle = "#4a90e2";
-                    ctx.lineWidth = 3;
+                    ctx.lineWidth = 4;
                     ctx.beginPath();
-                    ctx.moveTo(startX, 40);
-                    ctx.lineTo(targetMidX, 40);
-                    ctx.setLineDash([5, 5]);
+                    ctx.moveTo(startX, 60);
+                    ctx.lineTo(targetMidX, 60);
+                    ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
 
-                    // Draw first arrowhead
                     const num1Direction = num1 >= 0 ? "right" : "left";
-                    drawArrowhead(targetMidX, 40, num1Direction, "#4a90e2");
+                    drawArrowhead(targetMidX, 60, num1Direction, "#4a90e2");
 
-                    // Draw second arrow (num2) at y=60
                     ctx.strokeStyle = "#e94e4e";
-                    ctx.lineWidth = 3;
+                    ctx.lineWidth = 4;
                     ctx.beginPath();
-                    ctx.moveTo(targetMidX, 60);
-                    ctx.lineTo(currentX, 60);
-                    ctx.setLineDash([5, 5]);
+                    ctx.moveTo(targetMidX, 80);
+                    ctx.lineTo(currentX, 80);
+                    ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
 
-                    // Draw second arrowhead based on direction
                     const num2Direction = (operator === '+' ? num2 : -num2) >= 0 ? "right" : "left";
-                    drawArrowhead(currentX, 60, num2Direction, "#e94e4e");
+                    drawArrowhead(currentX, 80, num2Direction, "#e94e4e");
 
-                    // Display result
-                    document.getElementById("hasil").textContent = `Hasil: ${hasil}`;
+                    const hasilElement = document.getElementById("hasil");
+                    hasilElement.textContent = `Hasil: ${hasil}`;
+                    hasilElement.classList.add("updated");
+                    setTimeout(() => hasilElement.classList.remove("updated"), 300);
 
-                    if (secondProgress >= 1) return; // Stop animation
+                    if (secondProgress >= 1) {
+                        drawResultMarker(targetEndX, 100, hasil);
+                        return;
+                    }
                 }
 
                 animationFrameId = requestAnimationFrame(animate);
@@ -194,4 +213,7 @@
         }
     </script>
 </body>
+<footer>
+    <p>© 2025 Erly. All rights reserved.</p>
+</footer>
 </html>
