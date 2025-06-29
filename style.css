@@ -75,6 +75,17 @@ canvas {
     transform: scale(1.05);
     opacity: 0.9;
 }
+.tooltip {
+    position: absolute;
+    background: #1a3c6d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
 @media (max-width: 600px) {
     .container {
         padding: 20px;

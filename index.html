@@ -26,34 +26,82 @@
         const ctx = canvas.getContext("2d");
         let animationFrameId;
 
-        function drawNumberLine(minVal, maxVal) {
+        // Create tooltip element
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+        document.body.appendChild(tooltip);
+
+        function drawNumberLine(minVal, maxVal, num1, num2, result) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Calculate scale with extra padding
+            // Calculate canvas dimensions
             const padding = 60;
             const canvasWidth = canvas.width - 2 * padding;
-            const range = Math.max(Math.abs(maxVal - minVal), 1);
-            const scale = canvasWidth / (range + 4);
 
-            // Adjust minVal and maxVal for integer ticks
-            const tickInterval = Math.max(1, Math.ceil(range / 8));
-            const adjustedMin = Math.floor(minVal / tickInterval) * tickInterval - tickInterval;
-            const adjustedMax = Math.ceil(maxVal / tickInterval) * tickInterval + tickInterval;
+            // Create custom tick array based on num1, num2, and result
+            const ticks = [];
+            const absResult = Math.abs(result);
+            ticks.push(0); // Always include zero
+            ticks.push(num1); // Include first input
 
-            // Draw number line
+            if (absResult <= 10) {
+                // For small results, use linear ticks
+                const tickInterval = Math.max(1, Math.ceil((maxVal - minVal) / 10));
+                for (let i = Math.floor(minVal); i <= Math.ceil(maxVal); i += tickInterval) {
+                    ticks.push(i);
+                }
+            } else {
+                // Add more intermediate points based on num1 and num2
+                if (num2 !== 0) {
+                    const numIntermediate = 5; // Number of intermediate points
+                    const step = (result - num1) / (numIntermediate + 1);
+                    for (let i = 1; i <= numIntermediate; i++) {
+                        ticks.push(Math.round(num1 + step * i));
+                    }
+                }
+
+                // Add finer ticks near the result
+                const fineTickStart = Math.max(0, absResult - 3);
+                for (let i = fineTickStart; i <= absResult; i++) {
+                    ticks.push(result >= 0 ? i : -i);
+                }
+
+                // Ensure result is included
+                ticks.push(result);
+                // Add one rick after the result
+                ticks.push(result >= 0 ? result + 1 : result - 1);
+            }
+
+            // Ensure unique and sorted ticks
+            const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
+
+            // Map ticks to evenly spaced positions
+            const tickSpacing = canvasWidth / (uniqueTicks.length - 1);
+
+            // Store tick positions for animation
+            const tickPositions = new Map();
+            uniqueTicks.forEach((tick, index) => {
+                const x = padding + index * tickSpacing;
+                tickPositions.set(tick, x);
+            });
+
+            // Draw number line with shadow
             ctx.beginPath();
             ctx.moveTo(padding, 100);
             ctx.lineTo(canvas.width - padding, 100);
             ctx.strokeStyle = "#1a3c6d";
             ctx.lineWidth = 4;
+            ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+            ctx.shadowBlur = 5;
             ctx.stroke();
+            ctx.shadowBlur = 0;
 
             // Draw ticks and labels
             ctx.font = "16px 'Segoe UI', Arial";
             ctx.fillStyle = "#1a3c6d";
             ctx.textAlign = "center";
-            for (let i = adjustedMin; i <= adjustedMax; i += tickInterval) {
-                const x = padding + (i - minVal) * scale;
+            uniqueTicks.forEach((tick, index) => {
+                const x = padding + index * tickSpacing;
                 if (x >= padding - 10 && x <= canvas.width - padding + 10) {
                     ctx.beginPath();
                     ctx.moveTo(x, 95);
@@ -61,9 +109,9 @@
                     ctx.strokeStyle = "#1a3c6d";
                     ctx.lineWidth = 2;
                     ctx.stroke();
-                    ctx.fillText(i, x, 125);
+                    ctx.fillText(tick, x, 125);
                 }
-            }
+            });
 
             // Draw arrowheads
             ctx.beginPath();
@@ -80,7 +128,7 @@
             ctx.lineTo(padding + 8, 108);
             ctx.stroke();
 
-            return scale;
+            return tickPositions;
         }
 
         function drawArrowhead(x, y, direction, color) {
@@ -106,16 +154,31 @@
             ctx.strokeStyle = "#1a3c6d";
             ctx.lineWidth = 2;
             ctx.stroke();
-
-            // Draw result label further below to avoid tick label overlap
-            ctx.font = "18px 'Segoe UI', Arial";
-            ctx.fillStyle = "#2ecc71";
-            ctx.textAlign = "center";
-            ctx.fillText(result, x, y + 40); // Moved further down to y=140
         }
 
+        // Handle tooltip on hover
+        let resultX, resultY, resultValue;
+        canvas.addEventListener("mousemove", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 10) {
+                tooltip.style.left = `${e.clientX + 10}px`;
+                tooltip.style.top = `${e.clientY - 10}px`;
+                tooltip.textContent = resultValue;
+                tooltip.style.opacity = "1";
+            } else {
+                tooltip.style.opacity = "0";
+            }
+        });
+
+        canvas.addEventListener("mouseleave", () => {
+            tooltip.style.opacity = "0";
+        });
+
         // Initial draw
-        drawNumberLine(-10, 10);
+        drawNumberLine(-10, 10, 0, 0, 0);
 
         function startAnimation() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -125,17 +188,19 @@
             const operator = document.getElementById("operator").value;
             const hasil = operator === '+' ? num1 + num2 : num1 - num2;
 
+            // Store result for tooltip
+            resultValue = hasil;
+
             // Determine min and max values
             const values = [0, num1, hasil];
             const minVal = Math.min(...values) - 3;
             const maxVal = Math.max(...values) + 3;
 
-            const scale = drawNumberLine(minVal, maxVal);
-            const padding = 60;
+            const tickPositions = drawNumberLine(minVal, maxVal, num1, num2, hasil);
 
-            const startX = padding + (0 - minVal) * scale;
-            const targetMidX = padding + (num1 - minVal) * scale;
-            const targetEndX = padding + (hasil - minVal) * scale;
+            const startX = tickPositions.get(0) || 60;
+            const targetMidX = tickPositions.get(num1) || 60;
+            const targetEndX = tickPositions.get(hasil) || 60;
 
             let currentX = startX;
             let midXReached = false;
@@ -146,18 +211,21 @@
                 if (!startTime) startTime = timestamp;
                 const progress = (timestamp - startTime) / animationDuration;
 
-                drawNumberLine(minVal, maxVal);
+                drawNumberLine(minVal, maxVal, num1, num2, hasil);
 
                 if (!midXReached) {
                     currentX = startX + (targetMidX - startX) * Math.min(progress, 1);
                     ctx.strokeStyle = "#4a90e2";
                     ctx.lineWidth = 4;
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+                    ctx.shadowBlur = 5;
                     ctx.beginPath();
                     ctx.moveTo(startX, 60);
                     ctx.lineTo(currentX, 60);
                     ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
 
                     const num1Direction = num1 >= 0 ? "right" : "left";
                     drawArrowhead(currentX, 60, num1Direction, "#4a90e2");
@@ -173,24 +241,30 @@
 
                     ctx.strokeStyle = "#4a90e2";
                     ctx.lineWidth = 4;
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+                    ctx.shadowBlur = 5;
                     ctx.beginPath();
                     ctx.moveTo(startX, 60);
                     ctx.lineTo(targetMidX, 60);
                     ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
 
                     const num1Direction = num1 >= 0 ? "right" : "left";
                     drawArrowhead(targetMidX, 60, num1Direction, "#4a90e2");
 
                     ctx.strokeStyle = "#e94e4e";
                     ctx.lineWidth = 4;
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+                    ctx.shadowBlur = 5;
                     ctx.beginPath();
                     ctx.moveTo(targetMidX, 80);
                     ctx.lineTo(currentX, 80);
                     ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
 
                     const num2Direction = (operator === '+' ? num2 : -num2) >= 0 ? "right" : "left";
                     drawArrowhead(currentX, 80, num2Direction, "#e94e4e");
@@ -201,6 +275,8 @@
                     setTimeout(() => hasilElement.classList.remove("updated"), 300);
 
                     if (secondProgress >= 1) {
+                        resultX = targetEndX;
+                        resultY = 100;
                         drawResultMarker(targetEndX, 100, hasil);
                         return;
                     }
@@ -212,8 +288,7 @@
             animationFrameId = requestAnimationFrame(animate);
         }
     </script>
-</body>
-<footer>
-    <p>© 2025 Erly. All rights reserved.</p>
-</footer>
+    <footer>
+        <p>© 2025 Erly. All rights reserved.</p>
+    </footer>
 </html>
