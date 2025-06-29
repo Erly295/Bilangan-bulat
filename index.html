@@ -25,6 +25,7 @@
         const canvas = document.getElementById("garis");
         const ctx = canvas.getContext("2d");
         let animationFrameId;
+        const padding = 60; // Declare padding globally
 
         // Create tooltip element
         const tooltip = document.createElement("div");
@@ -35,16 +36,14 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Calculate canvas dimensions
-            const padding = 60;
             const canvasWidth = canvas.width - 2 * padding;
 
             // Create custom tick array based on num1, num2, and result
             const ticks = [];
-            const absResult = Math.abs(result);
             ticks.push(0); // Always include zero
             ticks.push(num1); // Include first input
 
-            if (absResult <= 10) {
+            if (Math.abs(result) <= 10) {
                 // For small results, use linear ticks
                 const tickInterval = Math.max(1, Math.ceil((maxVal - minVal) / 10));
                 for (let i = Math.floor(minVal); i <= Math.ceil(maxVal); i += tickInterval) {
@@ -53,7 +52,7 @@
             } else {
                 // Add more intermediate points based on num1 and num2
                 if (num2 !== 0) {
-                    const numIntermediate = 5; // Number of intermediate points
+                    const numIntermediate = 7; // Increased for denser progression
                     const step = (result - num1) / (numIntermediate + 1);
                     for (let i = 1; i <= numIntermediate; i++) {
                         ticks.push(Math.round(num1 + step * i));
@@ -61,14 +60,15 @@
                 }
 
                 // Add finer ticks near the result
-                const fineTickStart = Math.max(0, absResult - 3);
-                for (let i = fineTickStart; i <= absResult; i++) {
-                    ticks.push(result >= 0 ? i : -i);
+                const fineTickStart = Math.max(Math.floor(minVal), result - 3);
+                const fineTickEnd = Math.min(Math.ceil(maxVal), result + 3);
+                for (let i = fineTickStart; i <= fineTickEnd; i++) {
+                    if (i !== result) ticks.push(i); // Avoid duplicate result
                 }
 
                 // Ensure result is included
                 ticks.push(result);
-                // Add one rick after the result
+                // Add one tick after the result
                 ticks.push(result >= 0 ? result + 1 : result - 1);
             }
 
@@ -128,7 +128,7 @@
             ctx.lineTo(padding + 8, 108);
             ctx.stroke();
 
-            return tickPositions;
+            return { tickPositions, uniqueTicks };
         }
 
         function drawArrowhead(x, y, direction, color) {
@@ -196,11 +196,27 @@
             const minVal = Math.min(...values) - 3;
             const maxVal = Math.max(...values) + 3;
 
-            const tickPositions = drawNumberLine(minVal, maxVal, num1, num2, hasil);
+            const { tickPositions, uniqueTicks } = drawNumberLine(minVal, maxVal, num1, num2, hasil);
 
-            const startX = tickPositions.get(0) || 60;
-            const targetMidX = tickPositions.get(num1) || 60;
-            const targetEndX = tickPositions.get(hasil) || 60;
+            // Ensure tickPositions contains the correct coordinates
+            const startX = tickPositions.get(0) || padding;
+            const targetMidX = tickPositions.get(num1) || (num1 >= 0 ? padding : canvas.width - padding);
+            let targetEndX = tickPositions.get(hasil);
+
+            // Interpolate if hasil is not an exact tick
+            if (targetEndX === undefined) {
+                const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
+                const index = sortedTicks.findIndex(tick => tick >= hasil);
+                if (index === -1) index = sortedTicks.length - 1; // If hasil is beyond max tick
+                const prevTick = sortedTicks[index - 1] || sortedTicks[0];
+                const nextTick = sortedTicks[index];
+                const prevX = tickPositions.get(prevTick) || padding;
+                const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
+
+                // Linear interpolation
+                const ratio = (hasil - prevTick) / (nextTick - prevTick);
+                targetEndX = prevX + (nextX - prevX) * ratio;
+            }
 
             let currentX = startX;
             let midXReached = false;
