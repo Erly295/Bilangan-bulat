@@ -43,34 +43,48 @@
             ticks.push(0); // Always include zero
             ticks.push(num1); // Include first input
 
-            if (Math.abs(result) <= 10) {
-                // For small results, use linear ticks
-                const tickInterval = Math.max(1, Math.ceil((maxVal - minVal) / 10));
-                for (let i = Math.floor(minVal); i <= Math.ceil(maxVal); i += tickInterval) {
+            // Define fineStart and fineEnd outside conditional blocks
+            const fineStart = result - 3;
+            const fineEnd = result + 3;
+
+            // Add consecutive ticks leading to result for addition
+            if (operator === '+') {
+                const start = Math.min(num1, result);
+                const end = Math.max(num1, result);
+                for (let i = start; i <= end; i++) {
+                    ticks.push(i);
+                }
+                // Add finer ticks near result
+                for (let i = fineStart; i <= fineEnd; i++) {
                     ticks.push(i);
                 }
             } else {
-                // Add more intermediate points based on num1 and num2
-                if (num2 !== 0) {
-                    const numIntermediate = 7; // Increased for denser progression
-                    const step = (result - num1) / (numIntermediate + 1);
-                    for (let i = 1; i <= numIntermediate; i++) {
-                        ticks.push(Math.round(num1 + step * i));
+                if (Math.abs(result) <= 10) {
+                    // For small results, use linear ticks
+                    const tickInterval = Math.max(1, Math.ceil((maxVal - minVal) / 10));
+                    for (let i = Math.floor(minVal); i <= Math.ceil(maxVal); i += tickInterval) {
+                        ticks.push(i);
+                    }
+                } else {
+                    // Add more intermediate points based on num1 and num2
+                    if (num2 !== 0) {
+                        const numIntermediate = 7; // Increased for denser progression
+                        const step = (result - num1) / (numIntermediate + 1);
+                        for (let i = 1; i <= numIntermediate; i++) {
+                            ticks.push(Math.round(num1 + step * i));
+                        }
+                    }
+                    // Add finer ticks near the result
+                    for (let i = fineStart; i <= fineEnd; i++) {
+                        if (i !== result) ticks.push(i); // Avoid duplicate result
                     }
                 }
-
-                // Add finer ticks near the result
-                const fineTickStart = Math.max(Math.floor(minVal), result - 3);
-                const fineTickEnd = Math.min(Math.ceil(maxVal), result + 3);
-                for (let i = fineTickStart; i <= fineTickEnd; i++) {
-                    if (i !== result) ticks.push(i); // Avoid duplicate result
-                }
-
-                // Ensure result is included
-                ticks.push(result);
-                // Add one tick after the result
-                ticks.push(result >= 0 ? result + 1 : result - 1);
             }
+
+            // Ensure result is always included
+            ticks.push(result);
+            // Add one tick after the result
+            ticks.push(result >= 0 ? result + 1 : result - 1);
 
             // Ensure unique and sorted ticks
             const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
