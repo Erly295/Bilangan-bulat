@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisasi Perkalian</title>
+    <style>
+        body {
+            background-color: #f4f7fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 60px;
+        }
+        h1 {
+            text-align: center;
+            color: #1a3c6d;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        input[type="number"], select {
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 120px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input[type="number"] {
+            width: 180px;
+        }
+        input[type="number"]:hover, select:hover {
+            border-color: #4a90e2;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+        }
+        canvas {
+            border: 3px solid #e0e7ff;
+            border-radius: 10px;
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 700px;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(5, 5, 10, 0.1);
+        }
+        #hasil {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #2ecc71;
+            background-color: #e6fffa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 25px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        #hasil.updated {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        .tooltip {
+            position: absolute;
+            background: #1a3c6d;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            input[type="number"], select {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            canvas {
+                width: 100%;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1a3c6d;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visualisasi Perkalian</h1>
+        <div class="input-group">
+            <input type="number" id="factorA" placeholder="Faktor A" oninput="startAnimation()">
+            <span style="align-self: center;">×</span>
+            <input type="number" id="factorB" placeholder="Faktor B" oninput="startAnimation()">
+        </div>
+        <canvas id="garis" width="700" height="200"></canvas>
+        <p id="hasil"></p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("garis");
+        const ctx = canvas.getContext("2d");
+        let animationFrameId;
+        const padding = 60;
+
+        // Create tooltip element
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+        document.body.appendChild(tooltip);
+
+        function drawNumberLine(minVal, maxVal, a, b, result) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate canvas dimensions
+            const canvasWidth = canvas.width - 2 * padding;
+
+            // Create tick array including all steps
+            const ticks = [0];
+            const stepSize = Math.abs(b);
+            const numSteps = Math.abs(a);
+            for (let i = -numSteps; i <= numSteps; i++) {
+                const step = i * stepSize * Math.sign(b * a);
+                ticks.push(step);
+            }
+            ticks.push(result);
+            ticks.push(a);
+
+            // Add finer ticks around result and zero
+            const fineStart = Math.min(result, 0) - 3;
+            const fineEnd = Math.max(result, 0) + 3;
+            for (let i = fineStart; i <= fineEnd; i++) {
+                ticks.push(i);
+            }
+
+            // Ensure unique and sorted ticks
+            let uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
+
+            // Map ticks to evenly spaced positions
+            const tickSpacing = canvasWidth / (uniqueTicks.length - 1);
+            const tickPositions = new Map();
+            uniqueTicks.forEach((tick, index) => {
+                const x = padding + index * tickSpacing;
+                tickPositions.set(tick, x);
+            });
+
+            // Draw number line with shadow
+            ctx.beginPath();
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(canvas.width - padding, 100);
+            ctx.strokeStyle = "#1a3c6d";
+            ctx.lineWidth = 4;
+            ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+            ctx.shadowBlur = 5;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Draw ticks and labels
+            ctx.font = "16px 'Segoe UI', Arial";
+            ctx.fillStyle = "#1a3c6d";
+            ctx.textAlign = "center";
+            uniqueTicks.forEach((tick, index) => {
+                const x = padding + index * tickSpacing;
+                if (x >= padding - 10 && x <= canvas.width - padding + 10) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 95);
+                    ctx.lineTo(x, 105);
+                    ctx.strokeStyle = "#1a3c6d";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.fillText(tick, x, 125);
+                }
+            });
+
+            // Draw arrowheads
+            ctx.beginPath();
+            ctx.moveTo(canvas.width - padding, 100);
+            ctx.lineTo(canvas.width - padding - 8, 92);
+            ctx.moveTo(canvas.width - padding, 100);
+            ctx.lineTo(canvas.width - padding - 8, 108);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(padding + 8, 92);
+            ctx.moveTo(padding, 100);
+            ctx.lineTo(padding + 8, 108);
+            ctx.stroke();
+
+            return { tickPositions, uniqueTicks };
+        }
+
+        function drawResultMarker(x, y, value) {
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, 2 * Math.PI);
+            ctx.fillStyle = "#2ecc71";
+            ctx.fill();
+            ctx.strokeStyle = "#1a3c6d";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Handle tooltip on hover
+        let resultX, resultY, resultValue, endpointMarkers = [];
+        canvas.addEventListener("mousemove", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            let hoveredValue = null;
+            for (let marker of endpointMarkers) {
+                if (Math.hypot(mouseX - marker.x, mouseY - marker.y) < 10) {
+                    hoveredValue = marker.value;
+                    break;
+                }
+            }
+            if (hoveredValue !== null) {
+                tooltip.style.left = `${e.clientX + 10}px`;
+                tooltip.style.top = `${e.clientY - 10}px`;
+                tooltip.textContent = hoveredValue;
+                tooltip.style.opacity = "1";
+            } else if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 10) {
+                tooltip.style.left = `${e.clientX + 10}px`;
+                tooltip.style.top = `${e.clientY - 10}px`;
+                tooltip.textContent = resultValue;
+                tooltip.style.opacity = "1";
+            } else {
+                tooltip.style.opacity = "0";
+            }
+        });
+
+        canvas.addEventListener("mouseleave", () => {
+            tooltip.style.opacity = "0";
+        });
+
+        // Initial draw
+        drawNumberLine(-10, 10, 0, 0, 0);
+
+        function startAnimation() {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            const a = parseInt(document.getElementById("factorA").value) || 0;
+            const b = parseInt(document.getElementById("factorB").value) || 0;
+            const result = a * b;
+            const numSteps = Math.abs(a);
+            const stepSize = Math.abs(b) * Math.sign(a * b);
+
+            // Store result for tooltip
+            resultValue = result;
+
+            // Determine min and max values
+            const values = [0, result, ...Array(numSteps + 1).fill().map((_, i) => i * stepSize)];
+            const minVal = Math.min(...values) - 3;
+            const maxVal = Math.max(...values) + 3;
+
+            const { tickPositions, uniqueTicks } = drawNumberLine(minVal, maxVal, a, b, result);
+
+            const startX = tickPositions.get(0) || padding;
+            let targetEndX = tickPositions.get(result) || (result >= 0 ? canvas.width - padding : padding);
+
+            // Interpolate if result is not an exact tick
+            if (!tickPositions.has(result)) {
+                const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
+                const index = sortedTicks.findIndex(tick => tick >= result);
+                const prevTick = sortedTicks[index - 1] || sortedTicks[0];
+                const nextTick = sortedTicks[index];
+                const prevX = tickPositions.get(prevTick) || padding;
+                const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
+                const ratio = (result - prevTick) / (nextTick - prevTick);
+                targetEndX = prevX + (nextX - prevX) * ratio;
+            }
+
+            let currentStep = 0;
+            const colors = ['#4a90e2', '#e94e4e', '#2ecc71', '#f1c40f', '#9b59b6', '#3498db', '#e74c3c'];
+            const animationDuration = 1000;
+            let startTime;
+            let cumulativeValue = 0;
+            endpointMarkers = [];
+
+            // Draw initial marker at 0
+            drawResultMarker(startX, 100, 0);
+            endpointMarkers.push({ x: startX, y: 100, value: 0 });
+
+            function animate(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = (timestamp - startTime) / animationDuration;
+
+                drawNumberLine(minVal, maxVal, a, b, result);
+
+                if (currentStep < numSteps) {
+                    const stepProgress = progress * numSteps;
+                    const nextStep = Math.floor(stepProgress);
+                    if (nextStep > currentStep) {
+                        currentStep = nextStep;
+                        startTime = timestamp;
+                        cumulativeValue += stepSize;
+                    }
+                    const stepTargetX = tickPositions.get(cumulativeValue) || getInterpolatedX(cumulativeValue, startX, targetEndX, result, uniqueTicks, tickPositions);
+                    const yOffset = currentStep % 2 === 0 ? 80 : 130; // Increased offset to 130 for lines below
+                    ctx.strokeStyle = colors[currentStep % colors.length];
+                    ctx.lineWidth = 4;
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+                    ctx.shadowBlur = 5;
+                    ctx.beginPath();
+                    const startPointX = currentStep === 0 ? startX : tickPositions.get(cumulativeValue - stepSize) || getInterpolatedX(cumulativeValue - stepSize, startX, targetEndX, result, uniqueTicks, tickPositions);
+                    ctx.moveTo(startPointX, yOffset);
+                    ctx.lineTo(stepTargetX, yOffset);
+                    ctx.setLineDash([8, 8]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
+
+                    drawResultMarker(stepTargetX, 100, cumulativeValue);
+                    endpointMarkers.push({ x: stepTargetX, y: 100, value: cumulativeValue });
+
+                    if (progress >= 1 && currentStep >= numSteps - 1) {
+                        startTime = timestamp;
+                    }
+                } else {
+                    const finalProgress = (timestamp - startTime) / animationDuration;
+                    endpointMarkers = [];
+                    for (let i = 0; i < numSteps; i++) {
+                        const segmentStart = i * stepSize;
+                        const segmentEnd = (i + 1) * stepSize;
+                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, startX, targetEndX, result, uniqueTicks, tickPositions);
+                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, startX, targetEndX, result, uniqueTicks, tickPositions);
+                        const yOffset = i % 2 === 0 ? 80 : 130; // Increased offset to 130 for lines below
+                        ctx.strokeStyle = colors[i % colors.length];
+                        ctx.lineWidth = 4;
+                        ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+                        ctx.shadowBlur = 5;
+                        ctx.beginPath();
+                        ctx.moveTo(startPosX, yOffset);
+                        ctx.lineTo(endPosX, yOffset);
+                        ctx.setLineDash([8, 8]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.shadowBlur = 0;
+
+                        drawResultMarker(endPosX, 100, segmentEnd);
+                        endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
+                    }
+
+                    const hasilElement = document.getElementById("hasil");
+                    hasilElement.textContent = `Hasil: ${result}`;
+                    hasilElement.classList.add("updated");
+                    setTimeout(() => hasilElement.classList.remove("updated"), 300);
+
+                    if (finalProgress >= 1) {
+                        resultX = targetEndX;
+                        resultY = 100;
+                        drawResultMarker(targetEndX, 100, result);
+                        return;
+                    }
+                }
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function getInterpolatedX(value, startX, targetEndX, result, uniqueTicks, tickPositions) {
+            const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
+            const index = sortedTicks.findIndex(tick => tick >= value);
+            if (index === -1) return targetEndX;
+            const prevTick = sortedTicks[index - 1] || sortedTicks[0];
+            const nextTick = sortedTicks[index];
+            const prevX = tickPositions.get(prevTick) || startX;
+            const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
+            const ratio = (value - prevTick) / (nextTick - prevTick);
+            return prevX + (nextX - prevX) * ratio;
+        }
+    </script>
+    <footer>
+        <p>© 2025 Erly. All rights reserved.</p>
+    </footer>
+</html>
