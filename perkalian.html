@@ -77,11 +77,12 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        1. Masukkan dua angka pada kolom Faktor A dan Faktor B untuk memvisualisasikan perkalian.<br>
-                        2. Garis bilangan akan menampilkan langkah-langkah perkalian secara animasi.<br>
-                        3. Arahkan kursor ke titik pada garis bilangan untuk melihat nilai.<br>
-                        4. Hasil perkalian akan ditampilkan di bawah kanvas.<br>
-                        5. Jika kolom kosong, garis bilangan akan menampilkan angka dari -5 hingga 5.
+                        <b>angka pertama</b><br>
+                        Jika positif maka arah akan maju <br>
+                        Jika negatif maka arah akan mundur<br>
+                        <b>angka kedua</b><br>
+                        Jika positif maka arah akan tetap<br>
+                        Jika negatif maka arah akan berbalik<br>
                     </p>
                 </div>
             </div>
@@ -110,8 +111,6 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById("instructionModal"));
             modal.hide();
         }
-
-        // Close modal when clicking outside (handled by Bootstrap)
 
         function drawNumberLine(minVal, maxVal, a, b, result) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -341,6 +340,14 @@
                     ctx.setLineDash([]);
                     ctx.shadowBlur = 0;
 
+                    // Draw label for b on the segment
+                    ctx.font = "14px 'Segoe UI', Arial";
+                    ctx.fillStyle = colors[currentStep % colors.length];
+                    ctx.textAlign = "center";
+                    const labelX = (startPointX + stepTargetX) / 2;
+                    const labelY = yOffset - (currentStep % 2 === 0 ? 15 : -15);
+                    ctx.fillText(b, labelX, labelY);
+
                     drawResultMarker(stepTargetX, 100, cumulativeValue);
                     endpointMarkers.push({ x: stepTargetX, y: 100, value: cumulativeValue });
 
@@ -367,6 +374,14 @@
                         ctx.stroke();
                         ctx.setLineDash([]);
                         ctx.shadowBlur = 0;
+
+                        // Draw label for b on the segment
+                        ctx.font = "14px 'Segoe UI', Arial";
+                        ctx.fillStyle = colors[i % colors.length];
+                        ctx.textAlign = "center";
+                        const labelX = (startPosX + endPosX) / 2;
+                        const labelY = yOffset - (i % 2 === 0 ? 15 : -15);
+                        ctx.fillText(b, labelX, labelY);
 
                         drawResultMarker(endPosX, 100, segmentEnd);
                         endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
