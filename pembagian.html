@@ -159,12 +159,12 @@
                     <p>
                         <b>Dividend (Angka Pertama)</b><br>
                         Menentukan posisi induk kodok pada garis bilangan.<br>
-                        Jika positif, induk kodok bergerak ke kanan dari 0.<br>
-                        Jika negatif, induk kodok bergerak ke kiri dari 0.<br>
+                        Jika divisor positif, posisi induk kodok adalah dividen.<br>
+                        Jika divisor negatif, posisi induk kodok adalah -dividen.<br>
                         <b>Divisor (Angka Kedua)</b><br>
                         Menentukan besar lompatan anak kodok.<br>
-                        Jika positif, anak kodok melompat ke arah yang sama dengan induk.<br>
-                        Jika negatif, anak kodok melompat ke arah berlawanan.<br>
+                        Jika hasil positif, lompatan ke kanan dari 0.<br>
+                        Jika hasil negatif, lompatan ke kiri dari 0.<br>
                         <b>Hasil</b><br>
                         Jumlah lompatan anak kodok untuk mencapai induk kodok.<br>
                         Catatan: Masukkan angka yang menghasilkan pembagian bulat (tanpa sisa) dan divisor tidak boleh 0.
@@ -197,55 +197,49 @@
             modal.hide();
         }
 
-        function drawNumberLine(minVal, maxVal, a, b, result) {
+        function drawNumberLine(minVal, maxVal, targetDividend, b, result) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             const canvasWidth = canvas.width - 2 * padding;
 
-            let ticks;
-            if (a === 0 && b === 0) {
-                ticks = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
-            } else {
-                ticks = [0];
-                const stepSize = Math.abs(b);
-                const numSteps = Math.abs(result);
-                for (let i = 1; i <= numSteps; i++) {
-                    const step = i * stepSize * Math.sign(b * a);
-                    ticks.push(step);
-                }
-                const extraTick = (numSteps + 1) * stepSize * Math.sign(b * a);
-                ticks.push(extraTick);
-            }
-
-            let uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
-
-            const valueRange = Math.max(Math.abs(minVal), Math.abs(maxVal));
-            const minSpacing = 80;
-            const maxTicks = Math.floor(canvasWidth / minSpacing);
-            let filteredTicks = [0];
-
-            if (a !== 0 && b !== 0) {
-                const stepSize = Math.abs(b) * Math.sign(a * b);
-                const numSteps = Math.abs(result);
+            // Tentukan ticks berdasarkan hasil pembagian dan target dividen
+            let ticks = [0]; // Selalu mulai dari 0
+            if (targetDividend !== 0 && b !== 0) {
+                const stepSize = Math.abs(b) * (result >= 0 ? 1 : -1); // Arah berdasarkan tanda hasil
+                const numSteps = Math.abs(result); // Jumlah lompatan
                 for (let i = 1; i <= numSteps; i++) {
                     const step = i * stepSize;
-                    filteredTicks.push(step);
+                    ticks.push(step);
                 }
-                filteredTicks.push(ticks[ticks.length - 1]);
+                // Tambahkan target dividen sebagai titik akhir
+                ticks.push(targetDividend);
+                // Tambahkan satu nilai setelah bilangan terakhir
+                if (result >= 0) {
+                    ticks.push(Math.max(...ticks) + Math.abs(b)); // Tambah tick positif
+                } else {
+                    ticks.push(Math.min(...ticks) - Math.abs(b)); // Tambah tick negatif
+                }
             } else {
-                filteredTicks = uniqueTicks;
+                // Default ticks jika input tidak valid
+                ticks = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
             }
 
-            filteredTicks = [...new Set(filteredTicks)].sort((a, b) => a - b);
+            // Pastikan ticks unik dan diurutkan
+            let uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
 
-            const tickPositions = new Map();
-            const range = filteredTicks[filteredTicks.length - 1] - filteredTicks[0] || 1;
+            // Tentukan rentang nilai untuk skala
+            minVal = Math.min(...uniqueTicks);
+            maxVal = Math.max(...uniqueTicks);
+            const range = maxVal - minVal || 1;
             const xScale = canvasWidth / range;
-            filteredTicks.forEach((tick) => {
-                const x = padding + (tick - filteredTicks[0]) * xScale;
+
+            // Posisi ticks pada kanvas
+            const tickPositions = new Map();
+            uniqueTicks.forEach((tick) => {
+                const x = padding + (tick - minVal) * xScale;
                 tickPositions.set(tick, x);
             });
 
+            // Gambar garis bilangan
             ctx.beginPath();
             ctx.moveTo(padding, 100);
             ctx.lineTo(canvas.width - padding, 100);
@@ -256,10 +250,11 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
+            // Gambar ticks dan label
             ctx.font = "16px 'Segoe UI', Arial";
             ctx.fillStyle = "#1a3c6d";
             ctx.textAlign = "center";
-            filteredTicks.forEach((tick) => {
+            uniqueTicks.forEach((tick) => {
                 const x = tickPositions.get(tick);
                 if (x >= padding - 10 && x <= canvas.width - padding + 10) {
                     ctx.beginPath();
@@ -272,6 +267,7 @@
                 }
             });
 
+            // Gambar panah di ujung garis bilangan
             ctx.beginPath();
             ctx.moveTo(canvas.width - padding, 100);
             ctx.lineTo(canvas.width - padding - 8, 92);
@@ -286,30 +282,30 @@
             ctx.lineTo(padding + 8, 108);
             ctx.stroke();
 
-            // Draw mother frog's segment and marker in final state
-            if (a !== 0) {
-                const motherX = tickPositions.get(a) || getInterpolatedX(a, padding, tickPositions, filteredTicks);
+            // Gambar segmen induk kodok
+            if (targetDividend !== 0) {
+                const motherX = tickPositions.get(targetDividend) || getInterpolatedX(targetDividend, padding, tickPositions, uniqueTicks);
                 ctx.strokeStyle = "#e94e4e";
                 ctx.lineWidth = 4;
                 ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
                 ctx.shadowBlur = 5;
                 ctx.beginPath();
-                ctx.moveTo(padding, 60);
-                ctx.lineTo(motherX, 60);
+                ctx.moveTo(tickPositions.get(0) || padding, 40); // Pindah ke y=40
+                ctx.lineTo(motherX, 40);
                 ctx.setLineDash([8, 8]);
                 ctx.stroke();
                 ctx.setLineDash([]);
                 ctx.shadowBlur = 0;
 
-                // Label mother frog's segment with dividend (a)
+                // Label segmen induk kodok dengan target dividen
                 ctx.font = "14px 'Segoe UI', Arial";
                 ctx.fillStyle = "#e94e4e";
                 ctx.textAlign = "center";
-                const labelX = (padding + motherX) / 2;
-                const labelY = 60 - 15;
-                ctx.fillText(a, labelX, labelY);
+                const labelX = (tickPositions.get(0) + motherX) / 2;
+                const labelY = 40 - 15; // Sesuaikan dengan y=40
+                ctx.fillText(targetDividend, labelX, labelY);
 
-                // Mother frog marker
+                // Tanda induk kodok tetap di garis bilangan
                 ctx.beginPath();
                 ctx.arc(motherX, 100, 8, 0, 2 * Math.PI);
                 ctx.fillStyle = "#e94e4e";
@@ -319,7 +315,7 @@
                 ctx.stroke();
             }
 
-            return { tickPositions, uniqueTicks: filteredTicks };
+            return { tickPositions, uniqueTicks };
         }
 
         function drawResultMarker(x, y, value) {
@@ -378,6 +374,7 @@
             const b = parseInt(document.getElementById("divisor").value) || 0;
             const hasilElement = document.getElementById("hasil");
 
+            // Validasi input
             if (b === 0) {
                 hasilElement.textContent = "Error: Divisor cannot be 0";
                 hasilElement.classList.add("alert-danger");
@@ -398,40 +395,38 @@
 
             const result = a / b;
             const numSteps = Math.abs(result);
-            const stepSize = Math.abs(b) * Math.sign(a * b);
+            const stepSize = Math.abs(b) * (result >= 0 ? 1 : -1); // Arah lompatan berdasarkan tanda hasil
+            const targetDividend = b < 0 ? -a : a; // Jika divisor negatif, gunakan -dividen
 
             hasilElement.classList.remove("alert-danger");
             hasilElement.classList.add("alert-success");
 
             resultValue = result;
 
+            // Tentukan rentang nilai untuk garis bilangan
             let minVal, maxVal;
             if (a === 0 && b === 0) {
                 minVal = -5;
                 maxVal = 5;
             } else {
-                const values = [0, a, ...Array(numSteps + 1).fill().map((_, i) => i * stepSize)];
-                const extraValue = (numSteps + 1) * stepSize;
-                values.push(extraValue);
+                const values = [0, targetDividend];
+                for (let i = 1; i <= numSteps; i++) {
+                    values.push(i * stepSize);
+                }
+                // Tambahkan satu nilai setelah bilangan terakhir
+                if (result >= 0) {
+                    values.push(Math.max(...values) + Math.abs(b));
+                } else {
+                    values.push(Math.min(...values) - Math.abs(b));
+                }
                 minVal = Math.min(...values);
                 maxVal = Math.max(...values);
             }
 
-            const { tickPositions, uniqueTicks } = drawNumberLine(minVal, maxVal, a, b, result);
+            const { tickPositions, uniqueTicks } = drawNumberLine(minVal, maxVal, targetDividend, b, result);
 
             const startX = tickPositions.get(0) || padding;
-            let targetEndX = tickPositions.get(a) || (a >= 0 ? canvas.width - padding : padding);
-
-            if (!tickPositions.has(a)) {
-                const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
-                const index = sortedTicks.findIndex(tick => tick >= a);
-                const prevTick = sortedTicks[index - 1] || sortedTicks[0];
-                const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
-                const prevX = tickPositions.get(prevTick) || padding;
-                const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
-                const ratio = (a - prevTick) / (nextTick - prevTick) || 1;
-                targetEndX = prevX + (nextX - prevX) * ratio;
-            }
+            let targetEndX = tickPositions.get(targetDividend) || getInterpolatedX(targetDividend, padding, tickPositions, uniqueTicks);
 
             let currentX = startX;
             let motherReached = false;
@@ -449,17 +444,18 @@
                 if (!startTime) startTime = timestamp;
                 const progress = (timestamp - startTime) / animationDuration;
 
-                drawNumberLine(minVal, maxVal, a, b, result);
+                drawNumberLine(minVal, maxVal, targetDividend, b, result);
 
                 if (!motherReached) {
+                    // Animasi segmen induk kodok dari 0 ke target dividen
                     currentX = startX + (targetEndX - startX) * Math.min(progress, 1);
                     ctx.strokeStyle = "#e94e4e";
                     ctx.lineWidth = 4;
                     ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
                     ctx.shadowBlur = 5;
                     ctx.beginPath();
-                    ctx.moveTo(startX, 60);
-                    ctx.lineTo(currentX, 60);
+                    ctx.moveTo(startX, 40); // Pindah ke y=40
+                    ctx.lineTo(currentX, 40);
                     ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
@@ -469,11 +465,11 @@
                     ctx.fillStyle = "#e94e4e";
                     ctx.textAlign = "center";
                     const labelX = (startX + currentX) / 2;
-                    const labelY = 60 - 15;
-                    ctx.fillText(a, labelX, labelY);
+                    const labelY = 40 - 15; // Sesuaikan dengan y=40
+                    ctx.fillText(targetDividend, labelX, labelY);
 
                     motherX = currentX;
-                    drawResultMarker(currentX, 100, a);
+                    drawResultMarker(currentX, 100, targetDividend);
 
                     if (progress >= 1) {
                         motherReached = true;
@@ -481,6 +477,7 @@
                         currentX = startX;
                     }
                 } else if (currentStep < numSteps) {
+                    // Animasi lompatan anak kodok
                     const stepProgress = progress * numSteps;
                     const nextStep = Math.floor(stepProgress);
                     if (nextStep > currentStep) {
@@ -488,14 +485,14 @@
                         startTime = timestamp;
                         cumulativeValue += stepSize;
                     }
-                    const stepTargetX = tickPositions.get(cumulativeValue) || getInterpolatedX(cumulativeValue, startX, targetEndX, a, uniqueTicks, tickPositions);
+                    const stepTargetX = tickPositions.get(cumulativeValue) || getInterpolatedX(cumulativeValue, startX, tickPositions, uniqueTicks);
                     const yOffset = currentStep % 2 === 0 ? 80 : 130;
                     ctx.strokeStyle = colors[currentStep % colors.length];
                     ctx.lineWidth = 4;
                     ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
                     ctx.shadowBlur = 5;
                     ctx.beginPath();
-                    const startPointX = currentStep === 0 ? startX : tickPositions.get(cumulativeValue - stepSize) || getInterpolatedX(cumulativeValue - stepSize, startX, targetEndX, a, uniqueTicks, tickPositions);
+                    const startPointX = currentStep === 0 ? startX : tickPositions.get(cumulativeValue - stepSize) || getInterpolatedX(cumulativeValue - stepSize, startX, tickPositions, uniqueTicks);
                     ctx.moveTo(startPointX, yOffset);
                     ctx.lineTo(stepTargetX, yOffset);
                     ctx.setLineDash([8, 8]);
@@ -508,7 +505,7 @@
                     ctx.textAlign = "center";
                     const labelX = (startPointX + stepTargetX) / 2;
                     const labelY = yOffset - (currentStep % 2 === 0 ? 15 : -15);
-                    ctx.fillText(b, labelX, labelY);
+                    ctx.fillText(b, labelX, labelY); // Label dengan divisor (b)
 
                     drawResultMarker(stepTargetX, 100, cumulativeValue);
                     endpointMarkers.push({ x: stepTargetX, y: 100, value: cumulativeValue });
@@ -517,17 +514,18 @@
                         startTime = timestamp;
                     }
                 } else {
+                    // Tampilan akhir
                     const finalProgress = (timestamp - startTime) / animationDuration;
                     endpointMarkers = [];
 
-                    // Draw mother frog's segment
+                    // Gambar segmen induk kodok
                     ctx.strokeStyle = "#e94e4e";
                     ctx.lineWidth = 4;
                     ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
                     ctx.shadowBlur = 5;
                     ctx.beginPath();
-                    ctx.moveTo(startX, 60);
-                    ctx.lineTo(targetEndX, 60);
+                    ctx.moveTo(startX, 40); // Pindah ke y=40
+                    ctx.lineTo(targetEndX, 40);
                     ctx.setLineDash([8, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
@@ -537,15 +535,15 @@
                     ctx.fillStyle = "#e94e4e";
                     ctx.textAlign = "center";
                     const labelXMother = (startX + targetEndX) / 2;
-                    const labelYMother = 60 - 15;
-                    ctx.fillText(a, labelXMother, labelYMother);
+                    const labelYMother = 40 - 15; // Sesuaikan dengan y=40
+                    ctx.fillText(targetDividend, labelXMother, labelYMother);
 
-                    // Draw baby frog's segments
+                    // Gambar lompatan anak kodok
                     for (let i = 0; i < numSteps; i++) {
                         const segmentStart = i * stepSize;
                         const segmentEnd = (i + 1) * stepSize;
-                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, startX, targetEndX, a, uniqueTicks, tickPositions);
-                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, startX, targetEndX, a, uniqueTicks, tickPositions);
+                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, startX, tickPositions, uniqueTicks);
+                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, startX, tickPositions, uniqueTicks);
                         const yOffset = i % 2 === 0 ? 80 : 130;
                         ctx.strokeStyle = colors[i % colors.length];
                         ctx.lineWidth = 4;
@@ -564,7 +562,7 @@
                         ctx.textAlign = "center";
                         const labelX = (startPosX + endPosX) / 2;
                         const labelY = yOffset - (i % 2 === 0 ? 15 : -15);
-                        ctx.fillText(b, labelX, labelY);
+                        ctx.fillText(b, labelX, labelY); // Label dengan divisor (b)
 
                         drawResultMarker(endPosX, 100, segmentEnd);
                         endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
@@ -578,7 +576,7 @@
                         resultX = targetEndX;
                         resultY = 100;
                         motherX = targetEndX;
-                        drawResultMarker(targetEndX, 100, result);
+                        drawResultMarker(targetEndX, 100, targetDividend);
                         return;
                     }
                 }
@@ -589,10 +587,10 @@
             animationFrameId = requestAnimationFrame(animate);
         }
 
-        function getInterpolatedX(value, startX, targetEndX, result, uniqueTicks, tickPositions) {
+        function getInterpolatedX(value, startX, tickPositions, uniqueTicks) {
             const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
             const index = sortedTicks.findIndex(tick => tick >= value);
-            if (index === -1) return targetEndX;
+            if (index === -1) return tickPositions.get(sortedTicks[sortedTicks.length - 1]) || (value >= 0 ? canvas.width - padding : padding);
             const prevTick = sortedTicks[index - 1] || sortedTicks[0];
             const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
             const prevX = tickPositions.get(prevTick) || startX;
