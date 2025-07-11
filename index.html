@@ -13,6 +13,41 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
+            overflow-x: hidden;
+            transition: opacity 0.5s ease;
+        }
+        body.transitioning {
+            opacity: 0;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #1a3c6d, #2a6fd4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #ffeb3b !important;
+            transform: scale(1.05);
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        .dropdown-menu {
+            background: #1a3c6d;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .dropdown-item {
+            color: #ffffff !important;
+            transition: background-color 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background-color: #2a6fd4 !important;
         }
         .canvas-card {
             border: 3px solid #e0e7ff;
@@ -48,10 +83,52 @@
                 width: 100%;
             }
         }
+        /* Transition Styles */
+        .fade-transition {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .slide-transition {
+            animation: slideIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <div class="container my-5">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" data-transition="fade">Pembelajaran Bilangan Bulat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html" data-transition="fade">Penjumlahan/Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pembagian.html" data-transition="slide">Pembagian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="perkalian.html" data-transition="fade">Perkalian</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Lainnya
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container my-5 content">
         <h1 class="text-center text-primary mb-4">Pembelajaran Bilangan Bulat</h1>
         <div class="input-group justify-content-center mb-4">
             <input type="number" id="num1" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()">
@@ -403,6 +480,35 @@
 
             animationFrameId = requestAnimationFrame(animate);
         }
+
+        // Handle page transitions
+        document.querySelectorAll('a[data-transition]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                const transition = link.getAttribute('data-transition');
+
+                document.body.classList.add('transitioning');
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500); // Match the transition duration
+
+                const content = document.querySelector('.content');
+                content.classList.remove('fade-transition', 'slide-transition');
+                if (transition === 'slide') {
+                    content.classList.add('slide-transition');
+                } else {
+                    content.classList.add('fade-transition');
+                }
+            });
+        });
+
+        // Remove transitioning class when page loads
+        window.addEventListener('load', () => {
+            document.body.classList.remove('transitioning');
+            const content = document.querySelector('.content');
+            content.classList.add('fade-transition'); // Default transition on load
+        });
     </script>
     <footer class="bg-primary text-white text-center py-3 mt-auto fixed-bottom">
         <p class="mb-0">© 2025 Erly. All rights reserved.</p>
