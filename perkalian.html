@@ -422,13 +422,13 @@
                     ctx.setLineDash([]);
                     ctx.shadowBlur = 0;
 
-                    // Draw label for b on the segment, using |b| when a and b are both negative
+                    // Draw label for b on the segment, adjusted based on result sign
                     ctx.font = "14px 'Segoe UI', Arial";
                     ctx.fillStyle = colors[currentStep % colors.length];
                     ctx.textAlign = "center";
                     const labelX = (startPointX + stepTargetX) / 2;
                     const labelY = yOffset - (currentStep % 2 === 0 ? 15 : -15);
-                    ctx.fillText(a * b > 0 && b < 0 ? Math.abs(b) : b, labelX, labelY);
+                    ctx.fillText(a * b >= 0 ? Math.abs(b) : -Math.abs(b), labelX, labelY);
 
                     drawResultMarker(stepTargetX, 100, cumulativeValue);
                     endpointMarkers.push({ x: stepTargetX, y: 100, value: cumulativeValue });
@@ -457,13 +457,13 @@
                         ctx.setLineDash([]);
                         ctx.shadowBlur = 0;
 
-                        // Draw label for b on the segment, using |b| when a and b are both negative
+                        // Draw label for b on the segment, adjusted based on result sign
                         ctx.font = "14px 'Segoe UI', Arial";
                         ctx.fillStyle = colors[i % colors.length];
                         ctx.textAlign = "center";
                         const labelX = (startPosX + endPosX) / 2;
                         const labelY = yOffset - (i % 2 === 0 ? 15 : -15);
-                        ctx.fillText(a * b > 0 && b < 0 ? Math.abs(b) : b, labelX, labelY);
+                        ctx.fillText(a * b >= 0 ? Math.abs(b) : -Math.abs(b), labelX, labelY);
 
                         drawResultMarker(endPosX, 100, segmentEnd);
                         endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
