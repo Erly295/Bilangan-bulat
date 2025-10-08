@@ -216,7 +216,7 @@ function exitGame() {
     // Jika window.close() tidak bekerja (untuk tab yang dibuka manual),
     // redirect ke halaman kosong atau halaman sebelumnya
     setTimeout(function () {
-      window.history.back();
+      href="index.html";
     }, 100);
   }
 }
