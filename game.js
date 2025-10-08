@@ -213,10 +213,10 @@ function restartGame() {
 function exitGame() {
   if (confirm("Apakah kamu yakin ingin keluar dari game?")) {
     window.close();
-    // Jika window.close() tidak bekerja (untuk tab yang dibuka manual),
-    // redirect ke halaman kosong atau halaman sebelumnya
+
+    // Jika tidak bisa ditutup, redirect ke index.html
     setTimeout(function () {
-      href="index.html";
+      window.location.href = "index.html";
     }, 100);
   }
 }
