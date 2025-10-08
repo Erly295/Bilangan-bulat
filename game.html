@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Bilangan Bulat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+    
+    <div class="game-container">
+        <button class="btn-exit" onclick="restartGame()">← Kembali</button>
+        
+        <div class="start-screen" id="startScreen">
+            <button class="btn-exit" onclick="exitGame()">← Keluar</button>
+            <div class="floating-numbers">
+                <div class="floating-number">+5</div>
+                <div class="floating-number">-3</div>
+                <div class="floating-number">×2</div>
+                <div class="floating-number">+7</div>
+                <div class="floating-number">-8</div>
+                <div class="floating-number">×4</div>
+            </div>
+            <div class="game-icon">🎮</div>
+            <h1>Game Bilangan Bulat</h1>
+            <div class="subtitle">✨ Uji Kemampuan Matematikamu! ✨</div>
+            <div class="instructions">
+                <p><strong>📋 Cara Bermain</strong></p>
+                <p>✓ Jawab soal bilangan bulat dengan benar</p>
+                <p>✓ Kamu punya 5 nyawa dan 60 detik per soal</p>
+                <p>✓ Level 1-20 dengan kesulitan meningkat</p>
+                <p>✓ Skor bertambah sesuai level!</p>
+            </div>
+            <div class="level-selector">
+                <h3>🎯 Pilih Level Awal:</h3>
+                <div class="level-options">
+                    <button class="level-btn selected" onclick="selectLevel(1)">1</button>
+                    <button class="level-btn" onclick="selectLevel(2)">2</button>
+                    <button class="level-btn" onclick="selectLevel(3)">3</button>
+                    <button class="level-btn" onclick="selectLevel(4)">4</button>
+                    <button class="level-btn" onclick="selectLevel(5)">5</button>
+                    <button class="level-btn" onclick="selectLevel(6)">6</button>
+                    <button class="level-btn" onclick="selectLevel(7)">7</button>
+                    <button class="level-btn" onclick="selectLevel(8)">8</button>
+                    <button class="level-btn" onclick="selectLevel(9)">9</button>
+                    <button class="level-btn" onclick="selectLevel(10)">10</button>
+                    <button class="level-btn" onclick="selectLevel(11)">11</button>
+                    <button class="level-btn" onclick="selectLevel(12)">12</button>
+                    <button class="level-btn" onclick="selectLevel(13)">13</button>
+                    <button class="level-btn" onclick="selectLevel(14)">14</button>
+                    <button class="level-btn" onclick="selectLevel(15)">15</button>
+                    <button class="level-btn" onclick="selectLevel(16)">16</button>
+                    <button class="level-btn" onclick="selectLevel(17)">17</button>
+                    <button class="level-btn" onclick="selectLevel(18)">18</button>
+                    <button class="level-btn" onclick="selectLevel(19)">19</button>
+                    <button class="level-btn" onclick="selectLevel(20)">20</button>
+                </div>
+                <div class="level-info" id="levelInfo">
+                    Klik level untuk memulai permainan
+                </div>
+            </div>
+        </div>
+
+        <div class="game-header">
+            <div class="lives" id="lives">❤️❤️❤️❤️❤️</div>
+            <div class="info-box level">Level <span id="level">1</span></div>
+            <div class="info-box score">Skor: <span id="score">0</span></div>
+        </div>
+
+        <div class="timer-container">
+            <div class="timer-bar">
+                <div class="timer-fill" id="timerFill">
+                    <span id="timerText">60s</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <div class="question" id="question">2 + (-3) = ?</div>
+        </div>
+
+        <div class="answer-display" id="answerDisplay">_</div>
+
+        <div class="button-grid">
+            <button class="btn btn-number" onclick="addToAnswer('7')">7</button>
+            <button class="btn btn-number" onclick="addToAnswer('8')">8</button>
+            <button class="btn btn-number" onclick="addToAnswer('9')">9</button>
+            <button class="btn btn-operator" onclick="addToAnswer('×')">×</button>
+            
+            <button class="btn btn-number" onclick="addToAnswer('4')">4</button>
+            <button class="btn btn-number" onclick="addToAnswer('5')">5</button>
+            <button class="btn btn-number" onclick="addToAnswer('6')">6</button>
+            <button class="btn btn-operator" onclick="addToAnswer('+')">+</button>
+            
+            <button class="btn btn-number" onclick="addToAnswer('1')">1</button>
+            <button class="btn btn-number" onclick="addToAnswer('2')">2</button>
+            <button class="btn btn-number" onclick="addToAnswer('3')">3</button>
+            <button class="btn btn-operator" onclick="addToAnswer('-')">−</button>
+            
+            <button class="btn btn-number" onclick="addToAnswer('0')" style="grid-column: span 2;">0</button>
+            <button class="btn btn-action btn-clear" onclick="clearAnswer()">Hapus</button>
+            <button class="btn btn-action btn-submit" onclick="checkAnswer()">Jawab ✓</button>
+        </div>
+
+        <div class="game-over" id="gameOver">
+            <h2>GAME OVER!</h2>
+            <p>Level: <span id="finalLevel"></span></p>
+            <p>Skor Akhir: <span id="finalScore"></span></p>
+            <button class="btn-restart" onclick="restartGame()">Main Lagi 🎮</button>
+        </div>
+    </div>
+
+    <div class="feedback" id="feedback">✓</div>
+
+    <script src="game.js"></script>
+</body>
+</html>
