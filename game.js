@@ -212,12 +212,7 @@ function restartGame() {
 
 function exitGame() {
   if (confirm("Apakah kamu yakin ingin keluar dari game?")) {
-    window.close();
-
-    // Jika tidak bisa ditutup, redirect ke index.html
-    setTimeout(function () {
-      window.location.href = "index.html";
-    }, 100);
+    window.location.href = "index.html";
   }
 }
 
