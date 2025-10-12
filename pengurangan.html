@@ -1,77 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembelajaran Bilangan Bulat</title>
-    <!-- Favicon SVG: simbol operasi matematika dalam kotak -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3Etext%7Bfont-size:40px;font-family:sans-serif%7D%3C/style%3E%3Ctext x='10' y='40'%3E%E2%9E%95%3C/text%3E%3Ctext x='60' y='40'%3E%E2%9E%96%3C/text%3E%3Ctext x='10' y='85'%3E%E2%9C%96%EF%B8%8F%3C/text%3E%3Ctext x='60' y='85'%3E%E2%9E%97%3C/text%3E%3C/svg%3E">
+    <title>Pengurangan Bilangan Bulat 🌸✨</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html" data-transition="fade">Pembelajaran Bilangan Bulat</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html" data-transition="fade">Penjumlahan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="pengurangan.html" data-transition="fade">Pengurangan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="perkalian.html" data-transition="fade">Perkalian</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="game.html" data-transition="fade">Permainan</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          style="background: white; border-radius: 15px"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html" data-transition="fade"
+                >➕ Penjumlahan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                href="pengurangan.html"
+                data-transition="fade"
+                >➖ Pengurangan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="perkalian.html" data-transition="fade"
+                >✖️ Perkalian</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="interaktif1.html"
+                >🧩 Interaktif Penjumlahan dan Pengurangan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="interaktif2.html"
+                >🕹️ Interaktif Perkalian</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="game.html" data-transition="fade"
+                >🎮 Permainan</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
     
     <div class="container my-5 content">
-        <h1 class="text-center text-primary mb-4">Pengurangan Bilangan Bulat</h1>
+        <div class="text-center">
+            <h1>Pengurangan Bilangan Bulat</h1>
+        </div>
+        
         <div class="input-group justify-content-center mb-4">
-            <input type="number" id="num1" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()">
-            <input id="operator" class="operator-box" value="-" oninput="startAnimation()" disabled>
-            <input type="number" id="num2" placeholder="Angka Kedua" class="form-control w-auto me-2" oninput="startAnimation()">
-            <button class="btn btn-info rounded-circle d-flex align-items-center justify-content-center" onclick="showInstructions()" title="Petunjuk" style="width: 40px; height: 40px;">
-                i
+            <input type="number" id="num1" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
+            <div class="operator-box">−</div>
+            <input type="number" id="num2" placeholder="Angka Kedua" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
+            <button class="btn btn-info rounded-circle d-flex align-items-center justify-content-center" onclick="showInstructions()" title="Petunjuk" style="width: 50px; height: 50px;">
+                💡
             </button>
         </div>
+        
         <div class="card canvas-card mb-4">
             <div class="card-body p-0">
-                <canvas id="garis" width="700" height="200" class="w-100"></canvas>
+                <canvas id="garis" width="700" height="250"></canvas>
             </div>
         </div>
-        <div id="hasil" class="alert alert-success text-center result-alert" role="alert"></div>
+        
+        <div id="hasil" class="alert alert-success text-center result-alert" role="alert" style="display: none;"></div>
     </div>
 
     <div id="instructionModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Instruksi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Instruksi Penggunaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        <b>Angka Pertama</b><br>
+                        <b>🌸 Angka Pertama</b><br>
                         Menentukan titik awal pada garis bilangan.<br>
-                        Jika positif, bergerak ke kanan dari 0.<br>
-                        Jika negatif, bergerak ke kiri dari 0.<br>
-                        <b>Operator</b><br>
-                        Pilih "+" untuk penjumlahan atau "−" untuk pengurangan.<br>
-                        <b>Angka Kedua</b><br>
-                        Menentukan langkah berikutnya.<br>
-                        Jika positif, bergerak ke kanan (penjumlahan) atau ke kiri (pengurangan).<br>
-                        Jika negatif, bergerak ke kiri (penjumlahan) atau ke kanan (pengurangan).
+                        • Jika positif (+), bergerak ke kanan dari 0<br>
+                        • Jika negatif (-), bergerak ke kiri dari 0<br><br>
+                        
+                        <b>💜 Angka Kedua</b><br>
+                        Menentukan langkah berikutnya:<br>
+                        • Jika positif (+), bergerak ke KIRI (dikurangi)<br>
+                        • Jika negatif (-), bergerak ke KANAN (mengurangi negatif = tambah)<br><br>
+                        
+                        <b>🎯 Contoh:</b><br>
+                        • 5 − 3 = bergerak dari 5 ke kiri 3 langkah = 2<br>
+                        • 5 − (−3) = bergerak dari 5 ke kanan 3 langkah = 8<br>
+                        • −2 − 3 = bergerak dari −2 ke kiri 3 langkah = −5<br><br>
+                        
+                        <b>🎉 Hasil</b><br>
+                        Lihat animasi di garis bilangan dan hasil akhir akan ditampilkan!
                     </p>
                 </div>
             </div>
@@ -80,75 +120,85 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const canvas = document.getElementById("garis");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('garis');
+        const ctx = canvas.getContext('2d');
+        const hasilDiv = document.getElementById('hasil');
         let animationFrameId;
         const padding = 60;
 
         // Create tooltip element
         const tooltip = document.createElement("div");
         tooltip.className = "tooltip";
+        tooltip.style.cssText = "position: absolute; background: linear-gradient(135deg, #9F7AEA, #805AD5); color: white; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 600; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 9999; box-shadow: 0 4px 12px rgba(128, 90, 213, 0.4);";
         document.body.appendChild(tooltip);
 
-        // Modal functions
-        function showInstructions() {
-            const modal = new bootstrap.Modal(document.getElementById("instructionModal"));
-            modal.show();
+        // Responsive canvas
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth - 40;
+            canvas.height = 250;
+            if (document.getElementById('num1').value || document.getElementById('num2').value) {
+                startAnimation();
+            }
         }
-
-        function closeInstructions() {
-            const modal = bootstrap.Modal.getInstance(document.getElementById("instructionModal"));
-            modal.hide();
-        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
         function drawNumberLine(minVal, maxVal, num1, num2, result) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Calculate canvas dimensions
             const canvasWidth = canvas.width - 2 * padding;
-
-            // Create custom tick array based on num1, num2, and result
             const ticks = [];
+            
+            // Always include 0, num1, and result
             ticks.push(0);
             ticks.push(num1);
+            ticks.push(result);
 
+            // Determine if we need to show detailed ticks around result
+            const distanceFromNum1ToResult = Math.abs(result - num1);
+            
+            // Fine detail around result (always show ±3 around result)
             const fineStart = result - 3;
             const fineEnd = result + 3;
+            for (let i = fineStart; i <= fineEnd; i++) {
+                ticks.push(i);
+            }
 
-            if (operator === '+') {
+            // If distance is large, add intermediate milestones but skip numbers between num1 and result
+            if (distanceFromNum1ToResult > 10) {
+                // Add strategic points between 0 and num1 (if num1 is far from 0)
+                if (Math.abs(num1) > 10) {
+                    const step1 = Math.ceil(Math.abs(num1) / 5);
+                    const direction1 = num1 > 0 ? 1 : -1;
+                    for (let i = step1; Math.abs(i) < Math.abs(num1); i += step1) {
+                        ticks.push(i * direction1);
+                    }
+                }
+            } else {
+                // If distance is small (≤10), show all integers between num1 and result
                 const start = Math.min(num1, result);
                 const end = Math.max(num1, result);
                 for (let i = start; i <= end; i++) {
                     ticks.push(i);
                 }
-                for (let i = fineStart; i <= fineEnd; i++) {
-                    ticks.push(i);
-                }
-            } else {
-                if (Math.abs(result) <= 10) {
-                    const tickInterval = Math.max(1, Math.ceil((maxVal - minVal) / 10));
-                    for (let i = Math.floor(minVal); i <= Math.ceil(maxVal); i += tickInterval) {
-                        ticks.push(i);
-                    }
-                } else {
-                    if (num2 !== 0) {
-                        const numIntermediate = 7;
-                        const step = (result - num1) / (numIntermediate + 1);
-                        for (let i = 1; i <= numIntermediate; i++) {
-                            ticks.push(Math.round(num1 + step * i));
-                        }
-                    }
-                    for (let i = fineStart; i <= fineEnd; i++) {
-                        if (i !== result) ticks.push(i);
-                    }
-                }
             }
 
-            ticks.push(result);
-            ticks.push(result >= 0 ? result + 1 : result - 1);
+            // Add buffer points for better visualization
+            const allValues = [0, num1, result];
+            const minValue = Math.min(...allValues);
+            const maxValue = Math.max(...allValues);
+            
+            // Add edge points
+            if (minValue < -3) {
+                ticks.push(minValue - 2);
+            }
+            if (maxValue > 3) {
+                ticks.push(maxValue + 2);
+            }
 
             const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
-
             const tickSpacing = canvasWidth / (uniqueTicks.length - 1);
 
             const tickPositions = new Map();
@@ -157,83 +207,138 @@
                 tickPositions.set(tick, x);
             });
 
+            // Draw main gradient line
+            const gradient = ctx.createLinearGradient(padding, 100, canvas.width - padding, 100);
+            gradient.addColorStop(0, '#B794F4');
+            gradient.addColorStop(0.5, '#9F7AEA');
+            gradient.addColorStop(1, '#B794F4');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.moveTo(padding, 100);
             ctx.lineTo(canvas.width - padding, 100);
-            ctx.strokeStyle = "#1a3c6d";
-            ctx.lineWidth = 4;
-            ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-            ctx.shadowBlur = 5;
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            ctx.font = "16px 'Segoe UI', Arial";
-            ctx.fillStyle = "#1a3c6d";
-            ctx.textAlign = "center";
+            // Draw ticks and numbers
+            ctx.font = 'bold 14px Quicksand';
+            ctx.fillStyle = '#9F7AEA';
+            ctx.textAlign = 'center';
+            
             uniqueTicks.forEach((tick, index) => {
                 const x = padding + index * tickSpacing;
                 if (x >= padding - 10 && x <= canvas.width - padding + 10) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 95);
-                    ctx.lineTo(x, 105);
-                    ctx.strokeStyle = "#1a3c6d";
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                    ctx.fillText(tick, x, 125);
+                    // Determine tick importance for styling
+                    const isZero = tick === 0;
+                    const isNum1 = tick === num1;
+                    const isResult = tick === result;
+                    const isNearResult = Math.abs(tick - result) <= 3;
+                    
+                    // Special styling based on importance
+                    if (isZero) {
+                        ctx.strokeStyle = '#9F7AEA';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 85);
+                        ctx.lineTo(x, 115);
+                        ctx.stroke();
+                        ctx.fillStyle = '#6B46C1';
+                        ctx.font = 'bold 18px Quicksand';
+                        ctx.fillText('0', x, 135);
+                        ctx.font = 'bold 14px Quicksand';
+                    } else if (isNum1 || isResult) {
+                        // Important points (num1 and result)
+                        ctx.strokeStyle = '#B794F4';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 88);
+                        ctx.lineTo(x, 112);
+                        ctx.stroke();
+                        ctx.fillStyle = '#805AD5';
+                        ctx.font = 'bold 16px Quicksand';
+                        ctx.fillText(tick, x, 135);
+                        ctx.font = 'bold 14px Quicksand';
+                    } else if (isNearResult) {
+                        // Near result points
+                        ctx.strokeStyle = '#D4B5F0';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 93);
+                        ctx.lineTo(x, 107);
+                        ctx.stroke();
+                        ctx.fillStyle = '#9F7AEA';
+                        ctx.fillText(tick, x, 135);
+                    } else {
+                        // Milestone points (far from result)
+                        ctx.strokeStyle = '#E9D8FD';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 95);
+                        ctx.lineTo(x, 105);
+                        ctx.stroke();
+                        ctx.fillStyle = '#C4B5D4';
+                        ctx.font = 'bold 12px Quicksand';
+                        ctx.fillText(tick, x, 135);
+                        ctx.font = 'bold 14px Quicksand';
+                    }
                 }
             });
 
-            ctx.beginPath();
-            ctx.moveTo(canvas.width - padding, 100);
-            ctx.lineTo(canvas.width - padding - 8, 92);
-            ctx.moveTo(canvas.width - padding, 100);
-            ctx.lineTo(canvas.width - padding - 8, 108);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(padding, 100);
-            ctx.lineTo(padding + 8, 92);
-            ctx.moveTo(padding, 100);
-            ctx.lineTo(padding + 8, 108);
-            ctx.stroke();
+            // Draw arrow heads at ends
+            drawArrowhead(canvas.width - padding, 100, "right", '#9F7AEA');
+            drawArrowhead(padding, 100, "left", '#9F7AEA');
 
             return { tickPositions, uniqueTicks };
         }
 
         function drawArrowhead(x, y, direction, color) {
             ctx.fillStyle = color;
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 5;
             ctx.beginPath();
             ctx.moveTo(x, y);
             if (direction === "right") {
-                ctx.lineTo(x - 8, y - 8);
-                ctx.lineTo(x - 8, y + 8);
+                ctx.lineTo(x - 10, y - 8);
+                ctx.lineTo(x - 10, y + 8);
             } else {
-                ctx.lineTo(x + 8, y - 8);
-                ctx.lineTo(x + 8, y + 8);
+                ctx.lineTo(x + 10, y - 8);
+                ctx.lineTo(x + 10, y + 8);
             }
             ctx.fill();
+            ctx.shadowBlur = 0;
         }
 
         function drawResultMarker(x, y, result) {
+            ctx.shadowColor = "rgba(107, 70, 193, 0.5)";
+            ctx.shadowBlur = 15;
             ctx.beginPath();
-            ctx.arc(x, y, 8, 0, 2 * Math.PI);
-            ctx.fillStyle = "#2ecc71";
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = '#6B46C1';
             ctx.fill();
-            ctx.strokeStyle = "#1a3c6d";
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            // Inner highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(x - 3, y - 3, 4, 0, Math.PI * 2);
+            ctx.fill();
         }
 
         let resultX, resultY, resultValue;
+        
         canvas.addEventListener("mousemove", (e) => {
             const rect = canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
 
-            if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 10) {
+            if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 15) {
                 tooltip.style.left = `${e.clientX + 10}px`;
                 tooltip.style.top = `${e.clientY - 10}px`;
-                tooltip.textContent = resultValue;
+                tooltip.textContent = `Hasil: ${resultValue} ✨`;
                 tooltip.style.opacity = "1";
             } else {
                 tooltip.style.opacity = "0";
@@ -244,15 +349,12 @@
             tooltip.style.opacity = "0";
         });
 
-        drawNumberLine(-10, 10, 0, 0, 0);
-
         function startAnimation() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-            const num1 = parseInt(document.getElementById("num1").value) || 0;
-            const num2 = parseInt(document.getElementById("num2").value) || 0;
-            const operator = document.getElementById("operator").value;
-            const hasil = operator === '+' ? num1 + num2 : num1 - num2;
+            const num1 = parseInt(document.getElementById('num1').value) || 0;
+            const num2 = parseInt(document.getElementById('num2').value) || 0;
+            const hasil = num1 - num2; // PENGURANGAN
 
             resultValue = hasil;
 
@@ -279,7 +381,7 @@
 
             let currentX = startX;
             let midXReached = false;
-            const animationDuration = 1000;
+            const animationDuration = 1200;
             let startTime;
 
             function animate(timestamp) {
@@ -290,27 +392,43 @@
 
                 if (!midXReached) {
                     currentX = startX + (targetMidX - startX) * Math.min(progress, 1);
-                    ctx.strokeStyle = "#4a90e2";
-                    ctx.lineWidth = 4;
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-                    ctx.shadowBlur = 5;
+                    
+                    // First arrow (num1)
+                    ctx.strokeStyle = '#B794F4';
+                    ctx.lineWidth = 5;
+                    ctx.shadowColor = "rgba(183, 148, 244, 0.4)";
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
                     ctx.moveTo(startX, 60);
                     ctx.lineTo(currentX, 60);
-                    ctx.setLineDash([8, 8]);
+                    ctx.setLineDash([10, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
                     ctx.shadowBlur = 0;
 
-                    ctx.font = "14px 'Segoe UI', Arial";
-                    ctx.fillStyle = "#4a90e2";
+                    // Label for num1
+                    ctx.font = "bold 16px Quicksand";
+                    ctx.fillStyle = '#B794F4';
                     ctx.textAlign = "center";
                     const labelX1 = (startX + currentX) / 2;
-                    const labelY1 = 60 - 15;
-                    ctx.fillText(num1, labelX1, labelY1);
+                    const labelY1 = 60 - 18;
+                    
+                    // Background bubble
+                    const text1 = num1.toString();
+                    const textWidth1 = ctx.measureText(text1).width;
+                    ctx.fillStyle = 'white';
+                    ctx.strokeStyle = '#B794F4';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.roundRect(labelX1 - textWidth1/2 - 10, labelY1 - 18, textWidth1 + 20, 28, 14);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#B794F4';
+                    ctx.fillText(text1, labelX1, labelY1);
 
                     const num1Direction = num1 >= 0 ? "right" : "left";
-                    drawArrowhead(currentX, 60, num1Direction, "#4a90e2");
+                    drawArrowhead(currentX, 60, num1Direction, '#B794F4');
 
                     if (progress >= 1) {
                         midXReached = true;
@@ -321,55 +439,85 @@
                     const secondProgress = (timestamp - startTime) / animationDuration;
                     currentX = targetMidX + (targetEndX - targetMidX) * Math.min(secondProgress, 1);
 
-                    ctx.strokeStyle = "#4a90e2";
-                    ctx.lineWidth = 4;
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-                    ctx.shadowBlur = 5;
+                    // First arrow stays
+                    ctx.strokeStyle = '#B794F4';
+                    ctx.lineWidth = 5;
+                    ctx.shadowColor = "rgba(183, 148, 244, 0.4)";
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
                     ctx.moveTo(startX, 60);
                     ctx.lineTo(targetMidX, 60);
-                    ctx.setLineDash([8, 8]);
+                    ctx.setLineDash([10, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
                     ctx.shadowBlur = 0;
 
-                    ctx.font = "14px 'Segoe UI', Arial";
-                    ctx.fillStyle = "#4a90e2";
+                    ctx.font = "bold 16px Quicksand";
+                    ctx.fillStyle = '#B794F4';
                     ctx.textAlign = "center";
                     const labelX1 = (startX + targetMidX) / 2;
-                    const labelY1 = 60 - 15;
-                    ctx.fillText(num1, labelX1, labelY1);
+                    const labelY1 = 60 - 18;
+                    
+                    const text1 = num1.toString();
+                    const textWidth1 = ctx.measureText(text1).width;
+                    ctx.fillStyle = 'white';
+                    ctx.strokeStyle = '#B794F4';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.roundRect(labelX1 - textWidth1/2 - 10, labelY1 - 18, textWidth1 + 20, 28, 14);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#B794F4';
+                    ctx.fillText(text1, labelX1, labelY1);
 
                     const num1Direction = num1 >= 0 ? "right" : "left";
-                    drawArrowhead(targetMidX, 60, num1Direction, "#4a90e2");
+                    drawArrowhead(targetMidX, 60, num1Direction, '#B794F4');
 
-                    ctx.strokeStyle = "#e94e4e";
-                    ctx.lineWidth = 4;
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-                    ctx.shadowBlur = 5;
+                    // Second arrow (SUBTRACTION: negative num2 means opposite direction)
+                    // Subtracting positive = move left, subtracting negative = move right
+                    const effectiveMovement = -num2; // Pengurangan membalik arah
+                    const arrowColor = effectiveMovement >= 0 ? '#10B981' : '#EF4444';
+                    
+                    ctx.strokeStyle = arrowColor;
+                    ctx.lineWidth = 5;
+                    ctx.shadowColor = effectiveMovement >= 0 ? "rgba(16, 185, 129, 0.4)" : "rgba(239, 68, 68, 0.4)";
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
-                    ctx.moveTo(targetMidX, 80);
-                    ctx.lineTo(currentX, 80);
-                    ctx.setLineDash([8, 8]);
+                    ctx.moveTo(targetMidX, 140);
+                    ctx.lineTo(currentX, 140);
+                    ctx.setLineDash([10, 8]);
                     ctx.stroke();
                     ctx.setLineDash([]);
                     ctx.shadowBlur = 0;
 
-                    ctx.font = "14px 'Segoe UI', Arial";
-                    ctx.fillStyle = "#e94e4e";
+                    ctx.font = "bold 16px Quicksand";
+                    ctx.fillStyle = arrowColor;
                     ctx.textAlign = "center";
                     const labelX2 = (targetMidX + currentX) / 2;
-                    const labelY2 = 80 + 15;
-                    const labelNum2 = operator === '+' ? num2 : -num2;
-                    ctx.fillText(labelNum2, labelX2, labelY2);
+                    const labelY2 = 140 + 30;
+                    
+                    // Label shows the operation being performed
+                    const text2 = `−${num2}`;
+                    const textWidth2 = ctx.measureText(text2).width;
+                    ctx.fillStyle = 'white';
+                    ctx.strokeStyle = arrowColor;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.roundRect(labelX2 - textWidth2/2 - 10, labelY2 - 18, textWidth2 + 20, 28, 14);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = arrowColor;
+                    ctx.fillText(text2, labelX2, labelY2);
 
-                    const num2Direction = (operator === '+' ? num2 : -num2) >= 0 ? "right" : "left";
-                    drawArrowhead(currentX, 80, num2Direction, "#e94e4e");
+                    const num2Direction = effectiveMovement >= 0 ? "right" : "left";
+                    drawArrowhead(currentX, 140, num2Direction, arrowColor);
 
-                    const hasilElement = document.getElementById("hasil");
-                    hasilElement.textContent = `Hasil: ${hasil}`;
-                    hasilElement.classList.add("updated");
-                    setTimeout(() => hasilElement.classList.remove("updated"), 300);
+                    hasilDiv.style.display = 'block';
+                    hasilDiv.textContent = `${num1} − (${num2}) = ${hasil}`;
+                    hasilDiv.classList.add("updated");
+                    setTimeout(() => hasilDiv.classList.remove("updated"), 600);
 
                     if (secondProgress >= 1) {
                         resultX = targetEndX;
@@ -385,34 +533,14 @@
             animationFrameId = requestAnimationFrame(animate);
         }
 
-        // Handle page transitions
-        document.querySelectorAll('a[data-transition]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                const transition = link.getAttribute('data-transition');
+        function showInstructions() {
+            const modal = new bootstrap.Modal(document.getElementById('instructionModal'));
+            modal.show();
+        }
 
-                document.body.classList.add('transitioning');
-                setTimeout(() => {
-                    window.location.href = href;
-                }, 500); // Match the transition duration
-
-                const content = document.querySelector('.content');
-                content.classList.remove('fade-transition', 'slide-transition');
-                if (transition === 'slide') {
-                    content.classList.add('slide-transition');
-                } else {
-                    content.classList.add('fade-transition');
-                }
-            });
-        });
-
-        // Remove transitioning class when page loads
-        window.addEventListener('load', () => {
-            document.body.classList.remove('transitioning');
-            const content = document.querySelector('.content');
-            content.classList.add('fade-transition'); // Default transition on load
-        });
+        function switchPage(page) {
+            alert(`Fitur ${page} akan segera hadir! 🌟✨`);
+        }
     </script>
 </body>
 </html>

@@ -1,165 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengoperasian Bilangan Bulat</title>
-    <!-- Favicon SVG: simbol operasi matematika dalam kotak -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3Etext%7Bfont-size:40px;font-family:sans-serif%7D%3C/style%3E%3Ctext x='10' y='40'%3E%E2%9E%95%3C/text%3E%3Ctext x='60' y='40'%3E%E2%9E%96%3C/text%3E%3Ctext x='10' y='85'%3E%E2%9C%96%EF%B8%8F%3C/text%3E%3Ctext x='60' y='85'%3E%E2%9E%97%3C/text%3E%3C/svg%3E">
+    <title>Perkalian Bilangan Bulat ⭐✨</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f7fa;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
             margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
+            background-attachment: fixed;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            position: relative;
             overflow-x: hidden;
-            transition: opacity 0.5s ease;
         }
-        body.transitioning {
-            opacity: 0;
-        }
-        .navbar {
-            background: linear-gradient(90deg, #1a3c6d, #2a6fd4);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 1rem 2rem;
-        }
-        .navbar-brand, .nav-link {
-            color: #ffffff !important;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .navbar-brand:hover, .nav-link:hover {
-            color: #ffeb3b !important;
-            transform: scale(1.05);
-        }
-        .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-        }
-        .dropdown-menu {
-            background: #1a3c6d;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .dropdown-item {
-            color: #ffffff !important;
-            transition: background-color 0.3s ease;
-        }
-        .dropdown-item:hover {
-            background-color: #2a6fd4 !important;
-        }
-        .canvas-card {
-            border: 3px solid #e0e7ff;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(5, 5, 10, 0.1);
-        }
-        .tooltip {
-            position: absolute;
-            background: #1a3c6d;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
+        
+        /* Cute floating elements background */
+        body::before {
+            content: '⭐ 💜 ✨ 🌸 💙 🦄 🌈 ☁️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            opacity: 0.1;
             pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
+            word-spacing: 3rem;
+            line-height: 5rem;
+            animation: float 20s infinite linear;
+            z-index: 0;
         }
-        .result-alert {
-            transition: transform 0.3s ease, opacity 0.3s ease;
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
         }
-        .result-alert.updated {
-            transform: scale(1.05);
-            opacity: 0.9;
+        
+        .navbar {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 50%, #805AD5 100%);
+            box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
+            padding: 1.2rem 2rem;
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(10px);
         }
-        .multiplication-symbol {
-            margin-left: 15px;
-            margin-right: 15px;
+        
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
-        @media (max-width: 600px) {
-            .input-group .form-control {
-                width: 100%;
+        
+        .navbar-brand::before {
+            content: '✨ ';
+        }
+        
+        .navbar-brand::after {
+            content: ' ✨';
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05) rotate(-2deg);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+        
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        /* Transition Styles */
-        .fade-transition {
-            animation: fadeIn 0.5s ease-in-out;
+        
+        h1 {
+            color: #805AD5;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
+            margin-bottom: 2rem !important;
+            position: relative;
+            display: inline-block;
         }
-        .slide-transition {
-            animation: slideIn 0.5s ease-in-out;
+        
+        h1::before {
+            content: '⭐';
+            margin-right: 10px;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        h1::after {
+            content: '⭐';
+            margin-left: 10px;
         }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        
+        .input-group {
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .form-control {
+            border: 3px solid #D4B5F0;
+            border-radius: 20px !important;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #805AD5;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+        }
+        
+        .form-control:focus {
+            border-color: #9F7AEA;
+            box-shadow: 0 0 0 0.5rem rgba(159, 122, 234, 0.2), 0 8px 20px rgba(128, 90, 213, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .form-control::placeholder {
+            color: #C4B5D4;
+        }
+        
+        .operator-box {
+            width: 4rem;
+            font-size: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            font-weight: bold;
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            color: #805AD5;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .operator-box:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .btn-info:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+        }
+        
+        .canvas-card {
+            border: 4px solid #D4B5F0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
+            box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
+        }
+        
+        .card-body {
+            padding: 2rem !important;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 50%, #E9D8FD 100%);
+        }
+        
+        #garis {
+            border-radius: 20px;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            color: #805AD5;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .result-alert.updated {
+            animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .modal-content {
+            border-radius: 30px;
+            border: 4px solid #D4B5F0;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
+            box-shadow: 0 10px 40px rgba(128, 90, 213, 0.3);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+            color: white;
+            border-radius: 26px 26px 0 0;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .modal-title::before {
+            content: '💡 ';
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            color: #805AD5;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        .modal-body b {
+            color: #6B46C1;
+            font-size: 1.15rem;
+        }
+        
+        .btn-close {
+            background: white;
+            border-radius: 50%;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-close:hover {
+            transform: rotate(90deg) scale(1.2);
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-control {
+                width: 100% !important;
+            }
+            
+            .operator-box {
+                width: 100%;
+                height: 3rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html" data-transition="fade">Pembelajaran Bilangan Bulat</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link " href="index.html" data-transition="fade">Penjumlahan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pengurangan.html" data-transition="fade">Pengurangan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="perkalian.html" data-transition="fade">Perkalian</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="game.html" data-transition="fade">Permainan</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          style="background: white; border-radius: 15px"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="index.html"
+                data-transition="fade"
+                >➕ Penjumlahan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pengurangan.html" data-transition="fade"
+                >➖ Pengurangan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="perkalian.html" data-transition="fade"
+                >✖️ Perkalian</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="interaktif1.html"
+                >🧩 Interaktif Penjumlahan dan Pengurangan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="interaktif2.html"
+                >🕹️ Interaktif Perkalian</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="game.html" data-transition="fade"
+                >🎮 Permainan</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
     
     <div class="container my-5 content">
-        <h1 class="text-center text-primary mb-4">Perkalian Bilangan Bulat</h1>
+        <div class="text-center">
+            <h1>Perkalian Bilangan Bulat</h1>
+        </div>
+        
         <div class="input-group justify-content-center mb-4">
-            <input type="number" id="factorA" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()">
-            <span class="input-group-text fs-4 multiplication-symbol">×</span>
-            <input type="number" id="factorB" placeholder="Angka Kedua" class="form-control w-auto me-2" oninput="startAnimation()">
-            <button class="btn btn-info rounded-circle d-flex align-items-center justify-content-center" onclick="showInstructions()" title="Petunjuk" style="width: 40px; height: 40px;">
-                i
+            <input type="number" id="factorA" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
+            <div class="operator-box">×</div>
+            <input type="number" id="factorB" placeholder="Angka Kedua" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
+            <button class="btn btn-info rounded-circle d-flex align-items-center justify-content-center" onclick="showInstructions()" title="Petunjuk" style="width: 50px; height: 50px;">
+                💡
             </button>
         </div>
+        
         <div class="card canvas-card mb-4">
             <div class="card-body p-0">
-                <canvas id="garis" width="700" height="200" class="w-100"></canvas>
+                <canvas id="garis" width="700" height="250"></canvas>
             </div>
         </div>
-        <div id="hasil" class="alert alert-success text-center result-alert" role="alert"></div>
+        
+        <div id="hasil" class="alert alert-success text-center result-alert" role="alert" style="display: none;"></div>
     </div>
 
     <div id="instructionModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Instruksi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Instruksi Penggunaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        <b>Angka Pertama</b><br>
-                        Jika positif maka arah akan kanan <br>
-                        Jika negatif maka arah akan kiri <br>
-                        <b>Angka Kedua</b><br>
-                        Jika positif maka arah akan tetap<br>
-                        Jika negatif maka arah akan berbalik<br>
+                        <b>⭐ Perkalian = Penjumlahan Berulang!</b><br>
+                        Perkalian adalah cara cepat untuk menambahkan angka yang sama berulang kali.<br><br>
+                        
+                        <b>🌟 Angka Pertama (Pengali)</b><br>
+                        Menentukan berapa kali kita melakukan penjumlahan:<br>
+                        • 3 × 4 = menambahkan 4 sebanyak 3 kali<br>
+                        • −3 × 4 = menambahkan 4 sebanyak 3 kali ke arah kiri<br><br>
+                        
+                        <b>💜 Angka Kedua (Yang Dikali)</b><br>
+                        Menentukan langkah setiap lompatan:<br>
+                        • Jika positif (+), bergerak ke kanan<br>
+                        • Jika negatif (−), bergerak ke kiri<br><br>
+                        
+                        <b>🎯 Aturan Tanda:</b><br>
+                        • Positif × Positif = Positif (bergerak kanan)<br>
+                        • Positif × Negatif = Negatif (bergerak kiri)<br>
+                        • Negatif × Positif = Negatif (bergerak kiri)<br>
+                        • Negatif × Negatif = Positif (bergerak kanan)<br><br>
+                        
+                        <b>✨ Contoh:</b><br>
+                        • 3 × 2 = 2 + 2 + 2 = 6 (lompat 2 ke kanan, 3 kali)<br>
+                        • 3 × (−2) = (−2) + (−2) + (−2) = −6 (lompat 2 ke kiri, 3 kali)<br>
+                        • −3 × 2 = bergerak ke arah berlawanan 3 kali = −6<br><br>
+                        
+                        <b>🎉 Animasi</b><br>
+                        Setiap panah berwarna menunjukkan satu lompatan!<br>
+                        Perhatikan bagaimana lompatan berulang membentuk hasil akhir.
                     </p>
                 </div>
             </div>
@@ -168,139 +428,183 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const canvas = document.getElementById("garis");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('garis');
+        const ctx = canvas.getContext('2d');
+        const hasilDiv = document.getElementById('hasil');
         let animationFrameId;
         const padding = 60;
 
         // Create tooltip element
         const tooltip = document.createElement("div");
         tooltip.className = "tooltip";
+        tooltip.style.cssText = "position: absolute; background: linear-gradient(135deg, #9F7AEA, #805AD5); color: white; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 600; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 9999; box-shadow: 0 4px 12px rgba(128, 90, 213, 0.4);";
         document.body.appendChild(tooltip);
 
-        // Modal functions
-        function showInstructions() {
-            const modal = new bootstrap.Modal(document.getElementById("instructionModal"));
-            modal.show();
-        }
+        // Color palette for steps
+        const colors = ['#B794F4', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#3B82F6', '#EC4899'];
 
-        function closeInstructions() {
-            const modal = bootstrap.Modal.getInstance(document.getElementById("instructionModal"));
-            modal.hide();
+        // Responsive canvas
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth - 40;
+            canvas.height = 250;
+            if (document.getElementById('factorA').value || document.getElementById('factorB').value) {
+                startAnimation();
+            }
         }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        function drawNumberLine(minVal, maxVal, a, b, result) {
+        function drawNumberLine(a, b, result) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Calculate canvas dimensions
             const canvasWidth = canvas.width - 2 * padding;
-
-            // Create tick array
-            let ticks;
-            if (a === 0 && b === 0) {
-                ticks = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+            let ticks = [];
+            
+            if (a === 0 || b === 0) {
+                // Default range if no multiplication
+                for (let i = -5; i <= 5; i++) {
+                    ticks.push(i);
+                }
             } else {
-                ticks = [0];
+                ticks.push(0);
                 const stepSize = Math.abs(b);
                 const numSteps = Math.abs(a);
+                const direction = Math.sign(a * b);
+                
+                // Add intermediate steps
                 for (let i = 1; i <= numSteps; i++) {
-                    const step = i * stepSize * Math.sign(b * a);
-                    ticks.push(step);
+                    ticks.push(i * stepSize * direction);
                 }
-                const extraTick = (numSteps + 1) * stepSize * Math.sign(b * a);
-                ticks.push(extraTick);
+                
+                // Add extra tick for better view
+                ticks.push((numSteps + 1) * stepSize * direction);
             }
 
-            // Ensure unique and sorted ticks
-            let uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
-
-            // Calculate responsive tick spacing
-            const valueRange = Math.max(Math.abs(minVal), Math.abs(maxVal));
-            const minSpacing = 80;
-            const maxTicks = Math.floor(canvasWidth / minSpacing);
-            let filteredTicks = [0];
-
-            if (a !== 0 && b !== 0) {
-                const stepSize = Math.abs(b) * Math.sign(a * b);
-                const numSteps = Math.abs(a);
-                for (let i = 1; i <= numSteps; i++) {
-                    const step = i * stepSize;
-                    filteredTicks.push(step);
-                }
-                filteredTicks.push(ticks[ticks.length - 1]);
-            } else {
-                filteredTicks = uniqueTicks;
-            }
-
-            filteredTicks = [...new Set(filteredTicks)].sort((a, b) => a - b);
-
-            // Map ticks to canvas positions
-            const tickPositions = new Map();
-            const range = filteredTicks[filteredTicks.length - 1] - filteredTicks[0] || 1;
+            const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
+            const range = uniqueTicks[uniqueTicks.length - 1] - uniqueTicks[0] || 1;
             const xScale = canvasWidth / range;
-            filteredTicks.forEach((tick) => {
-                const x = padding + (tick - filteredTicks[0]) * xScale;
+            
+            const tickPositions = new Map();
+            uniqueTicks.forEach((tick) => {
+                const x = padding + (tick - uniqueTicks[0]) * xScale;
                 tickPositions.set(tick, x);
             });
 
-            // Draw number line with shadow
+            // Draw main gradient line
+            const gradient = ctx.createLinearGradient(padding, 100, canvas.width - padding, 100);
+            gradient.addColorStop(0, '#B794F4');
+            gradient.addColorStop(0.5, '#9F7AEA');
+            gradient.addColorStop(1, '#B794F4');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.moveTo(padding, 100);
             ctx.lineTo(canvas.width - padding, 100);
-            ctx.strokeStyle = "#1a3c6d";
-            ctx.lineWidth = 4;
-            ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-            ctx.shadowBlur = 5;
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Draw ticks and labels
-            ctx.font = "16px 'Segoe UI', Arial";
-            ctx.fillStyle = "#1a3c6d";
-            ctx.textAlign = "center";
-            filteredTicks.forEach((tick) => {
+            // Draw ticks and numbers
+            ctx.font = 'bold 14px Quicksand';
+            ctx.textAlign = 'center';
+            
+            uniqueTicks.forEach((tick) => {
                 const x = tickPositions.get(tick);
                 if (x >= padding - 10 && x <= canvas.width - padding + 10) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 95);
-                    ctx.lineTo(x, 105);
-                    ctx.strokeStyle = "#1a3c6d";
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                    ctx.fillText(tick, x, 125);
+                    if (tick === 0) {
+                        ctx.strokeStyle = '#9F7AEA';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 85);
+                        ctx.lineTo(x, 115);
+                        ctx.stroke();
+                        ctx.fillStyle = '#6B46C1';
+                        ctx.font = 'bold 18px Quicksand';
+                        ctx.fillText('0', x, 135);
+                        ctx.font = 'bold 14px Quicksand';
+                    } else if (tick === result) {
+                        ctx.strokeStyle = '#B794F4';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 88);
+                        ctx.lineTo(x, 112);
+                        ctx.stroke();
+                        ctx.fillStyle = '#805AD5';
+                        ctx.font = 'bold 16px Quicksand';
+                        ctx.fillText(tick, x, 135);
+                        ctx.font = 'bold 14px Quicksand';
+                    } else {
+                        ctx.strokeStyle = '#D4B5F0';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 93);
+                        ctx.lineTo(x, 107);
+                        ctx.stroke();
+                        ctx.fillStyle = '#9F7AEA';
+                        ctx.fillText(tick, x, 135);
+                    }
                 }
             });
 
-            // Draw arrowheads
-            ctx.beginPath();
-            ctx.moveTo(canvas.width - padding, 100);
-            ctx.lineTo(canvas.width - padding - 8, 92);
-            ctx.moveTo(canvas.width - padding, 100);
-            ctx.lineTo(canvas.width - padding - 8, 108);
-            ctx.stroke();
+            // Draw arrow heads at ends
+            drawArrowhead(canvas.width - padding, 100, "right", '#9F7AEA');
+            drawArrowhead(padding, 100, "left", '#9F7AEA');
 
-            ctx.beginPath();
-            ctx.moveTo(padding, 100);
-            ctx.lineTo(padding + 8, 92);
-            ctx.moveTo(padding, 100);
-            ctx.lineTo(padding + 8, 108);
-            ctx.stroke();
+            return { tickPositions, uniqueTicks };
+        }
 
-            return { tickPositions, uniqueTicks: filteredTicks };
+        function drawArrowhead(x, y, direction, color) {
+            ctx.fillStyle = color;
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 5;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            if (direction === "right") {
+                ctx.lineTo(x - 10, y - 8);
+                ctx.lineTo(x - 10, y + 8);
+            } else {
+                ctx.lineTo(x + 10, y - 8);
+                ctx.lineTo(x + 10, y + 8);
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
         }
 
         function drawResultMarker(x, y, value) {
+            ctx.shadowColor = "rgba(107, 70, 193, 0.5)";
+            ctx.shadowBlur = 15;
             ctx.beginPath();
-            ctx.arc(x, y, 8, 0, 2 * Math.PI);
-            ctx.fillStyle = "#2ecc71";
+            ctx.arc(x, y, 10, 0, 2 * Math.PI);
+            ctx.fillStyle = '#6B46C1';
             ctx.fill();
-            ctx.strokeStyle = "#1a3c6d";
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            // Inner highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(x - 3, y - 3, 4, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        // Handle tooltip on hover
+        function getInterpolatedX(value, tickPositions, uniqueTicks, padding, canvasWidth) {
+            const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
+            const index = sortedTicks.findIndex(tick => tick >= value);
+            if (index === -1) return tickPositions.get(sortedTicks[sortedTicks.length - 1]) || canvas.width - padding;
+            const prevTick = sortedTicks[index - 1] || sortedTicks[0];
+            const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
+            const prevX = tickPositions.get(prevTick) || padding;
+            const nextX = tickPositions.get(nextTick) || canvas.width - padding;
+            const ratio = (value - prevTick) / (nextTick - prevTick) || 1;
+            return prevX + (nextX - prevX) * ratio;
+        }
+
         let resultX, resultY, resultValue, endpointMarkers = [];
+        
         canvas.addEventListener("mousemove", (e) => {
             const rect = canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
@@ -308,20 +612,21 @@
 
             let hoveredValue = null;
             for (let marker of endpointMarkers) {
-                if (Math.hypot(mouseX - marker.x, mouseY - marker.y) < 10) {
+                if (Math.hypot(mouseX - marker.x, mouseY - marker.y) < 15) {
                     hoveredValue = marker.value;
                     break;
                 }
             }
+            
             if (hoveredValue !== null) {
                 tooltip.style.left = `${e.clientX + 10}px`;
                 tooltip.style.top = `${e.clientY - 10}px`;
-                tooltip.textContent = hoveredValue;
+                tooltip.textContent = `${hoveredValue} ✨`;
                 tooltip.style.opacity = "1";
-            } else if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 10) {
+            } else if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 15) {
                 tooltip.style.left = `${e.clientX + 10}px`;
                 tooltip.style.top = `${e.clientY - 10}px`;
-                tooltip.textContent = resultValue;
+                tooltip.textContent = `Hasil: ${resultValue} ✨`;
                 tooltip.style.opacity = "1";
             } else {
                 tooltip.style.opacity = "0";
@@ -332,143 +637,171 @@
             tooltip.style.opacity = "0";
         });
 
-        // Initial draw with -5 to 5
-        drawNumberLine(-5, 5, 0, 0, 0);
-
         function startAnimation() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-            const a = parseInt(document.getElementById("factorA").value) || 0;
-            const b = parseInt(document.getElementById("factorB").value) || 0;
+            const a = parseInt(document.getElementById('factorA').value) || 0;
+            const b = parseInt(document.getElementById('factorB').value) || 0;
             const result = a * b;
             const numSteps = Math.abs(a);
             const stepSize = Math.abs(b) * Math.sign(a * b);
 
-            // Store result for tooltip
             resultValue = result;
+            endpointMarkers = [];
 
-            // Determine min and max values
-            let minVal, maxVal;
-            if (a === 0 && b === 0) {
-                minVal = -5;
-                maxVal = 5;
-            } else {
-                const values = [0, result, ...Array(numSteps + 1).fill().map((_, i) => i * stepSize)];
-                const extraValue = (numSteps + 1) * stepSize;
-                values.push(extraValue);
-                minVal = Math.min(...values);
-                maxVal = Math.max(...values);
-            }
-
-            const { tickPositions, uniqueTicks } = drawNumberLine(minVal, maxVal, a, b, result);
+            const { tickPositions, uniqueTicks } = drawNumberLine(a, b, result);
 
             const startX = tickPositions.get(0) || padding;
-            let targetEndX = tickPositions.get(result) || (result >= 0 ? canvas.width - padding : padding);
-
-            // Interpolate if result is not an exact tick
-            if (!tickPositions.has(result)) {
-                const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
-                const index = sortedTicks.findIndex(tick => tick >= result);
-                const prevTick = sortedTicks[index - 1] || sortedTicks[0];
-                const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
-                const prevX = tickPositions.get(prevTick) || padding;
-                const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
-                const ratio = (result - prevTick) / (nextTick - prevTick) || 1;
-                targetEndX = prevX + (nextX - prevX) * ratio;
-            }
-
-            let currentStep = 0;
-            const colors = ['#4a90e2', '#e94e4e', '#2ecc71', '#f1c40f', '#9b59b6', '#3498db', '#e74c3c'];
-            const animationDuration = 1000;
-            let startTime;
-            let cumulativeValue = 0;
-            endpointMarkers = [];
+            let targetEndX = tickPositions.get(result) || getInterpolatedX(result, tickPositions, uniqueTicks, padding, canvas.width);
 
             // Draw initial marker at 0
             drawResultMarker(startX, 100, 0);
             endpointMarkers.push({ x: startX, y: 100, value: 0 });
 
+            let currentStep = 0;
+            let cumulativeValue = 0;
+            const animationDuration = 1000;
+            let startTime;
+
             function animate(timestamp) {
                 if (!startTime) startTime = timestamp;
                 const progress = (timestamp - startTime) / animationDuration;
 
-                drawNumberLine(minVal, maxVal, a, b, result);
+                drawNumberLine(a, b, result);
+
+                // Draw initial marker
+                drawResultMarker(startX, 100, 0);
 
                 if (currentStep < numSteps) {
                     const stepProgress = progress * numSteps;
                     const nextStep = Math.floor(stepProgress);
+                    
                     if (nextStep > currentStep) {
                         currentStep = nextStep;
                         startTime = timestamp;
                         cumulativeValue += stepSize;
                     }
-                    const stepTargetX = tickPositions.get(cumulativeValue) || getInterpolatedX(cumulativeValue, startX, targetEndX, result, uniqueTicks, tickPositions);
-                    const yOffset = currentStep % 2 === 0 ? 80 : 130;
-                    ctx.strokeStyle = colors[currentStep % colors.length];
-                    ctx.lineWidth = 4;
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-                    ctx.shadowBlur = 5;
-                    ctx.beginPath();
-                    const startPointX = currentStep === 0 ? startX : tickPositions.get(cumulativeValue - stepSize) || getInterpolatedX(cumulativeValue - stepSize, startX, targetEndX, result, uniqueTicks, tickPositions);
-                    ctx.moveTo(startPointX, yOffset);
-                    ctx.lineTo(stepTargetX, yOffset);
-                    ctx.setLineDash([8, 8]);
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                    ctx.shadowBlur = 0;
 
-                    // Draw label for b on the segment, adjusted based on result sign
-                    ctx.font = "14px 'Segoe UI', Arial";
-                    ctx.fillStyle = colors[currentStep % colors.length];
-                    ctx.textAlign = "center";
-                    const labelX = (startPointX + stepTargetX) / 2;
-                    const labelY = yOffset - (currentStep % 2 === 0 ? 15 : -15);
-                    ctx.fillText(a * b >= 0 ? Math.abs(b) : -Math.abs(b), labelX, labelY);
-
-                    drawResultMarker(stepTargetX, 100, cumulativeValue);
-                    endpointMarkers.push({ x: stepTargetX, y: 100, value: cumulativeValue });
-
-                    if (progress >= 1 && currentStep >= numSteps - 1) {
-                        startTime = timestamp;
-                    }
-                } else {
-                    const finalProgress = (timestamp - startTime) / animationDuration;
-                    endpointMarkers = [];
-                    for (let i = 0; i < numSteps; i++) {
+                    // Draw all completed steps
+                    for (let i = 0; i <= currentStep && i < numSteps; i++) {
                         const segmentStart = i * stepSize;
                         const segmentEnd = (i + 1) * stepSize;
-                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, startX, targetEndX, result, uniqueTicks, tickPositions);
-                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, startX, targetEndX, result, uniqueTicks, tickPositions);
-                        const yOffset = i % 2 === 0 ? 80 : 130;
-                        ctx.strokeStyle = colors[i % colors.length];
-                        ctx.lineWidth = 4;
-                        ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-                        ctx.shadowBlur = 5;
+                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, tickPositions, uniqueTicks, padding, canvas.width);
+                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, tickPositions, uniqueTicks, padding, canvas.width);
+                        const yOffset = i % 2 === 0 ? 60 : 140;
+                        
+                        const color = colors[i % colors.length];
+                        
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 5;
+                        ctx.shadowColor = color.replace(')', ', 0.4)').replace('rgb', 'rgba');
+                        ctx.shadowBlur = 10;
                         ctx.beginPath();
                         ctx.moveTo(startPosX, yOffset);
                         ctx.lineTo(endPosX, yOffset);
-                        ctx.setLineDash([8, 8]);
+                        ctx.setLineDash([10, 8]);
                         ctx.stroke();
                         ctx.setLineDash([]);
                         ctx.shadowBlur = 0;
 
-                        // Draw label for b on the segment, adjusted based on result sign
-                        ctx.font = "14px 'Segoe UI', Arial";
-                        ctx.fillStyle = colors[i % colors.length];
+                        // Draw arrow
+                        const arrowDirection = stepSize > 0 ? "right" : "left";
+                        drawArrowhead(endPosX, yOffset, arrowDirection, color);
+
+                        // Label
+                        ctx.font = "bold 16px Quicksand";
+                        ctx.fillStyle = color;
                         ctx.textAlign = "center";
                         const labelX = (startPosX + endPosX) / 2;
-                        const labelY = yOffset - (i % 2 === 0 ? 15 : -15);
-                        ctx.fillText(a * b >= 0 ? Math.abs(b) : -Math.abs(b), labelX, labelY);
+                        const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
+                        
+                        const labelText = (a * b >= 0 ? Math.abs(b) : -Math.abs(b)).toString();
+                        const textWidth = ctx.measureText(labelText).width;
+                        
+                        ctx.fillStyle = 'white';
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.roundRect(labelX - textWidth/2 - 10, labelY - 18, textWidth + 20, 28, 14);
+                        ctx.fill();
+                        ctx.stroke();
+                        
+                        ctx.fillStyle = color;
+                        ctx.fillText(labelText, labelX, labelY);
 
+                        // Draw marker at end of segment
+                        drawResultMarker(endPosX, 100, segmentEnd);
+                        if (i === currentStep) {
+                            endpointMarkers = [{ x: endPosX, y: 100, value: segmentEnd }];
+                        }
+                    }
+
+                    if (progress >= 1 && currentStep >= numSteps - 1) {
+                        currentStep = numSteps;
+                        startTime = timestamp;
+                    }
+                } else {
+                    // Animation complete - draw all steps
+                    endpointMarkers = [];
+                    
+                    for (let i = 0; i < numSteps; i++) {
+                        const segmentStart = i * stepSize;
+                        const segmentEnd = (i + 1) * stepSize;
+                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, tickPositions, uniqueTicks, padding, canvas.width);
+                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, tickPositions, uniqueTicks, padding, canvas.width);
+                        const yOffset = i % 2 === 0 ? 60 : 140;
+                        
+                        const color = colors[i % colors.length];
+                        
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 5;
+                        ctx.shadowColor = color.replace(')', ', 0.4)').replace('rgb', 'rgba');
+                        ctx.shadowBlur = 10;
+                        ctx.beginPath();
+                        ctx.moveTo(startPosX, yOffset);
+                        ctx.lineTo(endPosX, yOffset);
+                        ctx.setLineDash([10, 8]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.shadowBlur = 0;
+
+                        // Draw arrow
+                        const arrowDirection = stepSize > 0 ? "right" : "left";
+                        drawArrowhead(endPosX, yOffset, arrowDirection, color);
+
+                        // Label
+                        ctx.font = "bold 16px Quicksand";
+                        ctx.fillStyle = color;
+                        ctx.textAlign = "center";
+                        const labelX = (startPosX + endPosX) / 2;
+                        const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
+                        
+                        const labelText = (a * b >= 0 ? Math.abs(b) : -Math.abs(b)).toString();
+                        const textWidth = ctx.measureText(labelText).width;
+                        
+                        ctx.fillStyle = 'white';
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.roundRect(labelX - textWidth/2 - 10, labelY - 18, textWidth + 20, 28, 14);
+                        ctx.fill();
+                        ctx.stroke();
+                        
+                        ctx.fillStyle = color;
+                        ctx.fillText(labelText, labelX, labelY);
+
+                        // Draw marker at end of segment
                         drawResultMarker(endPosX, 100, segmentEnd);
                         endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
                     }
 
-                    const hasilElement = document.getElementById("hasil");
-                    hasilElement.textContent = `Hasil: ${result}`;
-                    hasilElement.classList.add("updated");
-                    setTimeout(() => hasilElement.classList.remove("updated"), 300);
+                    // Show result
+                    hasilDiv.style.display = 'block';
+                    hasilDiv.textContent = `${a} × ${b} = ${result}`;
+                    hasilDiv.classList.add("updated");
+                    setTimeout(() => hasilDiv.classList.remove("updated"), 600);
 
+                    const finalProgress = (timestamp - startTime) / animationDuration;
                     if (finalProgress >= 1) {
                         resultX = targetEndX;
                         resultY = 100;
@@ -480,49 +813,19 @@
                 animationFrameId = requestAnimationFrame(animate);
             }
 
-            animationFrameId = requestAnimationFrame(animate);
+            if (a !== 0 && b !== 0) {
+                animationFrameId = requestAnimationFrame(animate);
+            } else {
+                // No animation for zero
+                hasilDiv.style.display = 'block';
+                hasilDiv.textContent = `${a} × ${b} = ${result}`;
+            }
         }
 
-        function getInterpolatedX(value, startX, targetEndX, result, uniqueTicks, tickPositions) {
-            const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
-            const index = sortedTicks.findIndex(tick => tick >= value);
-            if (index === -1) return targetEndX;
-            const prevTick = sortedTicks[index - 1] || sortedTicks[0];
-            const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
-            const prevX = tickPositions.get(prevTick) || startX;
-            const nextX = tickPositions.get(nextTick) || (nextTick >= 0 ? canvas.width - padding : padding);
-            const ratio = (value - prevTick) / (nextTick - prevTick) || 1;
-            return prevX + (nextX - prevX) * ratio;
+        function showInstructions() {
+            const modal = new bootstrap.Modal(document.getElementById('instructionModal'));
+            modal.show();
         }
-
-        // Handle page transitions
-        document.querySelectorAll('a[data-transition]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                const transition = link.getAttribute('data-transition');
-
-                document.body.classList.add('transitioning');
-                setTimeout(() => {
-                    window.location.href = href;
-                }, 500); // Match the transition duration
-
-                const content = document.querySelector('.content');
-                content.classList.remove('fade-transition', 'slide-transition');
-                if (transition === 'slide') {
-                    content.classList.add('slide-transition');
-                } else {
-                    content.classList.add('fade-transition');
-                }
-            });
-        });
-
-        // Remove transitioning class when page loads
-        window.addEventListener('load', () => {
-            document.body.classList.remove('transitioning');
-            const content = document.querySelector('.content');
-            content.classList.add('fade-transition'); // Default transition on load
-        });
     </script>
 </body>
 </html>
