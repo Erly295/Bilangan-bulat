@@ -773,6 +773,14 @@
         <div class="feedback" id="feedback"></div>
       </div>
     </main>
+    <script>
+      const toggler = document.querySelector('.navbar-toggler');
+      const collapse = document.querySelector('.navbar-collapse');
+
+      toggler.addEventListener('click', () => {
+        collapse.classList.toggle('show');
+      });
+    </script>
 
     <script>
       const canvas = document.getElementById("numberLine");
