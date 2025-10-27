@@ -114,6 +114,7 @@
 
       .nav-item {
         margin: 0;
+        align-self: start;
       }
 
       .nav-link {
@@ -589,7 +590,14 @@
             <div class="feedback" id="feedback"></div>
         </div>
     </div>
+    <script>
+        const toggler = document.querySelector('.navbar-toggler');
+        const collapse = document.querySelector('.navbar-collapse');
 
+        toggler.addEventListener('click', () => {
+            collapse.classList.toggle('show');
+        });
+    </script>
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
