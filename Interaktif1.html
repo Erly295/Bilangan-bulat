@@ -314,10 +314,17 @@
         margin-bottom: 15px;
       }
 
+      @media (max-width: 600px) {
+        .arrow-inputs {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .input-group {
         display: flex;
         flex-direction: column;
         gap: 8px;
+        min-width: 0;
       }
 
       .input-group label {
@@ -333,6 +340,7 @@
         background: #f3f4f6;
         border-radius: 12px;
         padding: 5px;
+        min-width: 0;
       }
 
       .input-btn {
@@ -347,6 +355,7 @@
         cursor: pointer;
         transition: all 0.2s ease;
         box-shadow: 0 2px 5px rgba(139, 92, 246, 0.3);
+        flex-shrink: 0;
       }
 
       .input-btn:hover {
@@ -369,6 +378,8 @@
         padding: 8px;
         outline: none;
         transition: all 0.2s ease;
+        min-width: 0;
+        width: 100%;
       }
 
       .number-input:focus {
@@ -546,6 +557,14 @@
         }
         .arrow-inputs {
           grid-template-columns: 1fr;
+        }
+        .number-input {
+          font-size: 1.1em;
+        }
+        .input-btn {
+          width: 30px;
+          height: 30px;
+          font-size: 1em;
         }
       }
     </style>
