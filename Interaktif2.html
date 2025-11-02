@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Lompatan Perkalian Bilangan Bulat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Game Lompatan Perkalian Bilangan Bulat 🌸✨</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root {
-            --ungu-pastel: #c8b6ff;
-            --biru-pastel: #b8e0f5;
-            --hijau-lucu: #b7e4c7;
-            --merah-lembut: #f5b8b8;
-            --kuning-lembut: #ffe4b5;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -21,211 +15,177 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--biru-pastel) 0%, var(--ungu-pastel) 100%);
+            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
+            background-attachment: fixed;
+            font-family: 'Quicksand', sans-serif;
             min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Cute floating elements background */
+        body::before {
+            content: '✨ 💜 🌸 ⭐ 💙 🦄 🌈 ☁️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            word-spacing: 3rem;
+            line-height: 5rem;
+            animation: float 20s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
         .navbar {
-        background: linear-gradient(
-          135deg,
-          #b794f4 0%,
-          #9f7aea 50%,
-          #805ad5 100%
-        );
-        box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
-        padding: 1.2rem 2rem;
-        border-radius: 0 0 30px 30px;
-        backdrop-filter: blur(10px);
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-      }
-
-      .container-fluid {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .navbar-brand {
-        color: #ffffff !important;
-        font-weight: 700;
-        font-size: 1.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-
-      .navbar-brand::before {
-        content: "✨ ";
-      }
-
-      .navbar-brand::after {
-        content: " ✨";
-      }
-
-      .navbar-brand:hover {
-        transform: scale(1.05) rotate(-2deg);
-        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-      }
-
-      .navbar-toggler {
-        border: none;
-        padding: 0.5rem;
-        background: white;
-        border-radius: 15px;
-        cursor: pointer;
-        display: none;
-      }
-
-      .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(128, 90, 213, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        display: inline-block;
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100%;
-      }
-
-      .navbar-collapse {
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      .navbar-nav {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        align-items: center;
-      }
-
-      .nav-item {
-        margin: 0;
-        align-self: start;
-      }
-
-      .nav-link {
-        color: #ffffff !important;
-        font-weight: 600;
-        margin: 0 0.5rem;
-        padding: 0.6rem 1.2rem !important;
-        border-radius: 20px;
-        transition: all 0.3s ease;
-        position: relative;
-        text-decoration: none;
-        display: block;
-      }
-
-      .nav-link:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-      }
-
-      .nav-link.active {
-        background: rgba(255, 255, 255, 0.4);
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-      }
-
-      @media (max-width: 991px) {
-        .navbar-toggler {
-          display: block;
-        }
-
-        .navbar-collapse {
-          display: none;
-          width: 100%;
-          margin-top: 1rem;
-        }
-
-        .navbar-collapse.show {
-          display: block !important;
-        }
-
-        .navbar-nav {
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .nav-link {
-          margin: 0;
-          text-align: center;
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 50%, #805AD5 100%);
+            box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
+            padding: 1.2rem 2rem;
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(10px);
         }
 
         .navbar-brand {
-          font-size: 1.2rem;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
-      }
+
+        .navbar-brand::before {
+            content: '✨ ';
+        }
+
+        .navbar-brand::after {
+            content: ' ✨';
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05) rotate(-2deg);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
         .container {
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            max-width: 1000px;
-            width: 100%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-top: 120px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            text-align: center;
-            color: #6b4ce6;
-            font-size: 2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 25px;
-        }
-
-        .soal-section {
-            background: linear-gradient(135deg, var(--ungu-pastel), var(--biru-pastel));
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .soal {
-            font-size: 3em;
+            color: #805AD5;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
+            margin-bottom: 2rem !important;
+            position: relative;
+            display: inline-block;
         }
 
-        .instruksi {
+        h1::before {
+            content: '🌟';
+            margin-right: 10px;
+        }
+
+        h1::after {
+            content: '🌟';
+            margin-left: 10px;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6B46C1;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-text {
             background: white;
-            padding: 15px;
+            padding: 1rem;
             border-radius: 15px;
-            font-size: 0.9em;
-            color: #555;
+            color: #805AD5;
+            font-size: 0.95rem;
+            font-weight: 600;
             line-height: 1.6;
         }
 
-        .garis-bilangan-container {
-            background: #f8f9fa;
-            padding: 30px 20px;
-            border-radius: 20px;
-            margin: 25px 0;
-            overflow-x: auto;
-            overflow-y: hidden;
-            position: relative;
+        .canvas-card {
+            border: 4px solid #D4B5F0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
+            box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .canvas-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
+        }
+
+        .card-body {
+            padding: 2rem !important;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 50%, #E9D8FD 100%);
         }
 
         .canvas-wrapper {
@@ -234,140 +194,182 @@
             overflow-x: auto;
             overflow-y: hidden;
             cursor: grab;
+            border-radius: 20px;
         }
 
         .canvas-wrapper:active {
             cursor: grabbing;
         }
 
-        #canvas {
+        canvas {
             display: block;
             margin: 0 auto;
         }
 
         .info-text {
             text-align: center;
-            color: #666;
-            font-size: 0.85em;
-            margin-top: 15px;
+            color: #805AD5;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            font-weight: 600;
             font-style: italic;
         }
 
-        .arrow-controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+        .arrow-controls-card {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            border: 3px solid #D4B5F0;
+            border-radius: 25px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
         }
 
-        .arrow-control-group {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
+        .arrow-control-section {
+            background: white;
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .arrow-control-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(128, 90, 213, 0.15);
+        }
+
+        .arrow-control-section:last-child {
+            margin-bottom: 0;
         }
 
         .arrow-control-label {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #6B46C1;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
         }
 
-        .arrow-buttons {
+        .control-btn-group {
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 16px rgba(128, 90, 213, 0.5);
+        }
+
+        .control-display {
+            background: white;
+            border: 2px solid #D4B5F0;
+            border-radius: 12px;
+            padding: 0.5rem 1.5rem;
+            min-width: 80px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6B46C1;
+            text-align: center;
+        }
+
+        .arrow-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
         }
 
         .arrow-btn {
-            padding: 12px 20px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
             background: white;
-            transition: all 0.3s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            border: 3px solid #D4B5F0;
+            padding: 1rem 1.5rem;
+            font-size: 2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.2);
         }
 
         .arrow-btn:hover {
             transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(128, 90, 213, 0.3);
         }
 
         .arrow-btn.selected {
-            background: var(--hijau-lucu);
-            border: 3px solid #2d5016;
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+            border-color: #6B46C1;
+            color: white;
+            transform: scale(1.05);
         }
 
-        .control-btn {
-            padding: 10px 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            background: var(--biru-pastel);
-            color: #333;
-            transition: all 0.3s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-        }
-
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-        }
-
-        .jawaban-section {
+        .answer-section {
             text-align: center;
-            margin: 25px 0;
         }
 
-        .jawaban-label {
-            font-size: 1.2em;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .jawaban-display {
-            font-size: 2.5em;
+        .answer-label {
+            font-size: 1.2rem;
+            color: #6B46C1;
+            margin-bottom: 1rem;
             font-weight: 700;
-            color: #6b4ce6;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            background: white;
-            border: 3px solid var(--biru-pastel);
-            border-radius: 12px;
-            padding: 10px;
+        }
+
+        .answer-display {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6B46C1;
+            min-width: 150px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            min-height: 70px;
+            line-height: 70px;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.2);
         }
 
         .number-pad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 350px;
-            margin: 0 auto 20px;
+            gap: 0.75rem;
+            max-width: 400px;
+            margin: 1.5rem auto;
         }
 
         .num-btn {
-            padding: 18px;
-            font-size: 1.4em;
-            font-weight: 600;
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
             border: none;
-            border-radius: 12px;
-            background: var(--biru-pastel);
-            color: #333;
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.3);
         }
 
         .num-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(128, 90, 213, 0.5);
+            background: linear-gradient(135deg, #C4B5D4 0%, #B794F4 100%);
         }
 
         .num-btn:active {
@@ -375,69 +377,86 @@
         }
 
         .operator-btn {
-            background: var(--ungu-pastel);
+            background: linear-gradient(135deg, #A78BFA 0%, #9F7AEA 100%);
         }
 
         .clear-btn {
-            background: var(--merah-lembut);
+            background: linear-gradient(135deg, #F5B8B8 0%, #EF4444 100%);
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%);
         }
 
         .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 1rem;
             justify-content: center;
-            margin-top: 20px;
             flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
         .btn {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            font-weight: 600;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            border-radius: 25px;
+            transition: all 0.3s ease;
             border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-check {
-            background: var(--hijau-lucu);
-            color: #2d5016;
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
-        .btn-new {
-            background: var(--kuning-lembut);
-            color: #8b6914;
+        .btn-success:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
-        .btn-reset {
-            background: var(--merah-lembut);
-            color: #8b1414;
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        .btn-danger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
-        .feedback {
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-top: 20px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
         }
 
-        .feedback.correct {
-            color: #2d5016;
+        .btn-warning:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
         }
 
-        .feedback.wrong {
-            color: #c74444;
+        .alert-success {
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            color: #805AD5;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .result-alert.updated {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         @keyframes shake {
@@ -460,106 +479,136 @@
             position: fixed;
             width: 10px;
             height: 10px;
-            background: var(--hijau-lucu);
+            background: #B794F4;
             animation: confetti 1s ease-out;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5em;
+            .navbar-brand {
+                font-size: 1.2rem;
             }
-            .soal {
-                font-size: 2em;
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 2rem;
+            }
+
+            .number-pad {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 100%;
+            }
+
+            .control-btn-group {
+                flex-wrap: wrap;
+            }
+
+            .arrow-control-section {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
-        <button class="navbar-toggler" type="button">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">➕ Penjumlahan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pengurangan.html">➖ Pengurangan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="perkalian.html">✖️ Perkalian</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Interaktif1.html">🧩 Interaktif Penjumlahan dan Pengurangan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="Interaktif2.html">🕹️ Interaktif Perkalian</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="game.html">🎮 Permainan</a>
-            </li>
-          </ul>
-
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background: white; border-radius: 15px">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">➕ Penjumlahan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pengurangan.html">➖ Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="perkalian.html">✖️ Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Interaktif1.html">🧩 Interaktif Penjumlahan dan Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="Interaktif2.html">🕹️ Interaktif Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="game.html">🎮 Permainan</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
-    <div class="container">
-        <h1>🎮 Math Jump</h1>
-        <p class="subtitle">Atur panah untuk menemukan hasil perkalian!</p>
-
-        <div class="soal-section">
-            <div class="soal" id="soal">3 × 2 = ?</div>
-            <div class="instruksi">
+    
+    <div class="container my-5 content">
+        <div class="text-center">
+            <h1>Math Jump</h1>
+            <p class="subtitle" style="color: #9F7AEA; font-size: 1.1rem; font-weight: 600;">Atur panah untuk menemukan hasil perkalian!</p>
+        </div>
+        
+        <div class="question-card">
+            <div class="question-text" id="soal">3 × 2 = ?</div>
+            <div class="instruction-text">
                 <strong>Cara bermain:</strong> Gambar panah untuk menunjukkan lompatan dari 0. 
                 Sesuaikan jumlah panah, panjang panah, dan arah panah untuk menemukan jawabannya!<br>
                 <em>💡 Tip: Arah menghadap panah menentukan arah lompatan!</em>
             </div>
         </div>
-
-        <div class="garis-bilangan-container">
-            <div class="canvas-wrapper" id="canvasWrapper">
-                <canvas id="canvas"></canvas>
+        
+        <div class="card canvas-card mb-4">
+            <div class="card-body p-0">
+                <div class="canvas-wrapper" id="canvasWrapper">
+                    <canvas id="canvas"></canvas>
+                </div>
             </div>
-            
-            <div class="arrow-controls">
-                <div class="arrow-control-group">
-                    <div class="arrow-control-label">Jumlah Panah</div>
-                    <div class="arrow-buttons">
-                        <button class="control-btn" onclick="changeArrowCount(-1)">−</button>
-                        <button class="control-btn" id="arrowCount" style="min-width: 60px;">1</button>
-                        <button class="control-btn" onclick="changeArrowCount(1)">+</button>
+        </div>
+        
+        <div class="arrow-controls-card">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="arrow-control-section">
+                        <div class="arrow-control-label">Jumlah Panah</div>
+                        <div class="control-btn-group">
+                            <button class="control-btn" onclick="changeArrowCount(-1)">−</button>
+                            <div class="control-display" id="arrowCount">1</div>
+                            <button class="control-btn" onclick="changeArrowCount(1)">+</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arrow-control-group">
-                    <div class="arrow-control-label">Panjang Lompatan</div>
-                    <div class="arrow-buttons">
-                        <button class="control-btn" onclick="changeJumpSize(-1)">−</button>
-                        <button class="control-btn" id="jumpSize" style="min-width: 60px;">1</button>
-                        <button class="control-btn" onclick="changeJumpSize(1)">+</button>
+                <div class="col-md-4">
+                    <div class="arrow-control-section">
+                        <div class="arrow-control-label">Panjang Lompatan</div>
+                        <div class="control-btn-group">
+                            <button class="control-btn" onclick="changeJumpSize(-1)">−</button>
+                            <div class="control-display" id="jumpSize">1</div>
+                            <button class="control-btn" onclick="changeJumpSize(1)">+</button>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="arrow-control-group">
-                    <div class="arrow-control-label">Arah Menghadap Panah</div>
-                    <div class="arrow-buttons">
-                        <button class="arrow-btn" onclick="setArrowHead('left')" id="headLeft">◀️</button>
-                        <button class="arrow-btn" onclick="setArrowHead('right')" id="headRight">▶️</button>
+                <div class="col-md-4">
+                    <div class="arrow-control-section">
+                        <div class="arrow-control-label">Arah Menghadap Panah</div>
+                        <div class="arrow-btn-group">
+                            <button class="arrow-btn" onclick="setArrowHead('left')" id="headLeft">◀️</button>
+                            <button class="arrow-btn" onclick="setArrowHead('right')" id="headRight">▶️</button>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="info-text">
+            <div class="info-text mt-3">
                 💡 Posisi akhir panah adalah hasil perkalianmu! Geser canvas dengan mouse/jari untuk melihat lebih jauh.
             </div>
         </div>
-
-        <div class="jawaban-section">
-            <div class="jawaban-label">Masukkan Jawabanmu:</div>
-            <div class="jawaban-display" id="jawaban-display">_</div>
+        
+        <div class="answer-section">
+            <div class="answer-label">Masukkan Jawabanmu:</div>
+            <div class="answer-display" id="jawaban-display">_</div>
             
             <div class="number-pad">
                 <button class="num-btn" onclick="addNumber('7')">7</button>
@@ -582,22 +631,16 @@
             </div>
             
             <div class="action-buttons">
-                <button class="btn btn-reset" onclick="resetArrows()">🔄 Reset Panah</button>
-                <button class="btn btn-check" onclick="checkAnswer()">🎯 Periksa Jawaban</button>
-                <button class="btn btn-new" onclick="newQuestion()">📝 Soal Baru</button>
+                <button class="btn btn-danger" onclick="resetArrows()">🔄 Reset Panah</button>
+                <button class="btn btn-success" onclick="checkAnswer()">🎯 Periksa Jawaban</button>
+                <button class="btn btn-warning" onclick="newQuestion()">📝 Soal Baru</button>
             </div>
 
-            <div class="feedback" id="feedback"></div>
+            <div id="hasil" class="alert alert-success text-center result-alert" role="alert" style="display: none;"></div>
         </div>
     </div>
-    <script>
-        const toggler = document.querySelector('.navbar-toggler');
-        const collapse = document.querySelector('.navbar-collapse');
 
-        toggler.addEventListener('click', () => {
-            collapse.classList.toggle('show');
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -605,9 +648,7 @@
         
         let currentA = 3;
         let currentB = 2;
-        let offsetX = 0;
         let isDragging = false;
-        let startX = 0;
         
         // Kontrol siswa
         let arrowCount = 1;
@@ -639,6 +680,7 @@
             
             // Jika hasil positif, tampilkan dari 0 ke kanan
             // Jika hasil negatif, tampilkan dari 0 ke kiri
+            let offsetX;
             if (finalPos >= 0) {
                 offsetX = centerCanvas - (finalPosX / 2) - wrapperWidth / 2;
             } else {
@@ -655,17 +697,26 @@
             const centerY = canvas.height / 2;
             const centerX = canvas.width / 2;
             
-            // Gambar garis utama
-            ctx.strokeStyle = '#666';
-            ctx.lineWidth = 3;
+            // Gambar garis utama dengan gradient
+            const gradient = ctx.createLinearGradient(0, centerY, canvas.width, centerY);
+            gradient.addColorStop(0, '#B794F4');
+            gradient.addColorStop(0.5, '#9F7AEA');
+            gradient.addColorStop(1, '#B794F4');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.moveTo(0, centerY);
             ctx.lineTo(canvas.width, centerY);
             ctx.stroke();
+            ctx.shadowBlur = 0;
             
             // Gambar angka dan tanda
-            ctx.fillStyle = '#333';
-            ctx.font = 'bold 14px Poppins';
+            ctx.fillStyle = '#9F7AEA';
+            ctx.font = 'bold 14px Quicksand';
             ctx.textAlign = 'center';
             
             // Hitung range yang perlu digambar
@@ -676,30 +727,69 @@
                 const x = centerX + (i * scale);
                 
                 // Tanda kecil
-                ctx.strokeStyle = '#666';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(x, centerY - 10);
-                ctx.lineTo(x, centerY + 10);
-                ctx.stroke();
-                
-                // Angka setiap 5 untuk tidak terlalu padat
-                if (i % 5 === 0 || i === 0) {
-                    ctx.fillStyle = i === 0 ? '#6b4ce6' : '#333';
-                    ctx.font = i === 0 ? 'bold 18px Poppins' : 'bold 14px Poppins';
-                    ctx.fillText(i.toString(), x, centerY + 30);
+                if (i === 0) {
+                    ctx.strokeStyle = '#9F7AEA';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(x, centerY - 15);
+                    ctx.lineTo(x, centerY + 15);
+                    ctx.stroke();
+                    ctx.fillStyle = '#6B46C1';
+                    ctx.font = 'bold 18px Quicksand';
+                    ctx.fillText('0', x, centerY + 35);
+                    ctx.font = 'bold 14px Quicksand';
+                } else if (i % 5 === 0) {
+                    ctx.strokeStyle = '#D4B5F0';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(x, centerY - 10);
+                    ctx.lineTo(x, centerY + 10);
+                    ctx.stroke();
+                    ctx.fillStyle = '#9F7AEA';
+                    ctx.fillText(i.toString(), x, centerY + 35);
+                } else {
+                    ctx.strokeStyle = '#E9D8FD';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x, centerY - 5);
+                    ctx.lineTo(x, centerY + 5);
+                    ctx.stroke();
                 }
             }
             
             // Highlight titik 0
             const zeroX = centerX;
-            ctx.fillStyle = '#6b4ce6';
+            ctx.fillStyle = '#9F7AEA';
+            ctx.shadowColor = "rgba(159, 122, 234, 0.5)";
+            ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(zeroX, centerY, 10, 0, Math.PI * 2);
             ctx.fill();
+            ctx.shadowBlur = 0;
             
             // Gambar panah siswa
             drawStudentArrows();
+            
+            // Draw arrowheads at ends
+            drawArrowhead(canvas.width - 10, centerY, "right", '#9F7AEA');
+            drawArrowhead(10, centerY, "left", '#9F7AEA');
+        }
+
+        function drawArrowhead(x, y, direction, color) {
+            ctx.fillStyle = color;
+            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+            ctx.shadowBlur = 5;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            if (direction === "right") {
+                ctx.lineTo(x - 10, y - 8);
+                ctx.lineTo(x - 10, y + 8);
+            } else {
+                ctx.lineTo(x + 10, y - 8);
+                ctx.lineTo(x + 10, y + 8);
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
         }
 
         function drawStudentArrows() {
@@ -710,6 +800,7 @@
             const direction = arrowHead;
             
             let currentPos = 0;
+            const colors = ['#ff6b9d', '#c44569', '#ffa502', '#ff6348', '#ff4757', '#9b59b6', '#3498db'];
             
             for (let i = 0; i < arrowCount; i++) {
                 const startX = centerX + (currentPos * scale);
@@ -718,26 +809,133 @@
                 const y = centerY - 50 - (i * 20);
                 
                 // Gambar panah
-                drawArrow(startX, y, endX, y, arrowHead, i);
+                drawArrow(startX, y, endX, y, arrowHead, colors[i % colors.length]);
                 
                 currentPos = endPos;
             }
             
             // Gambar posisi akhir
             const finalX = centerX + (currentPos * scale);
-            ctx.fillStyle = '#ff4757';
+            ctx.fillStyle = '#EF4444';
+            ctx.shadowColor = "rgba(239, 68, 68, 0.5)";
+            ctx.shadowBlur = 15;
             ctx.beginPath();
-            ctx.arc(finalX, centerY, 10, 0, Math.PI * 2);
+            ctx.arc(finalX, centerY, 12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Inner highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(finalX - 3, centerY - 3, 4, 0, Math.PI * 2);
             ctx.fill();
             
             // Label hasil
-            ctx.fillStyle = '#ff4757';
-            ctx.font = 'bold 18px Poppins';
-            ctx.fillText('Hasil: ' + currentPos, finalX, centerY - 80);
+            ctx.fillStyle = '#EF4444';
+            ctx.font = 'bold 18px Quicksand';
+            ctx.textAlign = 'center';
+            const labelText = 'Hasil: ' + currentPos;
+            const textWidth = ctx.measureText(labelText).width;
+            
+            // Background bubble
+            ctx.fillStyle = 'white';
+            ctx.strokeStyle = '#EF4444';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(finalX - textWidth/2 - 10, centerY - 95, textWidth + 20, 30, 15);
+            ctx.fill();
+            ctx.stroke();
+            
+            ctx.fillStyle = '#EF4444';
+            ctx.fillText(labelText, finalX, centerY - 75);
+        }
+
+        function drawArrow(x1, y1, x2, y2, headDir, color) {
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 5;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 10;
+            
+            // Garis panah
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.setLineDash([10, 8]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
+            
+            // Kepala panah
+            const headLength = 15;
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            if (headDir > 0) {
+                // Kepala panah ke kanan
+                const tipX = x2;
+                const tipY = y2;
+                ctx.beginPath();
+                ctx.moveTo(tipX, tipY);
+                ctx.lineTo(tipX - headLength * Math.cos(angle - Math.PI / 6), tipY - headLength * Math.sin(angle - Math.PI / 6));
+                ctx.lineTo(tipX - headLength * Math.cos(angle + Math.PI / 6), tipY - headLength * Math.sin(angle + Math.PI / 6));
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                // Kepala panah ke kiri
+                const tipX = x1;
+                const tipY = y1;
+                ctx.beginPath();
+                ctx.moveTo(tipX, tipY);
+                ctx.lineTo(tipX + headLength * Math.cos(angle - Math.PI / 6 + Math.PI), tipY + headLength * Math.sin(angle - Math.PI / 6 + Math.PI));
+                ctx.lineTo(tipX + headLength * Math.cos(angle + Math.PI / 6 + Math.PI), tipY + headLength * Math.sin(angle + Math.PI / 6 + Math.PI));
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Titik awal
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x1, y1, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function changeArrowCount(delta) {
+            arrowCount = Math.max(1, Math.min(10, arrowCount + delta));
+            document.getElementById('arrowCount').textContent = arrowCount;
+            drawNumberLine();
+            centerView();
+        }
+
+        function changeJumpSize(delta) {
+            jumpSize = Math.max(1, Math.min(15, jumpSize + delta));
+            document.getElementById('jumpSize').textContent = jumpSize;
+            drawNumberLine();
+            centerView();
+        }
+
+        function setArrowHead(dir) {
+            arrowHead = dir === 'right' ? 1 : -1;
+            document.getElementById('headLeft').classList.remove('selected');
+            document.getElementById('headRight').classList.remove('selected');
+            document.getElementById(dir === 'right' ? 'headRight' : 'headLeft').classList.add('selected');
+            drawNumberLine();
+            centerView();
+        }
+
+        function resetArrows() {
+            arrowCount = 1;
+            jumpSize = 1;
+            arrowHead = 1;
+            document.getElementById('arrowCount').textContent = arrowCount;
+            document.getElementById('jumpSize').textContent = jumpSize;
+            document.getElementById('headLeft').classList.remove('selected');
+            document.getElementById('headRight').classList.add('selected');
+            drawNumberLine();
+            centerView();
         }
 
         function addNumber(num) {
-            if (userAnswer.length < 4) { // Batasi maksimal 4 digit
+            if (userAnswer.length < 4) {
                 if (userAnswer === '' || userAnswer === '0') {
                     userAnswer = num;
                 } else {
@@ -781,111 +979,46 @@
             }
         }
 
-        function drawArrow(x1, y1, x2, y2, headDir, index) {
-            const colors = ['#ff6b9d', '#c44569', '#ffa502', '#ff6348', '#ff4757', '#9b59b6', '#3498db'];
-            ctx.strokeStyle = colors[index % colors.length];
-            ctx.fillStyle = colors[index % colors.length];
-            ctx.lineWidth = 4;
-            
-            // Garis panah
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
-            
-            // Kepala panah
-            const headLength = 15;
-            const angle = Math.atan2(y2 - y1, x2 - x1);
-            
-            if (headDir > 0) {
-                // Kepala panah ke kanan
-                const tipX = x2;
-                const tipY = y2;
-                ctx.beginPath();
-                ctx.moveTo(tipX, tipY);
-                ctx.lineTo(tipX - headLength * Math.cos(angle - Math.PI / 6), tipY - headLength * Math.sin(angle - Math.PI / 6));
-                ctx.lineTo(tipX - headLength * Math.cos(angle + Math.PI / 6), tipY - headLength * Math.sin(angle + Math.PI / 6));
-                ctx.closePath();
-                ctx.fill();
-            } else {
-                // Kepala panah ke kiri
-                const tipX = x1;
-                const tipY = y1;
-                ctx.beginPath();
-                ctx.moveTo(tipX, tipY);
-                ctx.lineTo(tipX + headLength * Math.cos(angle - Math.PI / 6 + Math.PI), tipY + headLength * Math.sin(angle - Math.PI / 6 + Math.PI));
-                ctx.lineTo(tipX + headLength * Math.cos(angle + Math.PI / 6 + Math.PI), tipY + headLength * Math.sin(angle + Math.PI / 6 + Math.PI));
-                ctx.closePath();
-                ctx.fill();
-            }
-            
-            // Titik awal
-            ctx.fillStyle = colors[index % colors.length];
-            ctx.beginPath();
-            ctx.arc(x1, y1, 5, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        function changeArrowCount(delta) {
-            arrowCount = Math.max(1, Math.min(10, arrowCount + delta));
-            document.getElementById('arrowCount').textContent = arrowCount;
-            drawNumberLine();
-            centerView();
-        }
-
-        function changeJumpSize(delta) {
-            jumpSize = Math.max(1, Math.min(15, jumpSize + delta));
-            document.getElementById('jumpSize').textContent = jumpSize;
-            drawNumberLine();
-            centerView();
-        }
-
-        function setArrowHead(dir) {
-            arrowHead = dir === 'right' ? 1 : -1;
-            document.getElementById('headLeft').classList.remove('selected');
-            document.getElementById('headRight').classList.remove('selected');
-            document.getElementById(dir === 'right' ? 'headRight' : 'headLeft').classList.add('selected');
-            drawNumberLine();
-            centerView();
-        }
-
-        function resetArrows() {
-            arrowCount = 1;
-            jumpSize = 1;
-            arrowHead = 1;
-            document.getElementById('arrowCount').textContent = arrowCount;
-            document.getElementById('jumpSize').textContent = jumpSize;
-            document.getElementById('headLeft').classList.remove('selected');
-            document.getElementById('headRight').classList.add('selected');
-            drawNumberLine();
-            centerView();
-        }
-
         function checkAnswer() {
             const correctAnswer = currentA * currentB;
             const studentInput = userAnswer === '' || userAnswer === '-' ? null : parseInt(userAnswer);
-            const feedback = document.getElementById('feedback');
+            const hasilDiv = document.getElementById('hasil');
+            const answerBox = document.getElementById('jawaban-display');
             
             if (studentInput === null) {
-                feedback.textContent = '⚠️ Masukkan jawaban dulu ya!';
-                feedback.className = 'feedback wrong shake';
+                hasilDiv.textContent = '⚠️ Masukkan jawaban dulu ya!';
+                hasilDiv.className = 'alert alert-success text-center result-alert shake';
+                hasilDiv.style.display = 'block';
                 setTimeout(() => {
-                    feedback.classList.remove('shake');
+                    hasilDiv.classList.remove('shake');
                 }, 500);
                 return;
             }
             
             if (studentInput === correctAnswer) {
-                feedback.textContent = '🎉 Sempurna! Jawabanmu benar!';
-                feedback.className = 'feedback correct';
+                hasilDiv.textContent = `🎉 Sempurna! Jawabanmu benar! ${currentA} × ${currentB} = ${correctAnswer}`;
+                hasilDiv.className = 'alert alert-success text-center result-alert updated';
+                hasilDiv.style.display = 'block';
+                answerBox.style.background = "linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)";
+                answerBox.style.borderColor = "#10B981";
                 createConfetti();
                 playSound();
-            } else {
-                feedback.textContent = `😅 Belum tepat! Jawaban yang benar adalah ${correctAnswer}`;
-                feedback.className = 'feedback wrong shake';
+                
                 setTimeout(() => {
-                    feedback.classList.remove('shake');
-                }, 500);
+                    hasilDiv.classList.remove("updated");
+                }, 600);
+            } else {
+                hasilDiv.textContent = `😅 Belum tepat! Jawaban yang benar adalah ${correctAnswer}`;
+                hasilDiv.className = 'alert alert-success text-center result-alert shake';
+                hasilDiv.style.display = 'block';
+                answerBox.style.background = "linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)";
+                answerBox.style.borderColor = "#EF4444";
+                
+                setTimeout(() => {
+                    hasilDiv.classList.remove('shake');
+                    answerBox.style.background = "linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%)";
+                    answerBox.style.borderColor = "#D4B5F0";
+                }, 2000);
             }
         }
 
@@ -896,7 +1029,7 @@
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * window.innerWidth + 'px';
                     confetti.style.top = Math.random() * window.innerHeight + 'px';
-                    confetti.style.background = ['#b7e4c7', '#c8b6ff', '#b8e0f5', '#ffe4b5'][Math.floor(Math.random() * 4)];
+                    confetti.style.background = ['#B794F4', '#9F7AEA', '#D4E4F7', '#E9D8FD'][Math.floor(Math.random() * 4)];
                     document.body.appendChild(confetti);
                     setTimeout(() => confetti.remove(), 1000);
                 }, i * 30);
@@ -904,21 +1037,25 @@
         }
 
         function playSound() {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.3);
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
         }
 
         function newQuestion() {
@@ -927,8 +1064,8 @@
             currentB = (Math.floor(Math.random() * 4) + 1) * signs[Math.floor(Math.random() * 2)];
             
             document.getElementById('soal').textContent = `${currentA} × ${currentB} = ?`;
-            document.getElementById('feedback').textContent = '';
-            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('hasil').style.display = 'none';
+            document.getElementById('hasil').className = 'alert alert-success text-center result-alert';
             clearAnswer();
             resetArrows();
         }

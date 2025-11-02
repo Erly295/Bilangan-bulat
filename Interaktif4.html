@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐇 Pembagian Bilangan Bulat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6b5dd4;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .soal-area {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .soal-text {
+            color: white;
+            font-size: 2.5em;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .garis-bilangan-container {
+            position: relative;
+            height: 250px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 20px;
+            padding: 40px 0;
+            border: 3px solid #8ec5fc;
+        }
+
+        .garis-bilangan {
+            position: relative;
+            height: 100%;
+            min-width: 5000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .garis {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #333;
+            transform: translateY(-50%);
+        }
+
+        .titik {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 3px;
+            height: 25px;
+            background: #333;
+        }
+
+        .label-angka {
+            position: absolute;
+            top: 70%;
+            transform: translateX(-50%);
+            font-weight: 600;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .kelinci-wrapper {
+            position: absolute;
+            top: 15%;
+            z-index: 10;
+            text-align: center;
+            transform: translateX(-50%);
+        }
+
+        .kelinci-kecil {
+            transition: left 0.8s ease-in-out;
+        }
+
+        .kelinci-besar {
+            transition: none;
+        }
+
+        .panah-arah {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: -5px;
+        }
+
+        .kelinci-emoji {
+            font-size: 3.5em;
+            display: block;
+        }
+
+        .lompatan-jejak {
+            position: absolute;
+            top: 50%;
+            height: 50px;
+            border: 3px dashed #ff6b9d;
+            border-radius: 20px;
+            background: rgba(255, 107, 157, 0.15);
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+
+        .kontrol-area {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 3px solid #e0c3fc;
+        }
+
+        .kontrol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .kontrol-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .kontrol-item label {
+            display: block;
+            color: #6b5dd4;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .kontrol-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid #8ec5fc;
+            border-radius: 12px;
+            font-size: 1.5em;
+            font-family: 'Poppins', sans-serif;
+            width: 120px;
+            text-align: center;
+            font-weight: 600;
+            color: #6b5dd4;
+        }
+
+        .btn-plus-minus {
+            width: 60px;
+            height: 60px;
+            font-size: 2em;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-plus-minus:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-plus-minus:active {
+            transform: scale(0.95);
+        }
+
+        .tombol-arah {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-arah {
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 3px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-arah-kecil-kiri {
+            background: #ffd93d;
+            color: #333;
+        }
+
+        .btn-arah-kecil-kanan {
+            background: #ffb347;
+            color: #333;
+        }
+
+        .btn-arah-besar-kiri {
+            background: #4facfe;
+            color: white;
+        }
+
+        .btn-arah-besar-kanan {
+            background: #43e97b;
+            color: white;
+        }
+
+        .btn-arah:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-arah.active {
+            border-color: #333;
+            box-shadow: 0 0 0 2px white, 0 0 0 5px #333;
+            transform: scale(1.05);
+        }
+
+        .jawaban-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-jawaban {
+            font-size: 3em;
+            text-align: center;
+            padding: 15px;
+            border: 4px solid #667eea;
+            border-radius: 15px;
+            width: 200px;
+            margin: 0 auto 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #6b5dd4;
+        }
+
+        .tombol-angka {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .btn-angka {
+            padding: 20px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-angka:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-angka:active {
+            transform: translateY(0);
+        }
+
+        .tombol-aksi {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-soal-baru {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-cek {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.benar {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            display: block;
+        }
+
+        .feedback.salah {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            display: block;
+        }
+
+        .feedback.peringatan {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .soal-text {
+                font-size: 1.8em;
+            }
+
+            .kontrol-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tombol-angka {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .btn {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐇 Pembagian Bilangan Bulat – Kelinci Cerdas di Garis Bilangan</h1>
+
+        <div class="soal-area">
+            <div class="soal-text" id="soalText">12 ÷ 3 = ?</div>
+        </div>
+
+        <div class="garis-bilangan-container" id="garisContainer">
+            <div class="garis-bilangan" id="garisBilangan">
+                <div class="garis"></div>
+                <div class="kelinci-wrapper kelinci-besar" id="kelinciBesar">
+                    <span class="panah-arah" id="panahBesar">⭢</span>
+                    <span class="kelinci-emoji">🐰</span>
+                </div>
+                <div class="kelinci-wrapper kelinci-kecil" id="kelinciKecil">
+                    <span class="panah-arah" id="panahKecil">⭢</span>
+                    <span class="kelinci-emoji">🐇</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="kontrol-area">
+            <div class="kontrol-grid">
+                <div class="kontrol-item">
+                    <label>🐰 Angka Kelinci Besar (Tujuan):</label>
+                    <div class="kontrol-input">
+                        <input type="number" id="angkaKelinciNum" value="" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="kontrol-item">
+                    <label>📏 Kelipatan Tiap Lompatan:</label>
+                    <div class="kontrol-input">
+                        <button class="btn-plus-minus" id="btnKelipatanKurang">−</button>
+                        <input type="number" id="kelipatanNum" min="1" max="15" value="" placeholder="0" readonly>
+                        <button class="btn-plus-minus" id="btnKelipatanTambah">+</button>
+                    </div>
+                </div>
+
+                <div class="kontrol-item">
+                    <label>🐇 Banyak Lompatan Kelinci Kecil:</label>
+                    <div class="kontrol-input">
+                        <button class="btn-plus-minus" id="btnKurang">−</button>
+                        <button class="btn-plus-minus" id="btnTambah">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <div class="kontrol-item">
+                    <label>⬅️ ➡️ Arah Kelinci Besar:</label>
+                    <div class="tombol-arah">
+                        <button class="btn-arah btn-arah-besar-kiri" id="btnBesarKiri">← Kiri</button>
+                        <button class="btn-arah btn-arah-besar-kanan" id="btnBesarKanan">Kanan →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div class="kontrol-item">
+                    <label>⬅️ ➡️ Arah Kelinci Kecil:</label>
+                    <div class="tombol-arah">
+                        <button class="btn-arah btn-arah-kecil-kiri" id="btnKecilKiri">← Kiri</button>
+                        <button class="btn-arah btn-arah-kecil-kanan" id="btnKecilKanan">Kanan →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jawaban-area">
+            <input type="text" class="input-jawaban" id="inputJawaban" readonly placeholder="?">
+            
+            <div class="tombol-angka">
+                <button class="btn-angka" onclick="tambahAngka('1')">1</button>
+                <button class="btn-angka" onclick="tambahAngka('2')">2</button>
+                <button class="btn-angka" onclick="tambahAngka('3')">3</button>
+                <button class="btn-angka" onclick="tambahAngka('4')">4</button>
+                <button class="btn-angka" onclick="tambahAngka('5')">5</button>
+                <button class="btn-angka" onclick="tambahAngka('6')">6</button>
+                <button class="btn-angka" onclick="tambahAngka('7')">7</button>
+                <button class="btn-angka" onclick="tambahAngka('8')">8</button>
+                <button class="btn-angka" onclick="tambahAngka('9')">9</button>
+                <button class="btn-angka" onclick="tambahAngka('0')">0</button>
+                <button class="btn-angka" onclick="tambahAngka('-')">−</button>
+                <button class="btn-angka" onclick="hapusAngka()">⌫</button>
+            </div>
+        </div>
+
+        <div class="tombol-aksi">
+            <button class="btn btn-cek" onclick="cekJawaban()">✅ Cek Jawaban</button>
+            <button class="btn btn-soal-baru" onclick="soalBaru()">🔁 Soal Baru</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let soalSekarang = { pembilang: 12, pembagi: 3 };
+        let jawabanBenar = 0;
+        let jumlahLompatanKecil = 0;
+        let arahBesar = null;
+        let arahKecil = null;
+        let kelipatanDipilih = false;
+        
+        const CENTER = 2500;
+        const JARAK_PER_ANGKA = 80;
+
+        document.getElementById('btnKelipatanTambah').addEventListener('click', function() {
+            const input = document.getElementById('kelipatanNum');
+            let nilai = input.value === '' ? 0 : parseInt(input.value);
+            if (nilai < 15) {
+                input.value = nilai + 1;
+                kelipatanDipilih = true;
+                gerakkanKelinciKecil();
+            }
+        });
+
+        document.getElementById('btnKelipatanKurang').addEventListener('click', function() {
+            const input = document.getElementById('kelipatanNum');
+            let nilai = input.value === '' ? 1 : parseInt(input.value);
+            if (nilai > 1) {
+                input.value = nilai - 1;
+                kelipatanDipilih = true;
+                gerakkanKelinciKecil();
+            } else if (nilai === 1) {
+                input.value = '';
+                kelipatanDipilih = false;
+                gerakkanKelinciKecil();
+            }
+        });
+
+        document.getElementById('btnTambah').addEventListener('click', function() {
+            if (!validasiInputSebelumLompatan()) {
+                return;
+            }
+            jumlahLompatanKecil++;
+            gerakkanKelinciKecil();
+        });
+
+        document.getElementById('btnKurang').addEventListener('click', function() {
+            if (!validasiInputSebelumLompatan()) {
+                return;
+            }
+            jumlahLompatanKecil--;
+            gerakkanKelinciKecil();
+        });
+
+        document.getElementById('btnBesarKiri').addEventListener('click', function() {
+            arahBesar = 'kiri';
+            this.classList.add('active');
+            document.getElementById('btnBesarKanan').classList.remove('active');
+            document.getElementById('panahBesar').textContent = '⭠';
+            posisikanKelinciBesar();
+        });
+
+        document.getElementById('btnBesarKanan').addEventListener('click', function() {
+            arahBesar = 'kanan';
+            this.classList.add('active');
+            document.getElementById('btnBesarKiri').classList.remove('active');
+            document.getElementById('panahBesar').textContent = '⭢';
+            posisikanKelinciBesar();
+        });
+
+        document.getElementById('btnKecilKiri').addEventListener('click', function() {
+            arahKecil = 'kiri';
+            this.classList.add('active');
+            document.getElementById('btnKecilKanan').classList.remove('active');
+            document.getElementById('panahKecil').textContent = '⭠';
+            gerakkanKelinciKecil();
+        });
+
+        document.getElementById('btnKecilKanan').addEventListener('click', function() {
+            arahKecil = 'kanan';
+            this.classList.add('active');
+            document.getElementById('btnKecilKiri').classList.remove('active');
+            document.getElementById('panahKecil').textContent = '⭢';
+            gerakkanKelinciKecil();
+        });
+
+        document.getElementById('angkaKelinciNum').addEventListener('input', function() {
+            buatGarisBilangan();
+            posisikanKelinciBesar();
+        });
+
+        function validasiInputSebelumLompatan() {
+            const feedback = document.getElementById('feedback');
+            const angkaKelinci = document.getElementById('angkaKelinciNum').value;
+            const kelipatan = document.getElementById('kelipatanNum').value;
+            
+            let pesanError = [];
+            
+            if (!angkaKelinci || angkaKelinci === '') {
+                pesanError.push('Angka Kelinci Besar (Tujuan)');
+            }
+            
+            if (arahBesar === null) {
+                pesanError.push('Arah Kelinci Besar');
+            }
+            
+            if (!kelipatan || kelipatan === '') {
+                pesanError.push('Kelipatan Tiap Lompatan');
+            }
+            
+            if (arahKecil === null) {
+                pesanError.push('Arah Kelinci Kecil');
+            }
+            
+            if (pesanError.length > 0) {
+                feedback.className = 'feedback peringatan';
+                feedback.textContent = '⚠️ Lengkapi dulu: ' + pesanError.join(', ') + '!';
+                
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 3000);
+                
+                return false;
+            }
+            
+            return true;
+        }
+
+        function buatGarisBilangan() {
+            const garisBilangan = document.getElementById('garisBilangan');
+            const angkaKelinci = parseInt(document.getElementById('angkaKelinciNum').value) || 0;
+            
+            const titikLama = garisBilangan.querySelectorAll('.titik, .label-angka');
+            titikLama.forEach(el => el.remove());
+
+            const minAngka = Math.min(-50, angkaKelinci - 20);
+            const maxAngka = Math.max(50, angkaKelinci + 20);
+
+            for (let i = minAngka; i <= maxAngka; i++) {
+                const titik = document.createElement('div');
+                titik.className = 'titik';
+                titik.style.left = (CENTER + i * JARAK_PER_ANGKA) + 'px';
+                garisBilangan.appendChild(titik);
+
+                if (i % 5 === 0) {
+                    const label = document.createElement('div');
+                    label.className = 'label-angka';
+                    label.textContent = i;
+                    label.style.left = (CENTER + i * JARAK_PER_ANGKA) + 'px';
+                    garisBilangan.appendChild(label);
+                }
+            }
+        }
+
+        function posisikanKelinciBesar() {
+            const angkaKelinci = parseInt(document.getElementById('angkaKelinciNum').value);
+            
+            if (!angkaKelinci || arahBesar === null) {
+                document.getElementById('kelinciBesar').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('kelinciBesar').style.display = 'block';
+            const kelinciBesar = document.getElementById('kelinciBesar');
+            
+            const multiplier = arahBesar === 'kanan' ? 1 : -1;
+            const posisi = CENTER + (angkaKelinci * multiplier * JARAK_PER_ANGKA);
+            
+            kelinciBesar.style.left = posisi + 'px';
+            
+            setTimeout(() => {
+                const container = document.getElementById('garisContainer');
+                container.scrollLeft = posisi - container.offsetWidth / 2;
+            }, 50);
+        }
+
+        function gerakkanKelinciKecil() {
+            const kelipatanInput = document.getElementById('kelipatanNum').value;
+            
+            if (kelipatanInput === '' || arahKecil === null) {
+                document.getElementById('kelinciKecil').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('kelinciKecil').style.display = 'block';
+            const kelipatan = parseInt(kelipatanInput);
+            const kelinciKecil = document.getElementById('kelinciKecil');
+            const garisBilangan = document.getElementById('garisBilangan');
+            
+            const jejakLama = garisBilangan.querySelectorAll('.lompatan-jejak');
+            jejakLama.forEach(el => el.remove());
+            
+            const multiplier = arahKecil === 'kanan' ? 1 : -1;
+            const totalJarak = jumlahLompatanKecil * kelipatan * multiplier;
+            const posisi = CENTER + (totalJarak * JARAK_PER_ANGKA);
+            
+            kelinciKecil.style.left = posisi + 'px';
+            
+            if (jumlahLompatanKecil !== 0) {
+                const absLompatan = Math.abs(jumlahLompatanKecil);
+                
+                for (let i = 0; i < absLompatan; i++) {
+                    const jejak = document.createElement('div');
+                    jejak.className = 'lompatan-jejak';
+                    
+                    const mulai = i * kelipatan * multiplier;
+                    const akhir = (i + 1) * kelipatan * multiplier;
+                    
+                    const posisiMulai = CENTER + (mulai * JARAK_PER_ANGKA);
+                    const jarakPixel = kelipatan * JARAK_PER_ANGKA;
+                    
+                    jejak.style.left = posisiMulai + 'px';
+                    jejak.style.width = jarakPixel + 'px';
+                    
+                    garisBilangan.appendChild(jejak);
+                }
+            }
+        }
+
+        function soalBaru() {
+            const pembagi = Math.floor(Math.random() * 9) + 2;
+            const hasilBagi = Math.floor(Math.random() * 19) - 9;
+            const pembilang = pembagi * hasilBagi;
+
+            soalSekarang = { pembilang, pembagi };
+            jawabanBenar = hasilBagi;
+
+            document.getElementById('soalText').textContent = `${pembilang} ÷ ${pembagi} = ?`;
+            document.getElementById('inputJawaban').value = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('angkaKelinciNum').value = '';
+            document.getElementById('kelipatanNum').value = '';
+            
+            jumlahLompatanKecil = 0;
+            arahBesar = null;
+            arahKecil = null;
+            kelipatanDipilih = false;
+            
+            document.getElementById('btnBesarKanan').classList.remove('active');
+            document.getElementById('btnBesarKiri').classList.remove('active');
+            document.getElementById('btnKecilKanan').classList.remove('active');
+            document.getElementById('btnKecilKiri').classList.remove('active');
+            document.getElementById('panahBesar').textContent = '⭢';
+            document.getElementById('panahKecil').textContent = '⭢';
+
+            const jejakLama = document.querySelectorAll('.lompatan-jejak');
+            jejakLama.forEach(el => el.remove());
+            
+            buatGarisBilangan();
+            
+            document.getElementById('kelinciBesar').style.display = 'none';
+            document.getElementById('kelinciKecil').style.display = 'none';
+        }
+
+        function tambahAngka(angka) {
+            const input = document.getElementById('inputJawaban');
+            if (angka === '-') {
+                if (input.value === '' || input.value === '-') {
+                    input.value = '-';
+                }
+            } else {
+                if (input.value === '0') {
+                    input.value = angka;
+                } else {
+                    input.value += angka;
+                }
+            }
+        }
+
+        function hapusAngka() {
+            const input = document.getElementById('inputJawaban');
+            input.value = input.value.slice(0, -1);
+        }
+
+        function cekJawaban() {
+            const inputValue = document.getElementById('inputJawaban').value.trim();
+            const feedback = document.getElementById('feedback');
+
+            if (inputValue === '' || inputValue === '-') {
+                feedback.className = 'feedback salah';
+                feedback.textContent = '❌ Masukkan jawaban terlebih dahulu ya! 🐰';
+                return;
+            }
+
+            const jawaban = parseInt(inputValue);
+            
+            if (isNaN(jawaban)) {
+                feedback.className = 'feedback salah';
+                feedback.textContent = '❌ Masukkan jawaban yang valid ya! 🐰';
+                return;
+            }
+
+            const hasilBenar = Math.floor(soalSekarang.pembilang / soalSekarang.pembagi);
+
+            if (jawaban === hasilBenar) {
+                feedback.className = 'feedback benar';
+                feedback.textContent = '✅ Bagus! Jawaban kamu benar 🎉';
+            } else {
+                feedback.className = 'feedback salah';
+                feedback.textContent = `❌ Belum tepat, coba lagi ya 🐰 (Jawaban: ${hasilBenar})`;
+            }
+        }
+
+        buatGarisBilangan();
+        document.getElementById('kelinciBesar').style.display = 'none';
+        document.getElementById('kelinciKecil').style.display = 'none';
+    </script>
+</body>
+</html>

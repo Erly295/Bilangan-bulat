@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembagian Bilangan Bulat - Petualangan Kodok 🐸</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        /* 
+        ═══════════════════════════════════════════════════════════════════════════════
+        DOKUMENTASI PENGGUNAAN
+        ═══════════════════════════════════════════════════════════════════════════════
+        
+        Visualisasi Pembagian Bilangan Bulat dengan Konsep Kodok Melompat
+        
+        CARA PAKAI:
+        1. Masukkan PEMBILANG (angka yang dibagi) - misal: 12
+        2. Masukkan PEMBAGI (angka pembagi, tidak boleh 0) - misal: 3
+        3. Pilih arah hadap Raja Kodok (kanan/kiri) dan Anak Kodok (kanan/kiri)
+        4. Klik tombol "Mulai Animasi" atau gunakan keyboard: Space = Play/Pause
+        5. Amati Anak Kodok melompat dari 0 menuju Raja Kodok
+        6. Jumlah lompatan = hasil pembagian!
+        
+        KONTROL ANIMASI:
+        - Play/Pause (Space): Mulai atau jeda animasi
+        - Step (→): Lompat satu langkah
+        - Reset (R): Mulai ulang dari awal
+        - Gunakan tombol contoh cepat untuk mencoba berbagai kasus
+        
+        ATURAN TANDA:
+        - Arah SAMA (keduanya kanan atau keduanya kiri) → hasil POSITIF
+        - Arah BERLAWANAN (satu kanan, satu kiri) → hasil NEGATIF
+        
+        CONTOH:
+        - 12 : 3 = 4 (keduanya kanan, hasil +4)
+        - 10 : -2 = -5 (berlawanan arah, hasil -5)
+        - -9 : 3 = -3 (berlawanan arah, hasil -3)
+        
+        ═══════════════════════════════════════════════════════════════════════════════
+        */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
+            background-attachment: fixed;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '🐸 💜 ✨ 🌸 💙 🦄 🌈 ☁️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            word-spacing: 3rem;
+            line-height: 5rem;
+            animation: float 20s infinite linear;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+            padding: 1.2rem 2rem;
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand::before {
+            content: '🐸 ';
+        }
+        
+        .navbar-brand::after {
+            content: ' ➗';
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: #047857;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(4, 120, 87, 0.2);
+            margin-bottom: 2rem !important;
+        }
+        
+        h1::before {
+            content: '🐸 ';
+        }
+        
+        h1::after {
+            content: ' ➗';
+        }
+        
+        .control-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF4 100%);
+            border: 4px solid #A7F3D0;
+            border-radius: 25px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            border: 3px solid #A7F3D0;
+            border-radius: 15px !important;
+            padding: 0.8rem 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #047857;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #10B981;
+            box-shadow: 0 0 0 0.5rem rgba(16, 185, 129, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+        }
+        
+        .btn-outline-success {
+            border: 3px solid #10B981;
+            color: #047857;
+            font-weight: 700;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-success:hover {
+            background: #10B981;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            font-weight: 700;
+            border-radius: 15px;
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            font-weight: 700;
+            border-radius: 15px;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
+            font-weight: 700;
+            border-radius: 15px;
+        }
+        
+        .canvas-container {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F0FDF4 100%);
+            border: 4px solid #A7F3D0;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        #numberLineCanvas {
+            display: block;
+            cursor: grab;
+        }
+        
+        #numberLineCanvas:active {
+            cursor: grabbing;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            border: 3px solid #10B981;
+            border-radius: 25px;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #047857;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            text-align: center;
+            display: none;
+        }
+        
+        .result-card.show {
+            display: block;
+            animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .direction-toggle {
+            display: inline-flex;
+            background: white;
+            border: 3px solid #A7F3D0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .direction-toggle button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: #047857;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .direction-toggle button.active {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .frog {
+            position: absolute;
+            font-size: 2rem;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            transform-origin: center;
+        }
+        
+        .frog.jumping {
+            animation: jump 0.5s ease;
+        }
+        
+        @keyframes jump {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+        
+        .jump-path {
+            stroke: #10B981;
+            stroke-width: 3;
+            stroke-dasharray: 10, 5;
+            fill: none;
+            opacity: 0.6;
+        }
+        
+        .error-card {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border: 3px solid #EF4444;
+            border-radius: 25px;
+            padding: 1.5rem;
+            color: #991B1B;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .error-card.show {
+            display: block;
+        }
+        
+        .counter-display {
+            background: white;
+            border: 3px solid #A7F3D0;
+            border-radius: 20px;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #047857;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .legend {
+            background: white;
+            border: 3px solid #A7F3D0;
+            border-radius: 20px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            font-weight: 600;
+            color: #047857;
+        }
+        
+        .legend-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .frog {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .tooltip-custom {
+            position: absolute;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .example-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .keyboard-hint {
+            font-size: 0.85rem;
+            color: #6B7280;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pembagian Bilangan Bulat</a>
+        </div>
+    </nav>
+    
+    <div class="container my-5">
+        <div class="text-center">
+            <h1>Petualangan Kodok Melompat</h1>
+            <p class="text-muted fw-semibold">Belajar pembagian dengan cara yang menyenangkan!</p>
+        </div>
+        
+        <!-- Control Panel -->
+        <div class="control-card">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-success">👑 Pembilang (Raja Kodok):</label>
+                    <input type="number" id="dividend" class="form-control" value="12" placeholder="Contoh: 12">
+                    <small class="text-muted">Angka yang akan dibagi</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-success">🐸 Pembagi (Anak Kodok):</label>
+                    <input type="number" id="divisor" class="form-control" value="3" placeholder="Contoh: 3 (tidak boleh 0)">
+                    <small class="text-muted">Ukuran setiap lompatan</small>
+                </div>
+            </div>
+            
+            <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-success">👑 Arah Raja Kodok:</label>
+                    <div class="direction-toggle">
+                        <button onclick="setKingDirection('right')" id="kingRight" class="active" aria-label="Raja menghadap kanan">
+                            Kanan →
+                        </button>
+                        <button onclick="setKingDirection('left')" id="kingLeft" aria-label="Raja menghadap kiri">
+                            ← Kiri
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-success">🐸 Arah Anak Kodok:</label>
+                    <div class="direction-toggle">
+                        <button onclick="setChildDirection('right')" id="childRight" class="active" aria-label="Anak menghadap kanan">
+                            Kanan →
+                        </button>
+                        <button onclick="setChildDirection('left')" id="childLeft" aria-label="Anak menghadap kiri">
+                            ← Kiri
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <label class="form-label fw-bold text-success">Contoh Cepat:</label>
+                <div class="example-buttons">
+                    <button class="btn btn-outline-success btn-sm" onclick="loadExample(12, 3, 'right', 'right')">
+                        12 ÷ 3
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="loadExample(10, -2, 'right', 'left')">
+                        10 ÷ -2
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="loadExample(-9, 3, 'left', 'right')">
+                        -9 ÷ 3
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="loadExample(15, 4, 'right', 'right')">
+                        15 ÷ 4 (sisa)
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="loadExample(-12, -3, 'left', 'left')">
+                        -12 ÷ -3
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-4 d-flex gap-2 flex-wrap">
+                <button class="btn btn-success" onclick="startAnimation()" id="playBtn" aria-label="Mulai animasi (Space)">
+                    ▶️ Mulai Animasi
+                </button>
+                <button class="btn btn-warning" onclick="pauseAnimation()" id="pauseBtn" style="display: none;" aria-label="Jeda animasi (Space)">
+                    ⏸️ Jeda
+                </button>
+                <button class="btn btn-info" onclick="stepAnimation()" aria-label="Langkah berikutnya (→)">
+                    ⏭️ Langkah
+                </button>
+                <button class="btn btn-secondary" onclick="resetAnimation()" aria-label="Mulai ulang (R)">
+                    🔄 Reset
+                </button>
+            </div>
+            <div class="keyboard-hint">
+                💡 Keyboard: Space = Play/Pause | → = Step | R = Reset
+            </div>
+        </div>
+        
+        <!-- Error Display -->
+        <div class="error-card" id="errorCard"></div>
+        
+        <!-- Canvas Container -->
+        <div class="canvas-container" id="canvasContainer">
+            <canvas id="numberLineCanvas" width="2000" height="300"></canvas>
+        </div>
+        
+        <!-- Counter Display -->
+        <div class="counter-display" id="counterDisplay">
+            Lompatan ke: 0 / 0
+        </div>
+        
+        <!-- Result Display -->
+        <div class="result-card" id="resultCard"></div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <h5 class="text-success fw-bold mb-3">📖 Legenda:</h5>
+            <div class="legend-item">
+                <span class="legend-icon">👑</span>
+                <span>Raja Kodok = Pembilang (tujuan akhir)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🐸</span>
+                <span>Anak Kodok = Melompat sebesar pembagi</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🎯</span>
+                <span>Jumlah lompatan = Hasil pembagian</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">➡️↔️</span>
+                <span>Arah sama = Positif | Arah berlawanan = Negatif</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // GLOBAL VARIABLES
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        const canvas = document.getElementById('numberLineCanvas');
+        const ctx = canvas.getContext('2d');
+        const canvasContainer = document.getElementById('canvasContainer');
+        
+        let kingDirection = 'right';
+        let childDirection = 'right';
+        let animationState = {
+            isPlaying: false,
+            currentJump: 0,
+            totalJumps: 0,
+            childPosition: 0,
+            kingPosition: 0,
+            stepSize: 0,
+            animationId: null
+        };
+        
+        const UNIT_SIZE = 60; // pixels per unit on number line
+        const CANVAS_CENTER_Y = 150;
+        const FROG_SIZE = 40;
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // DIRECTION CONTROLS
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function setKingDirection(dir) {
+            kingDirection = dir;
+            document.getElementById('kingRight').classList.toggle('active', dir === 'right');
+            document.getElementById('kingLeft').classList.toggle('active', dir === 'left');
+            resetAnimation();
+        }
+        
+        function setChildDirection(dir) {
+            childDirection = dir;
+            document.getElementById('childRight').classList.toggle('active', dir === 'right');
+            document.getElementById('childLeft').classList.toggle('active', dir === 'left');
+            resetAnimation();
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // EXAMPLE LOADER
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function loadExample(dividend, divisor, kingDir, childDir) {
+            document.getElementById('dividend').value = dividend;
+            document.getElementById('divisor').value = divisor;
+            setKingDirection(kingDir);
+            setChildDirection(childDir);
+            resetAnimation();
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // COMPUTE DIVISION
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function computeDivision() {
+            const dividend = parseInt(document.getElementById('dividend').value) || 0;
+            const divisor = parseInt(document.getElementById('divisor').value) || 0;
+            
+            // Validate divisor
+            if (divisor === 0) {
+                showError('❌ Pembagi tidak boleh 0! Pilih angka lain.');
+                return null;
+            }
+            
+            hideError();
+            
+            // Determine sign based on direction
+            const kingSign = kingDirection === 'right' ? 1 : -1;
+            const childSign = childDirection === 'right' ? 1 : -1;
+            
+            // Calculate positions
+            const kingPos = dividend * kingSign;
+            const stepSize = Math.abs(divisor) * childSign;
+            
+            // Calculate jumps needed
+            const totalJumps = Math.floor(Math.abs(dividend) / Math.abs(divisor));
+            const remainder = Math.abs(dividend) % Math.abs(divisor);
+            
+            // Determine result sign
+            const sameDirection = (kingSign === childSign);
+            const resultSign = sameDirection ? 1 : -1;
+            const result = totalJumps * resultSign;
+            
+            return {
+                dividend,
+                divisor,
+                kingPos,
+                stepSize,
+                totalJumps,
+                remainder,
+                result,
+                sameDirection
+            };
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // RENDER NUMBER LINE
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function renderNumberLine(minNum, maxNum) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            
+            // Draw main line
+            const gradient = ctx.createLinearGradient(0, CANVAS_CENTER_Y, canvas.width, CANVAS_CENTER_Y);
+            gradient.addColorStop(0, '#10B981');
+            gradient.addColorStop(0.5, '#059669');
+            gradient.addColorStop(1, '#10B981');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = "rgba(16, 185, 129, 0.3)";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.moveTo(50, CANVAS_CENTER_Y);
+            ctx.lineTo(canvas.width - 50, CANVAS_CENTER_Y);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            // Draw ticks and labels
+            ctx.font = 'bold 14px Quicksand';
+            ctx.textAlign = 'center';
+            
+            for (let i = minNum; i <= maxNum; i++) {
+                const x = centerX + (i * UNIT_SIZE);
+                
+                if (x < 30 || x > canvas.width - 30) continue;
+                
+                // Draw tick
+                if (i === 0) {
+                    ctx.strokeStyle = '#047857';
+                    ctx.lineWidth = 4;
+                } else {
+                    ctx.strokeStyle = '#A7F3D0';
+                    ctx.lineWidth = 2;
+                }
+                
+                ctx.beginPath();
+                ctx.moveTo(x, CANVAS_CENTER_Y - 10);
+                ctx.lineTo(x, CANVAS_CENTER_Y + 10);
+                ctx.stroke();
+                
+                // Draw label
+                ctx.fillStyle = i === 0 ? '#047857' : '#059669';
+                ctx.font = i === 0 ? 'bold 18px Quicksand' : 'bold 14px Quicksand';
+                ctx.fillText(i.toString(), x, CANVAS_CENTER_Y + 35);
+            }
+            
+            // Draw arrows at ends
+            drawArrow(canvas.width - 50, CANVAS_CENTER_Y, 'right');
+            drawArrow(50, CANVAS_CENTER_Y, 'left');
+        }
+        
+        function drawArrow(x, y, direction) {
+            ctx.fillStyle = '#10B981';
+            ctx.shadowColor = "rgba(16, 185, 129, 0.3)";
+            ctx.shadowBlur = 5;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            if (direction === 'right') {
+                ctx.lineTo(x - 12, y - 8);
+                ctx.lineTo(x - 12, y + 8);
+            } else {
+                ctx.lineTo(x + 12, y - 8);
+                ctx.lineTo(x + 12, y + 8);
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // PLACE FROG
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function placeFrog(position, isKing, direction) {
+            const centerX = canvas.width / 2;
+            const x = centerX + (position * UNIT_SIZE);
+            const y = CANVAS_CENTER_Y - 60;
+            
+            // Draw shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.beginPath();
+            ctx.ellipse(x, CANVAS_CENTER_Y + 15, 20, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw frog
+            ctx.save();
+            ctx.translate(x, y);
+            if (direction === 'left') {
+                ctx.scale(-1, 1);
+            }
+            
+            // Frog emoji
+            ctx.font = `${FROG_SIZE}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(isKing ? '👑' : '🐸', 0, 0);
+            
+            ctx.restore();
+            
+            // Label
+            ctx.font = 'bold 16px Quicksand';
+            ctx.fillStyle = isKing ? '#D97706' : '#10B981';
+            ctx.textAlign = 'center';
+            ctx.fillText(isKing ? 'Raja' : 'Anak', x, y - 30);
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // ANIMATE JUMP
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function animateJump(fromPos, toPos, callback) {
+            const centerX = canvas.width / 2;
+            const startX = centerX + (fromPos * UNIT_SIZE);
+            const endX = centerX + (toPos * UNIT_SIZE);
+            const startTime = Date.now();
+            const duration = 500; // ms
+            
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for jump
+                const easeProgress = progress < 0.5 
+                    ? 2 * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                
+                const currentX = startX + (endX - startX) * easeProgress;
+                const jumpHeight = Math.sin(progress * Math.PI) * 40; // Arc height
+                
+                // Redraw everything
+                const divData = computeDivision();
+                if (!divData) return;
+                
+                const range = Math.max(Math.abs(divData.kingPos), Math.abs(toPos)) + 5;
+                renderNumberLine(-range, range);
+                placeFrog(divData.kingPos, true, kingDirection);
+                
+                // Draw jump path
+                ctx.strokeStyle = '#10B981';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([10, 5]);
+                ctx.beginPath();
+                ctx.moveTo(startX, CANVAS_CENTER_Y);
+                ctx.lineTo(endX, CANVAS_CENTER_Y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // Draw jumping frog
+                const y = CANVAS_CENTER_Y - 60 - jumpHeight;
+                ctx.save();
+                ctx.translate(currentX, y);
+                if (childDirection === 'left') {
+                    ctx.scale(-1, 1);
+                }
+                ctx.font = `${FROG_SIZE}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🐸', 0, 0);
+                ctx.restore();
+                
+                // Shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.beginPath();
+                ctx.ellipse(currentX, CANVAS_CENTER_Y + 15, 20 - jumpHeight/3, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (progress < 1) {
+                    animationState.animationId = requestAnimationFrame(animate);
+                } else {
+                    if (callback) callback();
+                }
+            }
+            
+            animate();
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // ANIMATION CONTROLS
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function startAnimation() {
+            const divData = computeDivision();
+            if (!divData) return;
+            
+            animationState.isPlaying = true;
+            animationState.totalJumps = divData.totalJumps;
+            animationState.stepSize = divData.stepSize;
+            animationState.kingPosition = divData.kingPos;
+            
+            document.getElementById('playBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'inline-block';
+            
+            continueAnimation();
+        }
+        
+        function continueAnimation() {
+            if (!animationState.isPlaying) return;
+            
+            const divData = computeDivision();
+            if (!divData) return;
+            
+            if (animationState.currentJump < animationState.totalJumps) {
+                const fromPos = animationState.childPosition;
+                const toPos = fromPos + animationState.stepSize;
+                
+                animateJump(fromPos, toPos, () => {
+                    animationState.currentJump++;
+                    animationState.childPosition = toPos;
+                    updateCounter();
+                    
+                    if (animationState.currentJump >= animationState.totalJumps) {
+                        finishAnimation(divData);
+                    } else if (animationState.isPlaying) {
+                        continueAnimation();
+                    }
+                });
+            }
+        }
+        
+        function pauseAnimation() {
+            animationState.isPlaying = false;
+            if (animationState.animationId) {
+                cancelAnimationFrame(animationState.animationId);
+            }
+            document.getElementById('playBtn').style.display = 'inline-block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+        
+        function stepAnimation() {
+            const divData = computeDivision();
+            if (!divData) return;
+            
+            pauseAnimation();
+            
+            if (animationState.currentJump < divData.totalJumps) {
+                const fromPos = animationState.childPosition;
+                const toPos = fromPos + divData.stepSize;
+                
+                animateJump(fromPos, toPos, () => {
+                    animationState.currentJump++;
+                    animationState.childPosition = toPos;
+                    updateCounter();
+                    
+                    if (animationState.currentJump >= divData.totalJumps) {
+                        finishAnimation(divData);
+                    }
+                });
+            }
+        }
+        
+        function resetAnimation() {
+            pauseAnimation();
+            
+            animationState.currentJump = 0;
+            animationState.childPosition = 0;
+            
+            const divData = computeDivision();
+            if (divData) {
+                animationState.totalJumps = divData.totalJumps;
+                animationState.stepSize = divData.stepSize;
+                animationState.kingPosition = divData.kingPos;
+            }
+            
+            updateCounter();
+            hideResult();
+            drawInitialState();
+        }
+        
+        function finishAnimation(divData) {
+            pauseAnimation();
+            showResult(divData);
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // UI UPDATES
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        function updateCounter() {
+            const counter = document.getElementById('counterDisplay');
+            counter.textContent = `Lompatan ke: ${animationState.currentJump} / ${animationState.totalJumps}`;
+        }
+        
+        function showResult(divData) {
+            const resultCard = document.getElementById('resultCard');
+            const directionText = divData.sameDirection ? 'sama (kedua arah →→ atau ←←)' : 'berlawanan (satu → dan satu ←)';
+            const signText = divData.sameDirection ? 'POSITIF ➕' : 'NEGATIF ➖';
+            
+            let resultHTML = `
+                <div class="mb-3">
+                    <h3 class="mb-3">${divData.dividend} ÷ ${divData.divisor} = ${divData.result}</h3>
+                </div>
+                <div class="text-start" style="max-width: 600px; margin: 0 auto;">
+                    <p class="mb-2">
+                        <strong>📊 Penjelasan:</strong><br>
+                        Anak Kodok melompat sebesar <strong>${Math.abs(divData.divisor)} satuan</strong> 
+                        sebanyak <strong>${divData.totalJumps} kali</strong> untuk mencapai posisi Raja Kodok di <strong>${divData.dividend}</strong>.
+                    </p>
+                    <p class="mb-2">
+                        <strong>🔄 Arah:</strong><br>
+                        Arah ${directionText} → hasil ${signText}
+                    </p>
+            `;
+            
+            if (divData.remainder > 0) {
+                resultHTML += `
+                    <p class="mb-0 mt-3 p-3" style="background: #FEF3C7; border-radius: 15px; border: 2px solid #F59E0B;">
+                        <strong>⚠️ Tidak habis dibagi!</strong><br>
+                        Sisa pembagian: <strong>${divData.remainder}</strong><br>
+                        <small>Anak Kodok tidak dapat mencapai Raja Kodok dengan tepat.</small>
+                    </p>
+                `;
+            } else {
+                resultHTML += `
+                    <p class="mb-0 mt-3 p-3" style="background: #D1FAE5; border-radius: 15px; border: 2px solid #10B981;">
+                        <strong>✅ Habis dibagi!</strong><br>
+                        Anak Kodok mencapai Raja Kodok dengan tepat!
+                    </p>
+                `;
+            }
+            
+            resultHTML += `</div>`;
+            
+            resultCard.innerHTML = resultHTML;
+            resultCard.classList.add('show');
+        }
+        
+        function hideResult() {
+            const resultCard = document.getElementById('resultCard');
+            resultCard.classList.remove('show');
+        }
+        
+        function showError(message) {
+            const errorCard = document.getElementById('errorCard');
+            errorCard.textContent = message;
+            errorCard.classList.add('show');
+        }
+        
+        function hideError() {
+            const errorCard = document.getElementById('errorCard');
+            errorCard.classList.remove('show');
+        }
+        
+        function drawInitialState() {
+            const divData = computeDivision();
+            if (!divData) return;
+            
+            const range = Math.max(Math.abs(divData.kingPos), Math.abs(divData.stepSize) * divData.totalJumps) + 5;
+            renderNumberLine(-range, range);
+            placeFrog(divData.kingPos, true, kingDirection);
+            placeFrog(0, false, childDirection);
+        }
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // KEYBOARD CONTROLS
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    if (animationState.isPlaying) {
+                        pauseAnimation();
+                    } else {
+                        if (animationState.currentJump === 0) {
+                            startAnimation();
+                        } else {
+                            animationState.isPlaying = true;
+                            document.getElementById('playBtn').style.display = 'none';
+                            document.getElementById('pauseBtn').style.display = 'inline-block';
+                            continueAnimation();
+                        }
+                    }
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    stepAnimation();
+                    break;
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    resetAnimation();
+                    break;
+            }
+        });
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // CANVAS DRAG/SCROLL
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        let isDragging = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        
+        canvasContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - canvasContainer.offsetLeft;
+            scrollLeft = canvasContainer.scrollLeft;
+        });
+        
+        canvasContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+        
+        canvasContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        canvasContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - canvasContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            canvasContainer.scrollLeft = scrollLeft - walk;
+        });
+        
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════════════════════
+        
+        document.getElementById('dividend').addEventListener('input', resetAnimation);
+        document.getElementById('divisor').addEventListener('input', resetAnimation);
+        
+        // Initial draw
+        resetAnimation();
+    </script>
+</body>
+</html>

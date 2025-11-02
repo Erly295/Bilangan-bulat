@@ -1,811 +1,688 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Garis Bilangan</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Garis Bilangan 🌸✨</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-        min-height: 100vh;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .navbar {
-        background: linear-gradient(
-          135deg,
-          #b794f4 0%,
-          #9f7aea 50%,
-          #805ad5 100%
-        );
-        box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
-        padding: 1.2rem 2rem;
-        border-radius: 0 0 30px 30px;
-        backdrop-filter: blur(10px);
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-      }
-
-      .container-fluid {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .navbar-brand {
-        color: #ffffff !important;
-        font-weight: 700;
-        font-size: 1.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-
-      .navbar-brand::before {
-        content: "✨ ";
-      }
-
-      .navbar-brand::after {
-        content: " ✨";
-      }
-
-      .navbar-brand:hover {
-        transform: scale(1.05) rotate(-2deg);
-        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-      }
-
-      .navbar-toggler {
-        border: none;
-        padding: 0.5rem;
-        background: white;
-        border-radius: 15px;
-        cursor: pointer;
-        display: none;
-      }
-
-      .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(128, 90, 213, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        display: inline-block;
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: middle;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100%;
-      }
-
-      .navbar-collapse {
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      .navbar-nav {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        align-items: center;
-      }
-
-      .nav-item {
-        margin: 0;
-        align-self: start;
-      }
-
-      .nav-link {
-        color: #ffffff !important;
-        font-weight: 600;
-        margin: 0 0.5rem;
-        padding: 0.6rem 1.2rem !important;
-        border-radius: 20px;
-        transition: all 0.3s ease;
-        position: relative;
-        text-decoration: none;
-        display: block;
-      }
-
-      .nav-link:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-      }
-
-      .nav-link.active {
-        background: rgba(255, 255, 255, 0.4);
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-      }
-
-      @media (max-width: 991px) {
-        .navbar-toggler {
-          display: block;
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .navbar-collapse {
-          display: none;
-          width: 100%;
-          margin-top: 1rem;
+        body {
+            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
+            background-attachment: fixed;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .navbar-collapse.show {
-          display: block !important;
+        /* Cute floating elements background */
+        body::before {
+            content: '✨ 💜 🌸 ⭐ 💙 🦄 🌈 ☁️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            word-spacing: 3rem;
+            line-height: 5rem;
+            animation: float 20s infinite linear;
+            z-index: 0;
         }
 
-        .navbar-nav {
-          flex-direction: column;
-          gap: 0.5rem;
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
-        .nav-link {
-          margin: 0;
-          text-align: center;
+        .navbar {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 50%, #805AD5 100%);
+            box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
+            padding: 1.2rem 2rem;
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(10px);
         }
 
         .navbar-brand {
-          font-size: 1.2rem;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
-      }
-      header {
-        text-align: center;
-        margin-bottom: 30px;
-        margin-top: 120px;
-      }
 
-      h1 {
-        color: #6b4ce8;
-        font-size: 2.2em;
-        font-weight: 700;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 10px;
-      }
-
-      .subtitle {
-        color: #5a67d8;
-        font-size: 1.1em;
-        font-weight: 400;
-      }
-
-      main {
-        background: white;
-        border-radius: 30px;
-        padding: 40px;
-        box-shadow: 0 10px 40px rgba(107, 76, 232, 0.2);
-        max-width: 900px;
-        width: 100%;
-      }
-
-      .question-box {
-        background: linear-gradient(135deg, #ddd6fe 0%, #bfdbfe 100%);
-        border-radius: 20px;
-        padding: 30px;
-        text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .question-text {
-        font-size: 2.5em;
-        font-weight: 700;
-        color: #5b21b6;
-        margin-bottom: 10px;
-      }
-
-      .instruction {
-        color: #6366f1;
-        font-size: 0.95em;
-        margin-top: 10px;
-      }
-
-      .number-line-container {
-        position: relative;
-        padding: 60px 20px;
-        margin: 30px 0;
-        overflow: hidden;
-      }
-
-      .canvas-wrapper {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        border-radius: 15px;
-        background: #f9fafb;
-      }
-
-      canvas {
-        display: block;
-        cursor: grab;
-      }
-
-      canvas:active {
-        cursor: grabbing;
-      }
-
-      .zoom-controls {
-        text-align: center;
-        margin-top: 15px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        align-items: center;
-      }
-
-      .zoom-btn {
-        background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
-        border: none;
-        border-radius: 10px;
-        width: 40px;
-        height: 40px;
-        font-size: 1.3em;
-        font-weight: 700;
-        color: white;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 5px rgba(139, 92, 246, 0.3);
-      }
-
-      .zoom-btn:hover {
-        transform: scale(1.1);
-      }
-
-      .zoom-info {
-        color: #5b21b6;
-        font-weight: 600;
-        font-size: 0.9em;
-        padding: 0 10px;
-      }
-
-      .arrow-controls {
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        border-radius: 20px;
-        padding: 25px;
-        margin: 25px 0;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .arrow-controls h3 {
-        color: #92400e;
-        font-size: 1.3em;
-        margin-bottom: 15px;
-        text-align: center;
-      }
-
-      .arrow-section {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 15px;
-        border: 3px solid #fcd34d;
-      }
-
-      .arrow-section:last-child {
-        margin-bottom: 0;
-      }
-
-      .arrow-title {
-        font-weight: 600;
-        color: #b45309;
-        margin-bottom: 15px;
-        font-size: 1.1em;
-      }
-
-      .arrow-inputs {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin-bottom: 15px;
-      }
-
-      @media (max-width: 600px) {
-        .arrow-inputs {
-          grid-template-columns: 1fr;
+        .navbar-brand::before {
+            content: '✨ ';
         }
-      }
 
-      .input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        min-width: 0;
-      }
-
-      .input-group label {
-        font-size: 0.9em;
-        color: #78350f;
-        font-weight: 600;
-      }
-
-      .number-input-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #f3f4f6;
-        border-radius: 12px;
-        padding: 5px;
-        min-width: 0;
-      }
-
-      .input-btn {
-        background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
-        border: none;
-        border-radius: 10px;
-        width: 35px;
-        height: 35px;
-        font-size: 1.2em;
-        font-weight: 700;
-        color: white;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 5px rgba(139, 92, 246, 0.3);
-        flex-shrink: 0;
-      }
-
-      .input-btn:hover {
-        transform: scale(1.1);
-      }
-
-      .input-btn:active {
-        transform: scale(0.95);
-      }
-
-      .number-input {
-        flex: 1;
-        text-align: center;
-        font-size: 1.3em;
-        font-weight: 700;
-        color: #5b21b6;
-        background: white;
-        border: 2px solid #c7d2fe;
-        border-radius: 8px;
-        padding: 8px;
-        outline: none;
-        transition: all 0.2s ease;
-        min-width: 0;
-        width: 100%;
-      }
-
-      .number-input:focus {
-        border-color: #818cf8;
-        box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
-      }
-
-      .arrow-color-indicator {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        margin-left: 10px;
-        vertical-align: middle;
-      }
-
-      .arrow1-color {
-        background: #10b981;
-      }
-
-      .arrow2-color {
-        background: #f59e0b;
-      }
-
-      .answer-section {
-        text-align: center;
-        margin: 30px 0;
-      }
-
-      .answer-display {
-        background: #f3f4f6;
-        border: 3px solid #c7d2fe;
-        border-radius: 15px;
-        padding: 15px 30px;
-        font-size: 1.8em;
-        font-weight: 600;
-        color: #4c1d95;
-        min-width: 150px;
-        display: inline-block;
-        margin-bottom: 20px;
-        min-height: 60px;
-        line-height: 60px;
-      }
-
-      .keypad {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 10px;
-        max-width: 500px;
-        margin: 20px auto;
-      }
-
-      .key-btn {
-        background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
-        border: none;
-        border-radius: 15px;
-        padding: 15px;
-        font-size: 1.5em;
-        font-weight: 600;
-        color: white;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
-      }
-
-      .key-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(139, 92, 246, 0.4);
-      }
-
-      .key-btn:active {
-        transform: translateY(0);
-      }
-
-      .control-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 25px;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        padding: 15px 35px;
-        border: none;
-        border-radius: 20px;
-        font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .btn-check {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-      }
-
-      .btn-check:hover {
-        transform: scale(1.05);
-      }
-
-      .btn-new {
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        color: white;
-      }
-
-      .btn-new:hover {
-        transform: scale(1.05);
-      }
-
-      .btn-reset {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-      }
-
-      .btn-reset:hover {
-        transform: scale(1.05);
-      }
-
-      .feedback {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 1.5em;
-        font-weight: 600;
-        min-height: 40px;
-        animation: fadeIn 0.5s ease;
-      }
-
-      .feedback.correct {
-        color: #10b981;
-      }
-
-      .feedback.incorrect {
-        color: #ef4444;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
+        .navbar-brand::after {
+            content: ' ✨';
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
 
-      @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
+        .navbar-brand:hover {
+            transform: scale(1.05) rotate(-2deg);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
         }
-        50% {
-          transform: translateY(-10px);
+
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
         }
-      }
 
-      .bounce {
-        animation: bounce 0.5s ease;
-      }
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
 
-      @media (max-width: 768px) {
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h1 {
-          font-size: 1.5em;
+            color: #805AD5;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
+            margin-bottom: 2rem !important;
+            position: relative;
+            display: inline-block;
         }
+
+        h1::before {
+            content: '🌟';
+            margin-right: 10px;
+        }
+
+        h1::after {
+            content: '🌟';
+            margin-left: 10px;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            text-align: center;
+        }
+
         .question-text {
-          font-size: 2em;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6B46C1;
+            margin-bottom: 1rem;
         }
-        main {
-          padding: 20px;
+
+        .instruction-text {
+            color: #805AD5;
+            font-size: 1rem;
+            font-weight: 600;
         }
-        .keypad {
-          grid-template-columns: repeat(4, 1fr);
+
+        .canvas-card {
+            border: 4px solid #D4B5F0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
+            box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
         }
-        .arrow-inputs {
-          grid-template-columns: 1fr;
+
+        .canvas-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
         }
-        .number-input {
-          font-size: 1.1em;
+
+        .card-body {
+            padding: 2rem !important;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 50%, #E9D8FD 100%);
         }
+
+        canvas {
+            border-radius: 20px;
+            cursor: grab;
+            display: block;
+            width: 100%;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        .zoom-controls {
+            text-align: center;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .zoom-btn {
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
+        }
+
+        .zoom-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+        }
+
+        .zoom-info {
+            color: #805AD5;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .arrow-controls-card {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            border: 3px solid #D4B5F0;
+            border-radius: 25px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+        }
+
+        .arrow-controls-card h3 {
+            color: #6B46C1;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .arrow-section {
+            background: white;
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .arrow-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(128, 90, 213, 0.15);
+        }
+
+        .arrow-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .arrow-title {
+            font-weight: 700;
+            color: #805AD5;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .arrow-color-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .arrow1-color {
+            background: #10b981;
+        }
+
+        .arrow2-color {
+            background: #f59e0b;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            color: #6B46C1;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            border: 2px solid #D4B5F0;
+            border-radius: 15px;
+            padding: 0.3rem;
+        }
+
         .input-btn {
-          width: 30px;
-          height: 30px;
-          font-size: 1em;
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(128, 90, 213, 0.3);
+            flex-shrink: 0;
         }
-      }
+
+        .input-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.5);
+        }
+
+        .number-input {
+            flex: 1;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #6B46C1;
+            background: white;
+            border: 2px solid #D4B5F0;
+            border-radius: 10px;
+            padding: 0.5rem;
+            outline: none;
+            transition: all 0.3s ease;
+            min-width: 0;
+        }
+
+        .number-input:focus {
+            border-color: #9F7AEA;
+            box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-arrow-check {
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 0.6rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-arrow-check:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+        }
+
+        .answer-section {
+            text-align: center;
+        }
+
+        .answer-display {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6B46C1;
+            min-width: 150px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+            line-height: 60px;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.2);
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            max-width: 500px;
+            margin: 1.5rem auto;
+        }
+
+        .key-btn {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+            border: none;
+            padding: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.3);
+        }
+
+        .key-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(128, 90, 213, 0.5);
+            background: linear-gradient(135deg, #C4B5D4 0%, #B794F4 100%);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-weight: 700;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-success:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .btn-danger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            color: #805AD5;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .result-alert.updated {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 2rem;
+            }
+
+            .keypad {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .number-input {
+                font-size: 1.1rem;
+            }
+
+            .input-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .arrow-inputs {
+                display: flex;
+                flex-direction: column;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
-        <button class="navbar-toggler" type="button">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">➕ Penjumlahan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pengurangan.html">➖ Pengurangan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="perkalian.html">✖️ Perkalian</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="Interaktif1.html">🧩 Interaktif Penjumlahan dan Pengurangan</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="Interaktif2.html">🕹️ Interaktif Perkalian</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="game.html">🎮 Permainan</a>
-            </li>
-          </ul>
-
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background: white; border-radius: 15px">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">➕ Penjumlahan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pengurangan.html">➖ Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="perkalian.html">✖️ Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="Interaktif1.html">🧩 Interaktif Penjumlahan dan Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Interaktif2.html">🕹️ Interaktif Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="game.html">🎮 Permainan</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
-    <header>
-      <h1>🎯 Add-Sub Quest 🎯</h1>
-      <div class="subtitle">Penjumlahan & Pengurangan</div>
-    </header>
-    <!-- Main -->
-    <main>
-      <div class="question-box">
-        <div class="question-text" id="question">3 + 2 = ?</div>
-        <div class="instruction">
-          Buat panah di garis bilangan untuk menyelesaikan soal! Geser canvas
-          untuk melihat angka lain.
+    
+    <div class="container my-5 content">
+        <div class="text-center">
+            <h1>Game Garis Bilangan</h1>
+            <p class="subtitle" style="color: #9F7AEA; font-size: 1.1rem; font-weight: 600;">Penjumlahan & Pengurangan</p>
         </div>
-      </div>
-
-      <div class="number-line-container">
-        <div class="canvas-wrapper" id="canvasWrapper">
-          <canvas id="numberLine"></canvas>
+        
+        <div class="question-card">
+            <div class="question-text" id="question">3 + 2 = ?</div>
+            <div class="instruction-text">
+                Buat panah di garis bilangan untuk menyelesaikan soal! Geser canvas untuk melihat angka lain.
+            </div>
         </div>
+        
+        <div class="card canvas-card mb-4">
+            <div class="card-body p-0">
+                <canvas id="numberLine" width="700" height="250"></canvas>
+            </div>
+        </div>
+        
         <div class="zoom-controls">
-          <button class="zoom-btn" onclick="changeSpacing(-5)" title="Zoom Out">
-            −
-          </button>
-          <span class="zoom-info">Geser untuk melihat lebih banyak angka</span>
-          <button class="zoom-btn" onclick="changeSpacing(5)" title="Zoom In">
-            +
-          </button>
+            <button class="zoom-btn" onclick="changeSpacing(-5)" title="Zoom Out">−</button>
+            <span class="zoom-info">Geser untuk melihat lebih banyak angka</span>
+            <button class="zoom-btn" onclick="changeSpacing(5)" title="Zoom In">+</button>
         </div>
-      </div>
-
-      <div class="arrow-controls">
-        <h3>🎨 Kontrol Panah</h3>
-
-        <div class="arrow-section">
-          <div class="arrow-title">
-            Panah 1 <span class="arrow-color-indicator arrow1-color"></span>
-          </div>
-          <div class="arrow-inputs">
-            <div class="input-group">
-              <label>Posisi Awal:</label>
-              <div class="number-input-wrapper">
-                <button class="input-btn" onclick="changeArrow(1, 'start', -1)">
-                  −
+        
+        <div class="arrow-controls-card">
+            <h3>🎨 Kontrol Panah</h3>
+            
+            <div class="arrow-section">
+                <div class="arrow-title">
+                    Panah 1 <span class="arrow-color-indicator arrow1-color"></span>
+                </div>
+                <div class="row arrow-inputs g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Posisi Awal:</label>
+                        <div class="number-input-wrapper">
+                            <button class="input-btn" onclick="changeArrow(1, 'start', -1)">−</button>
+                            <input type="text" class="number-input" id="arrow1-start" value="0" 
+                                   onchange="updateArrowFromInput(1, 'start')" 
+                                   onkeypress="return allowNumberInput(event)">
+                            <button class="input-btn" onclick="changeArrow(1, 'start', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Panjang Panah:</label>
+                        <div class="number-input-wrapper">
+                            <button class="input-btn" onclick="changeArrow(1, 'length', -1)">−</button>
+                            <input type="text" class="number-input" id="arrow1-length" value="0" 
+                                   onchange="updateArrowFromInput(1, 'length')" 
+                                   onkeypress="return allowNumberInput(event)">
+                            <button class="input-btn" onclick="changeArrow(1, 'length', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-arrow-check" onclick="checkArrow(1)">
+                    👁️ Cek Posisi Panah 1
                 </button>
-                <input
-                  type="text"
-                  class="number-input"
-                  id="arrow1-start"
-                  value="0"
-                  onchange="updateArrowFromInput(1, 'start')"
-                  onkeypress="return allowNumberInput(event)"
-                />
-                <button class="input-btn" onclick="changeArrow(1, 'start', 1)">
-                  +
-                </button>
-              </div>
             </div>
-            <div class="input-group">
-              <label>Panjang Panah:</label>
-              <div class="number-input-wrapper">
-                <button
-                  class="input-btn"
-                  onclick="changeArrow(1, 'length', -1)"
-                >
-                  −
+            
+            <div class="arrow-section">
+                <div class="arrow-title">
+                    Panah 2 <span class="arrow-color-indicator arrow2-color"></span>
+                </div>
+                <div class="row arrow-inputs g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Posisi Awal:</label>
+                        <div class="number-input-wrapper">
+                            <button class="input-btn" onclick="changeArrow(2, 'start', -1)">−</button>
+                            <input type="text" class="number-input" id="arrow2-start" value="0" 
+                                   onchange="updateArrowFromInput(2, 'start')" 
+                                   onkeypress="return allowNumberInput(event)">
+                            <button class="input-btn" onclick="changeArrow(2, 'start', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Panjang Panah:</label>
+                        <div class="number-input-wrapper">
+                            <button class="input-btn" onclick="changeArrow(2, 'length', -1)">−</button>
+                            <input type="text" class="number-input" id="arrow2-length" value="0" 
+                                   onchange="updateArrowFromInput(2, 'length')" 
+                                   onkeypress="return allowNumberInput(event)">
+                            <button class="input-btn" onclick="changeArrow(2, 'length', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-arrow-check" onclick="checkArrow(2)">
+                    👁️ Cek Posisi Panah 2
                 </button>
-                <input
-                  type="text"
-                  class="number-input"
-                  id="arrow1-length"
-                  value="0"
-                  onchange="updateArrowFromInput(1, 'length')"
-                  onkeypress="return allowNumberInput(event)"
-                />
-                <button class="input-btn" onclick="changeArrow(1, 'length', 1)">
-                  +
-                </button>
-              </div>
             </div>
-          </div>
-          <div style="text-align: center; margin-top: 10px">
-            <button
-              class="btn"
-              style="
-                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-                color: white;
-                padding: 10px 25px;
-                font-size: 0.95em;
-              "
-              onclick="checkArrow(1)"
-            >
-              👁️ Cek Posisi Panah 1
-            </button>
-          </div>
         </div>
-
-        <div class="arrow-section">
-          <div class="arrow-title">
-            Panah 2 <span class="arrow-color-indicator arrow2-color"></span>
-          </div>
-          <div class="arrow-inputs">
-            <div class="input-group">
-              <label>Posisi Awal:</label>
-              <div class="number-input-wrapper">
-                <button class="input-btn" onclick="changeArrow(2, 'start', -1)">
-                  −
-                </button>
-                <input
-                  type="text"
-                  class="number-input"
-                  id="arrow2-start"
-                  value="0"
-                  onchange="updateArrowFromInput(2, 'start')"
-                  onkeypress="return allowNumberInput(event)"
-                />
-                <button class="input-btn" onclick="changeArrow(2, 'start', 1)">
-                  +
-                </button>
-              </div>
+        
+        <div class="answer-section">
+            <div class="answer-display" id="answerDisplay">_</div>
+            
+            <div class="keypad">
+                <button class="key-btn" onclick="addDigit('7')">7</button>
+                <button class="key-btn" onclick="addDigit('8')">8</button>
+                <button class="key-btn" onclick="addDigit('9')">9</button>
+                <button class="key-btn" onclick="addDigit('4')">4</button>
+                <button class="key-btn" onclick="addDigit('5')">5</button>
+                <button class="key-btn" onclick="addDigit('6')">6</button>
+                <button class="key-btn" onclick="addDigit('1')">1</button>
+                <button class="key-btn" onclick="addDigit('2')">2</button>
+                <button class="key-btn" onclick="addDigit('3')">3</button>
+                <button class="key-btn" onclick="addDigit('-')">−</button>
+                <button class="key-btn" onclick="addDigit('0')">0</button>
+                <button class="key-btn" onclick="clearAnswer()">⌫</button>
             </div>
-            <div class="input-group">
-              <label>Panjang Panah:</label>
-              <div class="number-input-wrapper">
-                <button
-                  class="input-btn"
-                  onclick="changeArrow(2, 'length', -1)"
-                >
-                  −
+            
+            <div class="control-buttons">
+                <button class="btn btn-success" onclick="checkAnswer()">
+                    ✓ Periksa Jawaban
                 </button>
-                <input
-                  type="text"
-                  class="number-input"
-                  id="arrow2-length"
-                  value="0"
-                  onchange="updateArrowFromInput(2, 'length')"
-                  onkeypress="return allowNumberInput(event)"
-                />
-                <button class="input-btn" onclick="changeArrow(2, 'length', 1)">
-                  +
+                <button class="btn btn-danger" onclick="resetArrows()">
+                    ↺ Reset Panah
                 </button>
-              </div>
+                <button class="btn btn-warning" onclick="newQuestion()">
+                    🔄 Soal Baru
+                </button>
             </div>
-          </div>
-          <div style="text-align: center; margin-top: 10px">
-            <button
-              class="btn"
-              style="
-                background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-                color: white;
-                padding: 10px 25px;
-                font-size: 0.95em;
-              "
-              onclick="checkArrow(2)"
-            >
-              👁️ Cek Posisi Panah 2
-            </button>
-          </div>
+            
+            <div id="hasil" class="alert alert-success text-center result-alert" role="alert" style="display: none;"></div>
         </div>
-      </div>
+    </div>
 
-      <div class="answer-section">
-        <div class="answer-display" id="answerDisplay">_</div>
-
-        <div class="keypad">
-          <button class="key-btn" onclick="addDigit('7')">7</button>
-          <button class="key-btn" onclick="addDigit('8')">8</button>
-          <button class="key-btn" onclick="addDigit('9')">9</button>
-          <button class="key-btn" onclick="addDigit('4')">4</button>
-          <button class="key-btn" onclick="addDigit('5')">5</button>
-          <button class="key-btn" onclick="addDigit('6')">6</button>
-          <button class="key-btn" onclick="addDigit('1')">1</button>
-          <button class="key-btn" onclick="addDigit('2')">2</button>
-          <button class="key-btn" onclick="addDigit('3')">3</button>
-          <button class="key-btn" onclick="addDigit('-')">−</button>
-          <button class="key-btn" onclick="addDigit('0')">0</button>
-          <button class="key-btn" onclick="clearAnswer()">⌫</button>
-        </div>
-
-        <div class="control-buttons">
-          <button class="btn btn-check" onclick="checkAnswer()">
-            ✓ Periksa Jawaban
-          </button>
-          <button class="btn btn-reset" onclick="resetArrows()">
-            ↺ Reset Panah
-          </button>
-          <button class="btn btn-new" onclick="newQuestion()">
-            🔄 Soal Baru
-          </button>
-        </div>
-
-        <div class="feedback" id="feedback"></div>
-      </div>
-    </main>
-    <script>
-      const toggler = document.querySelector('.navbar-toggler');
-      const collapse = document.querySelector('.navbar-collapse');
-
-      toggler.addEventListener('click', () => {
-        collapse.classList.toggle('show');
-      });
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       const canvas = document.getElementById("numberLine");
       const ctx = canvas.getContext("2d");
-      const canvasWrapper = document.getElementById("canvasWrapper");
+      const canvasWrapper = canvas.parentElement;
 
       let currentQuestion = {};
       let userAnswer = "";
@@ -821,11 +698,15 @@
       let dragStartOffset = 0;
 
       function initCanvas() {
-        canvas.width = 10000;
+        const container = canvas.parentElement;
+        canvas.width = container.offsetWidth - 40;
         canvas.height = 250;
-        canvasWrapper.scrollLeft =
-          canvas.width / 2 - canvasWrapper.offsetWidth / 2;
       }
+
+      window.addEventListener('resize', () => {
+        initCanvas();
+        drawNumberLine();
+      });
 
       function generateQuestion() {
         const types = [
@@ -869,7 +750,7 @@
         ).textContent = `${currentQuestion.a} ${currentQuestion.op} ${currentQuestion.b} = ?`;
         userAnswer = "";
         document.getElementById("answerDisplay").textContent = "_";
-        document.getElementById("feedback").textContent = "";
+        document.getElementById("hasil").style.display = "none";
 
         resetArrows();
         drawNumberLine();
@@ -885,7 +766,6 @@
       function changeArrow(arrowNum, property, delta) {
         if (property === "start") {
           arrows[arrowNum].start += delta;
-          scrollToPosition(arrows[arrowNum].start);
         } else if (property === "length") {
           arrows[arrowNum].length += delta;
         }
@@ -925,11 +805,6 @@
           if (!isNaN(num)) {
             arrows[arrowNum][property] = num;
             input.value = num.toString();
-
-            // Auto scroll ke posisi panah
-            if (property === "start") {
-              scrollToPosition(num);
-            }
           } else {
             input.value = arrows[arrowNum][property].toString();
           }
@@ -938,31 +813,8 @@
         drawNumberLine();
       }
 
-      function scrollToPosition(position) {
-        const centerX = canvas.width / 2;
-        const targetX = centerX + position * spacing;
-        const wrapperWidth = canvasWrapper.offsetWidth;
-
-        // Scroll sehingga posisi target berada di tengah viewport
-        canvasWrapper.scrollLeft = targetX - wrapperWidth / 2;
-      }
-
       function checkArrow(arrowNum) {
         const arrow = arrows[arrowNum];
-        const startPos = arrow.start;
-        const endPos = arrow.start + arrow.length;
-
-        // Scroll ke posisi yang menampilkan seluruh panah
-        const centerX = canvas.width / 2;
-        const startX = centerX + startPos * spacing;
-        const endX = centerX + endPos * spacing;
-        const midX = (startX + endX) / 2;
-        const wrapperWidth = canvasWrapper.offsetWidth;
-
-        // Scroll ke tengah panah
-        canvasWrapper.scrollLeft = midX - wrapperWidth / 2;
-
-        // Highlight panah dengan animasi
         highlightArrow(arrowNum);
       }
 
@@ -979,50 +831,15 @@
             return;
           }
 
-          // Ganti warna sementara untuk efek flash
-          const tempArrows = JSON.parse(JSON.stringify(arrows));
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawNumberLineBase();
 
-          const centerY = canvas.height / 2;
-          const centerX = canvas.width / 2;
-
-          const visibleStart = Math.floor((0 - centerX) / spacing) - 2;
-          const visibleEnd = Math.ceil((canvas.width - centerX) / spacing) + 2;
-
-          ctx.strokeStyle = "#A78BFA";
-          ctx.lineWidth = 4;
-          ctx.beginPath();
-          ctx.moveTo(0, centerY);
-          ctx.lineTo(canvas.width, centerY);
-          ctx.stroke();
-
-          ctx.fillStyle = "#5B21B6";
-          ctx.font = "bold 16px Poppins";
-          ctx.textAlign = "center";
-
-          for (let i = visibleStart; i <= visibleEnd; i++) {
-            const x = centerX + i * spacing;
-
-            if (x >= 0 && x <= canvas.width) {
-              ctx.strokeStyle = i === 0 ? "#5B21B6" : "#A78BFA";
-              ctx.lineWidth = i === 0 ? 3 : 2;
-              ctx.beginPath();
-              ctx.moveTo(x, centerY - 10);
-              ctx.lineTo(x, centerY + 10);
-              ctx.stroke();
-
-              ctx.fillStyle = "#5B21B6";
-              ctx.fillText(i.toString(), x, centerY + 30);
-            }
-          }
-
-          // Gambar panah dengan warna flash
           if (arrows[1].length !== 0) {
             const color1 =
               arrowNum === 1 && flashCount % 2 === 0
                 ? highlightColor
                 : originalColor1;
-            drawArrow(arrows[1], color1, centerY - 50, centerX);
+            drawArrow(arrows[1], color1, canvas.height / 2 - 50);
           }
 
           if (arrows[2].length !== 0) {
@@ -1030,7 +847,7 @@
               arrowNum === 2 && flashCount % 2 === 0
                 ? highlightColor
                 : originalColor2;
-            drawArrow(arrows[2], color2, centerY - 80, centerX);
+            drawArrow(arrows[2], color2, canvas.height / 2 - 80);
           }
 
           flashCount++;
@@ -1049,63 +866,117 @@
         drawNumberLine();
       }
 
-      function drawNumberLine() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+      function drawNumberLineBase() {
         const centerY = canvas.height / 2;
         const centerX = canvas.width / 2;
 
-        const visibleStart = Math.floor((0 - centerX) / spacing) - 2;
-        const visibleEnd = Math.ceil((canvas.width - centerX) / spacing) + 2;
+        const visibleRange = Math.ceil(canvas.width / spacing / 2) + 2;
+        const start = -visibleRange;
+        const end = visibleRange;
 
-        ctx.strokeStyle = "#A78BFA";
+        // Draw gradient line
+        const gradient = ctx.createLinearGradient(0, centerY, canvas.width, centerY);
+        gradient.addColorStop(0, '#B794F4');
+        gradient.addColorStop(0.5, '#9F7AEA');
+        gradient.addColorStop(1, '#B794F4');
+        
+        ctx.strokeStyle = gradient;
         ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+        ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.moveTo(0, centerY);
         ctx.lineTo(canvas.width, centerY);
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
-        ctx.fillStyle = "#5B21B6";
-        ctx.font = "bold 16px Poppins";
-        ctx.textAlign = "center";
+        // Draw ticks and numbers
+        ctx.font = 'bold 14px Quicksand';
+        ctx.fillStyle = '#9F7AEA';
+        ctx.textAlign = 'center';
 
-        for (let i = visibleStart; i <= visibleEnd; i++) {
+        for (let i = start; i <= end; i++) {
           const x = centerX + i * spacing;
 
           if (x >= 0 && x <= canvas.width) {
-            ctx.strokeStyle = i === 0 ? "#5B21B6" : "#A78BFA";
-            ctx.lineWidth = i === 0 ? 3 : 2;
-            ctx.beginPath();
-            ctx.moveTo(x, centerY - 10);
-            ctx.lineTo(x, centerY + 10);
-            ctx.stroke();
-
-            ctx.fillStyle = "#5B21B6";
-            ctx.fillText(i.toString(), x, centerY + 30);
+            if (i === 0) {
+              ctx.strokeStyle = '#9F7AEA';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(x, centerY - 15);
+              ctx.lineTo(x, centerY + 15);
+              ctx.stroke();
+              ctx.fillStyle = '#6B46C1';
+              ctx.font = 'bold 18px Quicksand';
+              ctx.fillText('0', x, centerY + 35);
+              ctx.font = 'bold 14px Quicksand';
+            } else {
+              ctx.strokeStyle = '#D4B5F0';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(x, centerY - 10);
+              ctx.lineTo(x, centerY + 10);
+              ctx.stroke();
+              ctx.fillStyle = '#9F7AEA';
+              ctx.fillText(i.toString(), x, centerY + 35);
+            }
           }
         }
 
+        // Draw arrowheads at ends
+        drawArrowhead(canvas.width - 10, centerY, "right", '#9F7AEA');
+        drawArrowhead(10, centerY, "left", '#9F7AEA');
+      }
+
+      function drawNumberLine() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawNumberLineBase();
+
         if (arrows[1].length !== 0) {
-          drawArrow(arrows[1], "#10B981", centerY - 50, centerX);
+          drawArrow(arrows[1], "#10B981", canvas.height / 2 - 50);
         }
 
         if (arrows[2].length !== 0) {
-          drawArrow(arrows[2], "#F59E0B", centerY - 80, centerX);
+          drawArrow(arrows[2], "#F59E0B", canvas.height / 2 - 80);
         }
       }
 
-      function drawArrow(arrow, color, yPos, centerX) {
+      function drawArrowhead(x, y, direction, color) {
+        ctx.fillStyle = color;
+        ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+        ctx.shadowBlur = 5;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        if (direction === "right") {
+          ctx.lineTo(x - 10, y - 8);
+          ctx.lineTo(x - 10, y + 8);
+        } else {
+          ctx.lineTo(x + 10, y - 8);
+          ctx.lineTo(x + 10, y + 8);
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      function drawArrow(arrow, color, yPos) {
+        const centerX = canvas.width / 2;
         const startX = centerX + arrow.start * spacing;
         const endX = centerX + (arrow.start + arrow.length) * spacing;
 
         ctx.strokeStyle = color;
         ctx.fillStyle = color;
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 5;
+        ctx.shadowColor = color === "#10B981" ? "rgba(16, 185, 129, 0.4)" : "rgba(245, 158, 11, 0.4)";
+        ctx.shadowBlur = 10;
 
         ctx.beginPath();
         ctx.moveTo(startX, yPos);
         ctx.lineTo(endX, yPos);
+        ctx.setLineDash([10, 8]);
         ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.shadowBlur = 0;
 
         ctx.beginPath();
         ctx.arc(startX, yPos, 6, 0, Math.PI * 2);
@@ -1129,11 +1000,22 @@
 
         if (arrow.length !== 0) {
           ctx.fillStyle = color;
-          ctx.font = "bold 14px Poppins";
+          ctx.font = "bold 16px Quicksand";
           const midX = (startX + endX) / 2;
           const labelText =
             arrow.length > 0 ? `+${arrow.length}` : `${arrow.length}`;
-          ctx.fillText(labelText, midX, yPos - 12);
+          
+          const textWidth = ctx.measureText(labelText).width;
+          ctx.fillStyle = 'white';
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.roundRect(midX - textWidth/2 - 10, yPos - 28, textWidth + 20, 28, 14);
+          ctx.fill();
+          ctx.stroke();
+          
+          ctx.fillStyle = color;
+          ctx.fillText(labelText, midX, yPos - 10);
         }
       }
 
@@ -1156,31 +1038,38 @@
       }
 
       function checkAnswer() {
-        const feedback = document.getElementById("feedback");
+        const hasilDiv = document.getElementById("hasil");
         const answerBox = document.getElementById("answerDisplay");
 
         if (userAnswer === "") {
-          feedback.textContent = "Masukkan jawaban dulu ya! 😊";
-          feedback.className = "feedback";
+          hasilDiv.textContent = "Masukkan jawaban dulu ya! 😊";
+          hasilDiv.className = "alert alert-success text-center result-alert";
+          hasilDiv.style.display = "block";
           return;
         }
 
         const userNum = parseInt(userAnswer);
 
         if (userNum === currentQuestion.answer) {
-          feedback.textContent = "Hebat! Jawabanmu benar 🎉";
-          feedback.className = "feedback correct bounce";
-          answerBox.style.background = "#D1FAE5";
+          hasilDiv.textContent = `Hebat! Jawabanmu benar 🎉 ${currentQuestion.a} ${currentQuestion.op} ${currentQuestion.b} = ${currentQuestion.answer}`;
+          hasilDiv.className = "alert alert-success text-center result-alert updated";
+          hasilDiv.style.display = "block";
+          answerBox.style.background = "linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)";
           answerBox.style.borderColor = "#10B981";
+          
+          setTimeout(() => {
+            hasilDiv.classList.remove("updated");
+          }, 600);
         } else {
-          feedback.textContent = "Coba lagi ya 😅";
-          feedback.className = "feedback incorrect";
-          answerBox.style.background = "#FEE2E2";
+          hasilDiv.textContent = `Coba lagi ya 😅 Jawaban yang benar adalah ${currentQuestion.answer}`;
+          hasilDiv.className = "alert alert-success text-center result-alert";
+          hasilDiv.style.display = "block";
+          answerBox.style.background = "linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)";
           answerBox.style.borderColor = "#EF4444";
 
           setTimeout(() => {
-            answerBox.style.background = "#F3F4F6";
-            answerBox.style.borderColor = "#C7D2FE";
+            answerBox.style.background = "linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%)";
+            answerBox.style.borderColor = "#D4B5F0";
           }, 2000);
         }
       }
@@ -1188,5 +1077,5 @@
       initCanvas();
       newQuestion();
     </script>
-  </body>
+</body>
 </html>
