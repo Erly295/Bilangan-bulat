@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembagian Bilangan Bulat 🐇</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e1bee7 0%, #b39ddb 50%, #9fa8da 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6a1b9a;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .input-section {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #ba68c8;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            width: 120px;
+            padding: 12px;
+            font-size: 1.3em;
+            border: 2px solid #9575cd;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .operator {
+            font-size: 2em;
+            color: #6a1b9a;
+            font-weight: bold;
+        }
+
+        button {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .number-line-wrapper {
+            position: relative;
+            height: 450px;
+            background: #e3f2fd;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid #64b5f6;
+            overflow: hidden;
+        }
+
+        .number-line-viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .number-line-viewport::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .number-line-viewport::-webkit-scrollbar-track {
+            background: #d1c4e9;
+            border-radius: 10px;
+        }
+
+        .number-line-viewport::-webkit-scrollbar-thumb {
+            background: #9575cd;
+            border-radius: 10px;
+        }
+
+        .number-line-container {
+            position: relative;
+            height: 100%;
+            width: 20000px;
+            min-width: 20000px;
+        }
+
+        .number-line {
+            position: absolute;
+            top: 60%;
+            left: 10000px;
+            transform: translateY(-50%);
+            transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-line {
+            position: absolute;
+            height: 4px;
+            width: 18000px;
+            background: linear-gradient(90deg, #5e35b1 0%, #7e57c2 50%, #9575cd 100%);
+            top: 0;
+            left: -9000px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #7e57c2;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            top: 0;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+        }
+
+        .point.zero {
+            width: 28px;
+            height: 28px;
+            background: #5e35b1;
+            border: 5px solid white;
+            box-shadow: 0 0 15px rgba(94, 53, 177, 0.6);
+            z-index: 6;
+        }
+
+        .point.dividend {
+            width: 24px;
+            height: 24px;
+            background: #7986cb;
+            border: 5px solid white;
+            box-shadow: 0 0 12px rgba(121, 134, 203, 0.6);
+        }
+
+        .point-label {
+            position: absolute;
+            top: 30px;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #424242;
+            font-size: 1.2em;
+            background: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 2px solid #9575cd;
+            z-index: 5;
+        }
+
+        .point-label.zero-label {
+            border: 3px solid #5e35b1;
+            color: #5e35b1;
+            font-size: 1.4em;
+        }
+
+        .point-label.dividend-label {
+            border: 3px solid #7986cb;
+            color: #3949ab;
+            font-size: 1.3em;
+        }
+
+        .curved-arrow {
+            position: absolute;
+            top: -80px;
+            height: 80px;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .arrow-path {
+            fill: none;
+            stroke-width: 3;
+            stroke-dasharray: 8, 6;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .arrow-head {
+            fill: currentColor;
+        }
+
+        .jump-counter {
+            position: absolute;
+            top: -100px;
+            transform: translateX(-50%);
+            background: white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 8;
+            border: 3px solid white;
+        }
+
+        .divisor-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 4px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            background: white;
+        }
+
+        .dividend-indicator {
+            position: absolute;
+            top: -150px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 3px solid #7986cb;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 7;
+        }
+
+        .kelinci {
+            position: absolute;
+            top: -20px;
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            transform: translateX(-50%);
+        }
+
+        .kelinci-icon {
+            font-size: 3.5em;
+        }
+
+        .kelinci-arrow {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #5e35b1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .result-section {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #ba68c8;
+            text-align: center;
+            font-size: 1.3em;
+            color: #6a1b9a;
+            font-weight: bold;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .legend {
+            background: #e8eaf6;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #9fa8da;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            font-size: 1.05em;
+        }
+
+        .legend-icon {
+            font-size: 2em;
+        }
+
+        @keyframes jump {
+            0%, 100% { 
+                transform: translateX(-50%) translateY(0) scale(1); 
+            }
+            25% {
+                transform: translateX(-50%) translateY(-15px) scale(1.1);
+            }
+            50% { 
+                transform: translateX(-50%) translateY(-40px) scale(1.15); 
+            }
+            75% {
+                transform: translateX(-50%) translateY(-15px) scale(1.1);
+            }
+        }
+
+        @keyframes jump-flip {
+            0%, 100% { 
+                transform: translateX(-50%) translateY(0) scale(1); 
+            }
+            25% {
+                transform: translateX(-50%) translateY(-15px) scale(1.1);
+            }
+            50% { 
+                transform: translateX(-50%) translateY(-40px) scale(1.15); 
+            }
+            75% {
+                transform: translateX(-50%) translateY(-15px) scale(1.1);
+            }
+        }
+
+        .jumping {
+            animation: jump 0.6s ease-in-out;
+        }
+
+        .jumping-flip {
+            animation: jump-flip 0.6s ease-in-out;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.15); }
+        }
+
+        .pulse-flip {
+            animation: pulse-flip 1s infinite;
+        }
+
+        @keyframes pulse-flip {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.15); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pembagian Bilangan Bulat 🐇</h1>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-icon">🐇</span>
+                <span><strong>Kelinci Besar:</strong> Berada di angka yang dibagi (dividend)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🐰</span>
+                <span><strong>Kelinci Kecil:</strong> Melompat dengan kelipatan pembagi (divisor)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">➡️</span>
+                <span><strong>Arah Menghadap:</strong> Sama = Positif (+), Berbeda = Negatif (−)</span>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <input type="number" id="dividend" placeholder="20" value="20">
+                <span class="operator">÷</span>
+                <input type="number" id="divisor" placeholder="5" value="5">
+                <span class="operator">=</span>
+                <span class="operator">?</span>
+            </div>
+            <div style="text-align: center;">
+                <button onclick="calculate()">Hitung Pembagian! 🐇</button>
+            </div>
+        </div>
+
+        <div class="number-line-wrapper">
+            <div class="number-line-viewport" id="viewport">
+                <div class="number-line-container">
+                    <div class="number-line" id="numberLine">
+                        <div class="main-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-section" id="result">
+            Masukkan angka dan klik tombol untuk melihat animasi! 🐇
+        </div>
+    </div>
+
+    <script>
+        let kelinciBesar, kelinciKecil;
+        const SCALE = 80;
+        let arrows = [];
+        let counters = [];
+        
+        const arrowColors = ['#9575cd', '#7986cb', '#64b5f6', '#81c784', '#ffb74d', '#e57373', '#ba68c8', '#4dd0e1'];
+        
+        function initNumberLine(divisor, dividend) {
+            const numberLine = document.getElementById('numberLine');
+            const mainLine = numberLine.querySelector('.main-line');
+            
+            numberLine.innerHTML = '';
+            if (mainLine) numberLine.appendChild(mainLine);
+            
+            arrows = [];
+            counters = [];
+            
+            if (!divisor || divisor === 0) return;
+            
+            const absDivisor = Math.abs(divisor);
+            const absDividend = Math.abs(dividend);
+            
+            // Create a very large range to simulate infinity
+            const maxRange = Math.max(absDividend + absDivisor * 20, 100);
+            const minRange = Math.min(-(absDividend + absDivisor * 20), -100);
+            
+            // Create points for multiples of divisor
+            for (let i = minRange; i <= maxRange; i++) {
+                if (i % absDivisor === 0) {
+                    const point = document.createElement('div');
+                    point.className = i === 0 ? 'point zero' : (i === dividend ? 'point dividend' : 'point');
+                    point.style.left = `${i * SCALE}px`;
+                    numberLine.appendChild(point);
+                    
+                    const label = document.createElement('div');
+                    label.className = i === 0 ? 'point-label zero-label' : (i === dividend ? 'point-label dividend-label' : 'point-label');
+                    label.textContent = i;
+                    label.style.left = `${i * SCALE}px`;
+                    numberLine.appendChild(label);
+                }
+            }
+            
+            // Create dividend indicator
+            const dividendIndicator = document.createElement('div');
+            dividendIndicator.className = 'dividend-indicator';
+            dividendIndicator.style.left = `${dividend * SCALE}px`;
+            dividendIndicator.innerHTML = `
+                <div class="divisor-circle" style="border-color: #7986cb; color: #7986cb;">${dividend}</div>
+                <span style="font-weight: bold; color: #3949ab;">Kelinci Besar 🐇</span>
+            `;
+            numberLine.appendChild(dividendIndicator);
+            
+            // Create arrow to Kelinci Besar from 0
+            if (dividend !== 0) {
+                createCurvedArrow(0, dividend, '#7986cb', 'Kelinci');
+            }
+        }
+
+        function createCurvedArrow(startPos, endPos, color, jumpNumber) {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'curved-arrow');
+            
+            const startX = startPos * SCALE;
+            const endX = endPos * SCALE;
+            const width = Math.abs(endX - startX);
+            const height = 80;
+            
+            svg.style.left = `${Math.min(startX, endX)}px`;
+            svg.style.width = `${width}px`;
+            svg.style.height = `${height}px`;
+            
+            const controlY = -40;
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            
+            let pathD;
+            if (endX > startX) {
+                pathD = `M 5 ${height} Q ${width/2} ${controlY}, ${width-5} ${height}`;
+            } else {
+                pathD = `M ${width-5} ${height} Q ${width/2} ${controlY}, 5 ${height}`;
+            }
+            
+            path.setAttribute('d', pathD);
+            path.setAttribute('class', 'arrow-path');
+            path.style.stroke = color;
+            
+            const arrowHead = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            if (endX > startX) {
+                arrowHead.setAttribute('points', `${width-5},${height} ${width-15},${height-8} ${width-15},${height+8}`);
+            } else {
+                arrowHead.setAttribute('points', `5,${height} 15,${height-8} 15,${height+8}`);
+            }
+            arrowHead.setAttribute('class', 'arrow-head');
+            arrowHead.style.color = color;
+            
+            svg.appendChild(path);
+            svg.appendChild(arrowHead);
+            
+            document.getElementById('numberLine').appendChild(svg);
+            arrows.push(svg);
+            return svg;
+        }
+
+        function createJumpCounter(position, jumpNumber, color) {
+            const counter = document.createElement('div');
+            counter.className = 'jump-counter';
+            counter.style.left = `${position * SCALE}px`;
+            counter.style.backgroundColor = color;
+            counter.style.borderColor = color;
+            
+            const circle = document.createElement('div');
+            circle.className = 'divisor-circle';
+            circle.style.borderColor = color;
+            circle.style.color = color;
+            circle.style.width = '40px';
+            circle.style.height = '40px';
+            circle.style.fontSize = '1.1em';
+            circle.textContent = jumpNumber;
+            
+            counter.appendChild(circle);
+            
+            document.getElementById('numberLine').appendChild(counter);
+            counters.push(counter);
+            return counter;
+        }
+
+        function createKelinci(type, position, facingRight) {
+            const container = document.createElement('div');
+            container.className = `kelinci ${type}`;
+            container.style.left = `${position * SCALE}px`;
+            
+            const arrow = document.createElement('div');
+            arrow.className = 'kelinci-arrow';
+            arrow.textContent = facingRight ? '»' : '«';
+            
+            const icon = document.createElement('div');
+            icon.className = 'kelinci-icon';
+            icon.textContent = type === 'kelinci-besar' ? '🐇' : '🐰';
+            
+            container.appendChild(arrow);
+            container.appendChild(icon);
+            
+            document.getElementById('numberLine').appendChild(container);
+            return container;
+        }
+
+        function scrollToPosition(position) {
+            const viewport = document.getElementById('viewport');
+            const viewportWidth = viewport.clientWidth;
+            const numberLineLeft = 10000;
+            
+            const targetPixel = numberLineLeft + (position * SCALE);
+            const scrollLeft = targetPixel - (viewportWidth / 2);
+            
+            viewport.scrollTo({
+                left: scrollLeft,
+                behavior: 'smooth'
+            });
+        }
+
+        async function calculate() {
+            const dividend = parseInt(document.getElementById('dividend').value);
+            const divisor = parseInt(document.getElementById('divisor').value);
+            
+            if (isNaN(dividend) || isNaN(divisor) || divisor === 0) {
+                document.getElementById('result').textContent = 
+                    divisor === 0 ? '⚠️ Pembagi tidak boleh nol!' : '⚠️ Masukkan angka yang valid!';
+                return;
+            }
+
+            const result = dividend / divisor;
+            const jumps = Math.abs(Math.floor(result));
+            
+            // Clear previous elements
+            if (kelinciBesar) kelinciBesar.remove();
+            if (kelinciKecil) kelinciKecil.remove();
+            arrows.forEach(a => a.remove());
+            counters.forEach(c => c.remove());
+            arrows = [];
+            counters = [];
+            
+            initNumberLine(divisor, dividend);
+            
+            document.getElementById('result').textContent = '🐇 Perhatikan animasinya...';
+            
+            scrollToPosition(dividend / 2);
+            
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Determine directions
+            const kelincibesarFacingRight = dividend >= 0;
+            const kelinciKecilFacingRight = divisor >= 0;
+            
+            // Create Kelinci Besar at dividend position
+            kelinciBesar = createKelinci('kelinci-besar', dividend, kelincibesarFacingRight);
+            if (kelincibesarFacingRight) {
+                kelinciBesar.classList.add('pulse');
+            } else {
+                kelinciBesar.classList.add('pulse-flip');
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Create Kelinci Kecil at starting position
+            kelinciKecil = createKelinci('kelinci-kecil', 0, kelinciKecilFacingRight);
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            kelinciBesar.classList.remove('pulse', 'pulse-flip');
+            
+            // Animate jumps - kelinci kecil moves according to divisor direction
+            let currentPos = 0;
+            
+            // Determine jump direction based on divisor sign
+            const jumpDirection = divisor > 0 ? 1 : -1;
+            const absDivisor = Math.abs(divisor);
+            
+            for (let i = 1; i <= jumps; i++) {
+                // Calculate next position based on dividend direction
+                const nextPos = dividend > 0 ? 
+                    (i * absDivisor) * (dividend / Math.abs(dividend)) : 
+                    (i * absDivisor) * (dividend / Math.abs(dividend));
+                
+                const color = arrowColors[(i - 1) % arrowColors.length];
+                
+                // Create arrow
+                createCurvedArrow(currentPos, nextPos, color, i);
+                
+                await new Promise(resolve => setTimeout(resolve, 200));
+                
+                // Add jump animation (same for both directions now)
+                kelinciKecil.classList.add('jumping');
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Move to next position
+                currentPos = nextPos;
+                kelinciKecil.style.left = `${currentPos * SCALE}px`;
+                
+                // Create counter with jump number (1, 2, 3, ...)
+                createJumpCounter(currentPos, i, color);
+                
+                scrollToPosition(currentPos);
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                kelinciKecil.classList.remove('jumping');
+                
+                await new Promise(resolve => setTimeout(resolve, 400));
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            const sameDirection = kelincibesarFacingRight === kelinciKecilFacingRight;
+            const resultSign = sameDirection ? '+' : '−';
+            const displayResult = sameDirection ? jumps : -jumps;
+            
+            const signExplanation = sameDirection ? 
+                `✅ Kedua kelinci menghadap arah yang <strong>SAMA</strong> → hasil <strong>POSITIF (${resultSign}${jumps})</strong>` :
+                `➖ Kedua kelinci menghadap arah yang <strong>BERBEDA</strong> → hasil <strong>NEGATIF (${resultSign}${jumps})</strong>`;
+            
+            const directionInfo = `
+                <div style="font-size: 0.95em; margin: 15px 0; padding: 15px; background: #e8eaf6; border-radius: 10px; border: 2px solid #9575cd;">
+                    🐇 Kelinci Besar menghadap ke <strong>${kelincibesarFacingRight ? 'KANAN →' : 'KIRI ←'}</strong> (di angka ${dividend})<br>
+                    🐰 Kelinci Kecil menghadap ke <strong>${kelinciKecilFacingRight ? 'KANAN →' : 'KIRI ←'}</strong> (melompat ${jumps} kali)
+                </div>
+            `;
+            
+            document.getElementById('result').innerHTML = 
+                `<div>
+                    <div style="margin-bottom: 15px; font-size: 1.4em;">
+                        <strong>${dividend} ÷ ${divisor} = ${displayResult}</strong>
+                    </div>
+                    ${directionInfo}
+                    <div style="font-size: 1em; margin-bottom: 10px;">
+                        🐰 Kelinci Kecil melompat <strong>${jumps} kali</strong> dengan kelipatan <strong>${divisor}</strong><br>
+                        untuk mencapai Kelinci Besar!
+                    </div>
+                    <div style="font-size: 0.95em; color: #6a1b9a; margin-top: 10px;">
+                        ${signExplanation}
+                    </div>
+                </div>`;
+        }
+
+        // Initialize with default values
+        initNumberLine(5, 20);
+        
+        setTimeout(() => {
+            scrollToPosition(10);
+        }, 100);
+    </script>
+</body>
+</html>
