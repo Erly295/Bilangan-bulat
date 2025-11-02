@@ -123,14 +123,14 @@
         .number-line-container {
             position: relative;
             height: 100%;
-            width: 20000px;
-            min-width: 20000px;
+            width: 100000px;
+            min-width: 100000px;
         }
 
         .number-line {
             position: absolute;
             top: 60%;
-            left: 10000px;
+            left: 50000px;
             transform: translateY(-50%);
             transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -138,10 +138,10 @@
         .main-line {
             position: absolute;
             height: 4px;
-            width: 18000px;
+            width: 90000px;
             background: linear-gradient(90deg, #5e35b1 0%, #7e57c2 50%, #9575cd 100%);
             top: 0;
-            left: -9000px;
+            left: -45000px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
@@ -400,9 +400,9 @@
 
         <div class="input-section">
             <div class="input-group">
-                <input type="number" id="dividend">
+                <input type="number" id="dividend" placeholder="Angka dibagi">
                 <span class="operator">÷</span>
-                <input type="number" id="divisor">
+                <input type="number" id="divisor" placeholder="Pembagi">
                 <span class="operator">=</span>
                 <span class="operator">?</span>
             </div>
@@ -449,9 +449,9 @@
             const absDivisor = Math.abs(divisor);
             const absDividend = Math.abs(dividend);
             
-            // Create a very large range to simulate infinity
-            const maxRange = Math.max(absDividend + absDivisor * 20, 100);
-            const minRange = Math.min(-(absDividend + absDivisor * 20), -100);
+            // Create a very large range: minimum -5000 to +5000
+            const maxRange = Math.max(absDividend + absDivisor * 50, 5000);
+            const minRange = Math.min(-(absDividend + absDivisor * 50), -5000);
             
             // Create points for multiples of divisor
             for (let i = minRange; i <= maxRange; i++) {
@@ -575,7 +575,7 @@
         function scrollToPosition(position) {
             const viewport = document.getElementById('viewport');
             const viewportWidth = viewport.clientWidth;
-            const numberLineLeft = 10000;
+            const numberLineLeft = 50000;
             
             const targetPixel = numberLineLeft + (position * SCALE);
             const scrollLeft = targetPixel - (viewportWidth / 2);
@@ -587,12 +587,32 @@
         }
 
         async function calculate() {
-            const dividend = parseInt(document.getElementById('dividend').value);
-            const divisor = parseInt(document.getElementById('divisor').value);
+            const dividendInput = document.getElementById('dividend').value;
+            const divisorInput = document.getElementById('divisor').value;
+            
+            // Check if inputs are empty or zero
+            if (!dividendInput || !divisorInput) {
+                document.getElementById('result').textContent = '⚠️ Silakan masukkan angka yang dibagi dan pembagi!';
+                return;
+            }
+            
+            const dividend = parseInt(dividendInput);
+            const divisor = parseInt(divisorInput);
             
             if (isNaN(dividend) || isNaN(divisor) || divisor === 0) {
                 document.getElementById('result').textContent = 
                     divisor === 0 ? '⚠️ Pembagi tidak boleh nol!' : '⚠️ Masukkan angka yang valid!';
+                return;
+            }
+
+            if (dividend === 0) {
+                document.getElementById('result').textContent = '⚠️ Angka yang dibagi tidak boleh nol!';
+                return;
+            }
+
+            // Validation: absolute value of dividend must be >= absolute value of divisor
+            if (Math.abs(dividend) < Math.abs(divisor)) {
+                document.getElementById('result').textContent = '⚠️ Angka yang dibagi harus lebih besar atau sama dengan pembagi!';
                 return;
             }
 
@@ -710,11 +730,12 @@
                 </div>`;
         }
 
-        // Initialize with default values
-        initNumberLine(5, 20);
+        // Initialize with empty number line
+        const numberLine = document.getElementById('numberLine');
+        const mainLine = numberLine.querySelector('.main-line');
         
         setTimeout(() => {
-            scrollToPosition(10);
+            scrollToPosition(0);
         }, 100);
     </script>
 </body>
