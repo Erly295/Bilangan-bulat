@@ -350,25 +350,28 @@
             font-size: 1.5em;
             font-weight: 600;
             text-align: center;
-            display: none;
         }
 
         .feedback.benar {
             background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             color: white;
-            display: block;
         }
 
         .feedback.salah {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             color: white;
-            display: block;
         }
 
         .feedback.peringatan {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            display: block;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         @media (max-width: 768px) {
@@ -503,6 +506,50 @@
         const CENTER = 2500;
         const JARAK_PER_ANGKA = 80;
 
+        function validasiInputSebelumLompatan() {
+            const feedback = document.getElementById('feedback');
+            const angkaKelinci = document.getElementById('angkaKelinciNum').value;
+            const kelipatan = document.getElementById('kelipatanNum').value;
+            
+            let pesanError = [];
+            
+            if (!angkaKelinci || angkaKelinci === '') {
+                pesanError.push('Angka Kelinci Besar (Tujuan)');
+            }
+            
+            if (arahBesar === null) {
+                pesanError.push('Arah Kelinci Besar');
+            }
+            
+            if (!kelipatan || kelipatan === '') {
+                pesanError.push('Kelipatan Tiap Lompatan');
+            }
+            
+            if (arahKecil === null) {
+                pesanError.push('Arah Kelinci Kecil');
+            }
+            
+            if (pesanError.length > 0) {
+                tampilkanFeedback('⚠️ Lengkapi dulu: ' + pesanError.join(', ') + '!', 'peringatan');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function tampilkanFeedback(pesan, jenis) {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = pesan;
+            feedback.className = 'feedback ' + jenis;
+            
+            if (jenis === 'peringatan') {
+                setTimeout(() => {
+                    feedback.textContent = '';
+                    feedback.className = 'feedback';
+                }, 3000);
+            }
+        }
+
         document.getElementById('btnKelipatanTambah').addEventListener('click', function() {
             const input = document.getElementById('kelipatanNum');
             let nilai = input.value === '' ? 0 : parseInt(input.value);
@@ -579,43 +626,6 @@
             buatGarisBilangan();
             posisikanKelinciBesar();
         });
-
-        function validasiInputSebelumLompatan() {
-            const feedback = document.getElementById('feedback');
-            const angkaKelinci = document.getElementById('angkaKelinciNum').value;
-            const kelipatan = document.getElementById('kelipatanNum').value;
-            
-            let pesanError = [];
-            
-            if (!angkaKelinci || angkaKelinci === '') {
-                pesanError.push('Angka Kelinci Besar (Tujuan)');
-            }
-            
-            if (arahBesar === null) {
-                pesanError.push('Arah Kelinci Besar');
-            }
-            
-            if (!kelipatan || kelipatan === '') {
-                pesanError.push('Kelipatan Tiap Lompatan');
-            }
-            
-            if (arahKecil === null) {
-                pesanError.push('Arah Kelinci Kecil');
-            }
-            
-            if (pesanError.length > 0) {
-                feedback.className = 'feedback peringatan';
-                feedback.textContent = '⚠️ Lengkapi dulu: ' + pesanError.join(', ') + '!';
-                
-                setTimeout(() => {
-                    feedback.style.display = 'none';
-                }, 3000);
-                
-                return false;
-            }
-            
-            return true;
-        }
 
         function buatGarisBilangan() {
             const garisBilangan = document.getElementById('garisBilangan');
@@ -695,8 +705,6 @@
                     jejak.className = 'lompatan-jejak';
                     
                     const mulai = i * kelipatan * multiplier;
-                    const akhir = (i + 1) * kelipatan * multiplier;
-                    
                     const posisiMulai = CENTER + (mulai * JARAK_PER_ANGKA);
                     const jarakPixel = kelipatan * JARAK_PER_ANGKA;
                     
@@ -718,8 +726,9 @@
 
             document.getElementById('soalText').textContent = `${pembilang} ÷ ${pembagi} = ?`;
             document.getElementById('inputJawaban').value = '';
-            document.getElementById('feedback').className = 'feedback';
-            document.getElementById('feedback').style.display = 'none';
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = '';
+            feedback.className = 'feedback';
             document.getElementById('angkaKelinciNum').value = '';
             document.getElementById('kelipatanNum').value = '';
             
@@ -766,30 +775,25 @@
 
         function cekJawaban() {
             const inputValue = document.getElementById('inputJawaban').value.trim();
-            const feedback = document.getElementById('feedback');
 
             if (inputValue === '' || inputValue === '-') {
-                feedback.className = 'feedback salah';
-                feedback.textContent = '❌ Masukkan jawaban terlebih dahulu ya! 🐰';
+                tampilkanFeedback('❌ Masukkan jawaban terlebih dahulu ya! 🐰', 'salah');
                 return;
             }
 
             const jawaban = parseInt(inputValue);
             
             if (isNaN(jawaban)) {
-                feedback.className = 'feedback salah';
-                feedback.textContent = '❌ Masukkan jawaban yang valid ya! 🐰';
+                tampilkanFeedback('❌ Masukkan jawaban yang valid ya! 🐰', 'salah');
                 return;
             }
 
             const hasilBenar = Math.floor(soalSekarang.pembilang / soalSekarang.pembagi);
 
             if (jawaban === hasilBenar) {
-                feedback.className = 'feedback benar';
-                feedback.textContent = '✅ Bagus! Jawaban kamu benar 🎉';
+                tampilkanFeedback('✅ Bagus! Jawaban kamu benar 🎉', 'benar');
             } else {
-                feedback.className = 'feedback salah';
-                feedback.textContent = `❌ Belum tepat, coba lagi ya 🐰 (Jawaban: ${hasilBenar})`;
+                tampilkanFeedback(`❌ Belum tepat, coba lagi ya 🐰`, 'salah');
             }
         }
 
