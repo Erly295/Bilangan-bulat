@@ -32,6 +32,130 @@
             color: #6a1b9a;
             margin-bottom: 30px;
             font-size: 2.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .info-button {
+            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.8em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 15px rgba(126, 87, 194, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            position: relative;
+        }
+
+        @keyframes slideDown {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #9575cd;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover {
+            color: #6a1b9a;
+        }
+
+        .modal-header {
+            color: #6a1b9a;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-section {
+            background: #f3e5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #ba68c8;
+        }
+
+        .modal-section h3 {
+            color: #6a1b9a;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .modal-section p {
+            color: #424242;
+            line-height: 1.8;
+            margin: 5px 0;
+        }
+
+        .modal-example {
+            background: #e8eaf6;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #7986cb;
         }
 
         .input-section {
@@ -382,32 +506,67 @@
 <body>
     <div class="container">
         <h1>Pembagian Bilangan Bulat 🐇</h1>
-        
-        <div class="legend">
-            <div class="legend-item">
-                <span class="legend-icon">🐇</span>
-                <span><strong>Kelinci Besar:</strong> Berada di angka yang dibagi (dividend)</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-icon">🐰</span>
-                <span><strong>Kelinci Kecil:</strong> Melompat dengan kelipatan pembagi (divisor)</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-icon">➡️</span>
-                <span><strong>Arah Menghadap:</strong> Sama = Positif (+), Berbeda = Negatif (−)</span>
+
+        <!-- Modal -->
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <div class="modal-header">📚 Panduan Pembelajaran</div>
+                
+                <div class="modal-section">
+                    <h3>🐇 Kelinci Besar (Dividend)</h3>
+                    <p>• Berada di posisi angka yang dibagi</p>
+                    <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
+                    <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
+                    <div class="modal-example">
+                        <strong>Contoh:</strong><br>
+                        • 20 ÷ 5: Kelinci Besar » di angka 20<br>
+                        • -20 ÷ 5: Kelinci Besar « di angka -20
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>🐰 Kelinci Kecil (Divisor)</h3>
+                    <p>• Melompat dengan kelipatan pembagi</p>
+                    <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
+                    <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
+                    <div class="modal-example">
+                        <strong>Contoh:</strong><br>
+                        • 20 ÷ 5: Kelinci Kecil » melompat 5, 10, 15, 20<br>
+                        • 20 ÷ -5: Kelinci Kecil « melompat 5, 10, 15, 20
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>📐 Aturan Hasil</h3>
+                    <p><strong>✅ Arah SAMA = Hasil POSITIF</strong></p>
+                    <p>Kedua kelinci menghadap arah yang sama</p>
+                    <div class="modal-example">
+                        • (+20) ÷ (+5) = +4 (kedua » kanan)<br>
+                        • (−20) ÷ (−5) = +4 (kedua « kiri)
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>➖ Arah BERBEDA = Hasil NEGATIF</strong></p>
+                    <p>Kedua kelinci menghadap arah berlawanan</p>
+                    <div class="modal-example">
+                        • (+20) ÷ (−5) = −4 (» kanan vs « kiri)<br>
+                        • (−20) ÷ (+5) = −4 (« kiri vs » kanan)
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="input-section">
             <div class="input-group">
-                <input type="number" id="dividend" placeholder="">
+                <input type="number" id="dividend" placeholder="Angka dibagi">
                 <span class="operator">÷</span>
-                <input type="number" id="divisor" placeholder="">
+                <input type="number" id="divisor" placeholder="Pembagi">
                 <span class="operator">=</span>
                 <span class="operator">?</span>
             </div>
-            <div style="text-align: center;">
+            <div class="button-group">
                 <button onclick="calculate()">Hitung Pembagian! 🐇</button>
+                <button class="info-button" onclick="openModal()" title="Informasi Panduan">💡</button>
             </div>
         </div>
 
@@ -707,19 +866,11 @@
                 `✅ Kedua kelinci menghadap arah yang <strong>SAMA</strong> → hasil <strong>POSITIF (${resultSign}${jumps})</strong>` :
                 `➖ Kedua kelinci menghadap arah yang <strong>BERBEDA</strong> → hasil <strong>NEGATIF (${resultSign}${jumps})</strong>`;
             
-            const directionInfo = `
-                <div style="font-size: 0.95em; margin: 15px 0; padding: 15px; background: #e8eaf6; border-radius: 10px; border: 2px solid #9575cd;">
-                    🐇 Kelinci Besar menghadap ke <strong>${kelincibesarFacingRight ? 'KANAN →' : 'KIRI ←'}</strong> (di angka ${dividend})<br>
-                    🐰 Kelinci Kecil menghadap ke <strong>${kelinciKecilFacingRight ? 'KANAN →' : 'KIRI ←'}</strong> (melompat ${jumps} kali)
-                </div>
-            `;
-            
             document.getElementById('result').innerHTML = 
                 `<div>
                     <div style="margin-bottom: 15px; font-size: 1.4em;">
                         <strong>${dividend} ÷ ${divisor} = ${displayResult}</strong>
                     </div>
-                    ${directionInfo}
                     <div style="font-size: 1em; margin-bottom: 10px;">
                         🐰 Kelinci Kecil melompat <strong>${jumps} kali</strong> dengan kelipatan <strong>${divisor}</strong><br>
                         untuk mencapai Kelinci Besar!
@@ -728,6 +879,23 @@
                         ${signExplanation}
                     </div>
                 </div>`;
+        }
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('infoModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('infoModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         }
 
         // Initialize with empty number line
