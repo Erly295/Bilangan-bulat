@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembagian Bilangan Bulat 🐇</title>
+    <title>Pembelajaran Bilangan Bulat ✨</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,212 +15,222 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e1bee7 0%, #b39ddb 50%, #9fa8da 100%);
+            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
+            background-attachment: fixed;
+            font-family: 'Quicksand', sans-serif;
             min-height: 100vh;
-            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '✨ 💜 🌸 ⭐ 💙 🦄 🌈 ☁️';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 2rem;
+            opacity: 0.1;
+            pointer-events: none;
+            word-spacing: 3rem;
+            line-height: 5rem;
+            animation: float 20s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 50%, #805AD5 100%);
+            box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
+            padding: 1.2rem 2rem;
+            border-radius: 0 0 30px 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand::before {
+            content: '✨ ';
+        }
+
+        .navbar-brand::after {
+            content: ' ✨';
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05) rotate(-2deg);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            padding: 0.6rem 1.2rem !important;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            text-align: center;
-            color: #6a1b9a;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            color: #805AD5;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
+            margin-bottom: 2rem !important;
+        }
+
+        h1::before {
+            content: '🌟';
+            margin-right: 10px;
+        }
+
+        h1::after {
+            content: '🌟';
+            margin-left: 10px;
         }
 
         .info-button {
-            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
-            color: white;
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
             border: none;
+            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.2rem;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.8em;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: white;
         }
 
         .info-button:hover {
-            transform: scale(1.15);
-            box-shadow: 0 6px 15px rgba(126, 87, 194, 0.4);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: slideDown 0.3s;
-            position: relative;
-        }
-
-        @keyframes slideDown {
-            from { 
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close-button {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2em;
-            font-weight: bold;
-            color: #9575cd;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-button:hover {
-            color: #6a1b9a;
-        }
-
-        .modal-header {
-            color: #6a1b9a;
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-section {
-            background: #f3e5f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #ba68c8;
-        }
-
-        .modal-section h3 {
-            color: #6a1b9a;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-        }
-
-        .modal-section p {
-            color: #424242;
-            line-height: 1.8;
-            margin: 5px 0;
-        }
-
-        .modal-example {
-            background: #e8eaf6;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border-left: 4px solid #7986cb;
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
         }
 
         .input-section {
-            background: #f3e5f5;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 25px;
             margin-bottom: 30px;
-            border: 3px solid #ba68c8;
+            border: 4px solid #D4B5F0;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
         }
 
         .input-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin-bottom: 20px;
         }
 
-        input[type="number"] {
-            width: 120px;
-            padding: 12px;
-            font-size: 1.3em;
-            border: 2px solid #9575cd;
-            border-radius: 10px;
+        .form-control {
+            border: 3px solid #D4B5F0;
+            border-radius: 20px !important;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #805AD5;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
             text-align: center;
+            max-width: 150px;
         }
 
-        .operator {
-            font-size: 2em;
-            color: #6a1b9a;
-            font-weight: bold;
-        }
-
-        button {
-            background: linear-gradient(135deg, #9575cd 0%, #7e57c2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-weight: bold;
-        }
-
-        button:hover {
+        .form-control:focus {
+            border-color: #9F7AEA;
+            box-shadow: 0 0 0 0.5rem rgba(159, 122, 234, 0.2), 0 8px 20px rgba(128, 90, 213, 0.2);
             transform: scale(1.05);
         }
 
-        button:active {
-            transform: scale(0.95);
+        .operator-box {
+            width: 4rem;
+            font-size: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            font-weight: bold;
+            border: 3px solid #D4B5F0;
+            border-radius: 20px;
+            color: #805AD5;
+            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .operator-box:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+            border: 3px solid #9F7AEA;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.3);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.5);
+            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
         }
 
         .number-line-wrapper {
             position: relative;
             height: 450px;
-            background: #e3f2fd;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 50%, #E9D8FD 100%);
+            border-radius: 25px;
             margin: 30px 0;
-            border: 3px solid #64b5f6;
+            border: 4px solid #D4B5F0;
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
         }
 
         .number-line-viewport {
@@ -231,16 +244,16 @@
         }
 
         .number-line-viewport::-webkit-scrollbar {
-            height: 10px;
+            height: 12px;
         }
 
         .number-line-viewport::-webkit-scrollbar-track {
-            background: #d1c4e9;
+            background: #E9D8FD;
             border-radius: 10px;
         }
 
         .number-line-viewport::-webkit-scrollbar-thumb {
-            background: #9575cd;
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
             border-radius: 10px;
         }
 
@@ -263,20 +276,20 @@
             position: absolute;
             height: 4px;
             width: 90000px;
-            background: linear-gradient(90deg, #5e35b1 0%, #7e57c2 50%, #9575cd 100%);
+            background: linear-gradient(90deg, #B794F4, #9F7AEA, #B794F4);
             top: 0;
             left: -45000px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(159, 122, 234, 0.3);
         }
 
         .point {
             position: absolute;
             width: 20px;
             height: 20px;
-            background: #7e57c2;
+            background: #9F7AEA;
             border-radius: 50%;
             border: 4px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(128, 90, 213, 0.3);
             top: 0;
             transform: translate(-50%, -50%);
             z-index: 5;
@@ -285,43 +298,43 @@
         .point.zero {
             width: 28px;
             height: 28px;
-            background: #5e35b1;
+            background: #805AD5;
             border: 5px solid white;
-            box-shadow: 0 0 15px rgba(94, 53, 177, 0.6);
+            box-shadow: 0 0 15px rgba(128, 90, 213, 0.6);
             z-index: 6;
         }
 
         .point.dividend {
             width: 24px;
             height: 24px;
-            background: #7986cb;
+            background: #B794F4;
             border: 5px solid white;
-            box-shadow: 0 0 12px rgba(121, 134, 203, 0.6);
+            box-shadow: 0 0 12px rgba(183, 148, 244, 0.6);
         }
 
         .point-label {
             position: absolute;
             top: 30px;
             transform: translateX(-50%);
-            font-weight: bold;
-            color: #424242;
+            font-weight: 700;
+            color: #805AD5;
             font-size: 1.2em;
             background: white;
             padding: 4px 10px;
-            border-radius: 6px;
-            border: 2px solid #9575cd;
+            border-radius: 10px;
+            border: 3px solid #D4B5F0;
             z-index: 5;
         }
 
         .point-label.zero-label {
-            border: 3px solid #5e35b1;
-            color: #5e35b1;
+            border: 3px solid #805AD5;
+            color: #805AD5;
             font-size: 1.4em;
         }
 
         .point-label.dividend-label {
-            border: 3px solid #7986cb;
-            color: #3949ab;
+            border: 3px solid #B794F4;
+            color: #6B46C1;
             font-size: 1.3em;
         }
 
@@ -337,7 +350,7 @@
             fill: none;
             stroke-width: 3;
             stroke-dasharray: 8, 6;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 2px 4px rgba(128, 90, 213, 0.2));
         }
 
         .arrow-head {
@@ -354,7 +367,7 @@
             border-radius: 20px;
             font-weight: bold;
             font-size: 1.1em;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(128, 90, 213, 0.3);
             z-index: 8;
             border: 3px solid white;
         }
@@ -382,8 +395,8 @@
             background: white;
             padding: 10px 20px;
             border-radius: 25px;
-            border: 3px solid #7986cb;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 3px solid #B794F4;
+            box-shadow: 0 4px 10px rgba(128, 90, 213, 0.2);
             z-index: 7;
         }
 
@@ -392,7 +405,7 @@
             top: -20px;
             transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 10;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 6px rgba(128, 90, 213, 0.3));
             transform: translateX(-50%);
         }
 
@@ -407,61 +420,103 @@
             transform: translateX(-50%);
             font-size: 2.5em;
             font-weight: bold;
-            color: #5e35b1;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: #805AD5;
+            text-shadow: 0 2px 4px rgba(128, 90, 213, 0.3);
         }
 
         .result-section {
-            background: #f3e5f5;
-            padding: 25px;
-            border-radius: 15px;
-            border: 3px solid #ba68c8;
+            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
+            border: 3px solid #C4B5D4;
+            border-radius: 25px;
+            color: #805AD5;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+            padding: 1.5rem;
             text-align: center;
-            font-size: 1.3em;
-            color: #6a1b9a;
-            font-weight: bold;
             min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .legend {
-            background: #e8eaf6;
-            padding: 20px;
+        .modal-content {
+            border-radius: 30px;
+            border: 4px solid #D4B5F0;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
+            box-shadow: 0 10px 40px rgba(128, 90, 213, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
+            color: white;
+            border-radius: 26px 26px 0 0;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .modal-title::before {
+            content: '💡 ';
+        }
+
+        .modal-body {
+            padding: 2rem;
+            color: #805AD5;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .modal-body b, .modal-body strong {
+            color: #6B46C1;
+            font-size: 1.15rem;
+        }
+
+        .modal-section {
+            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 20px;
-            border: 2px solid #9fa8da;
+            margin-bottom: 15px;
+            border: 3px solid #D4B5F0;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-            font-size: 1.05em;
+        .modal-section h3 {
+            color: #6B46C1;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+            font-weight: 700;
         }
 
-        .legend-icon {
-            font-size: 2em;
+        .modal-section p {
+            color: #805AD5;
+            line-height: 1.8;
+            margin: 5px 0;
+        }
+
+        .modal-example {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border-left: 4px solid #9F7AEA;
+        }
+
+        .btn-close {
+            background: white;
+            border-radius: 50%;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            transform: rotate(90deg) scale(1.2);
         }
 
         @keyframes jump {
-            0%, 100% { 
-                transform: translateX(-50%) translateY(0) scale(1); 
-            }
-            25% {
-                transform: translateX(-50%) translateY(-15px) scale(1.1);
-            }
-            50% { 
-                transform: translateX(-50%) translateY(-40px) scale(1.15); 
-            }
-            75% {
-                transform: translateX(-50%) translateY(-15px) scale(1.1);
-            }
-        }
-
-        @keyframes jump-flip {
             0%, 100% { 
                 transform: translateX(-50%) translateY(0) scale(1); 
             }
@@ -480,10 +535,6 @@
             animation: jump 0.6s ease-in-out;
         }
 
-        .jumping-flip {
-            animation: jump-flip 0.6s ease-in-out;
-        }
-
         .pulse {
             animation: pulse 1s infinite;
         }
@@ -493,79 +544,85 @@
             50% { transform: translateX(-50%) scale(1.15); }
         }
 
-        .pulse-flip {
-            animation: pulse-flip 1s infinite;
-        }
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
 
-        @keyframes pulse-flip {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.15); }
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-control {
+                max-width: 100px;
+                font-size: 1rem;
+            }
+
+            .operator-box {
+                width: 3rem;
+                font-size: 1.5rem;
+            }
+
+            .btn-primary {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Pembagian Bilangan Bulat 🐇</h1>
-
-        <!-- Modal -->
-        <div id="infoModal" class="modal">
-            <div class="modal-content">
-                <span class="close-button" onclick="closeModal()">&times;</span>
-                <div class="modal-header">📚 Panduan Pembelajaran</div>
-                
-                <div class="modal-section">
-                    <h3>🐇 Kelinci Besar (Dividend)</h3>
-                    <p>• Berada di posisi angka yang dibagi</p>
-                    <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
-                    <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
-                    <div class="modal-example">
-                        <strong>Contoh:</strong><br>
-                        • 20 ÷ 5: Kelinci Besar » di angka 20<br>
-                        • -20 ÷ 5: Kelinci Besar « di angka -20
-                    </div>
-                </div>
-
-                <div class="modal-section">
-                    <h3>🐰 Kelinci Kecil (Divisor)</h3>
-                    <p>• Melompat dengan kelipatan pembagi</p>
-                    <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
-                    <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
-                    <div class="modal-example">
-                        <strong>Contoh:</strong><br>
-                        • 20 ÷ 5: Kelinci Kecil » melompat 5, 10, 15, 20<br>
-                        • 20 ÷ -5: Kelinci Kecil « melompat 5, 10, 15, 20
-                    </div>
-                </div>
-
-                <div class="modal-section">
-                    <h3>📐 Aturan Hasil</h3>
-                    <p><strong>✅ Arah SAMA = Hasil POSITIF</strong></p>
-                    <p>Kedua kelinci menghadap arah yang sama</p>
-                    <div class="modal-example">
-                        • (+20) ÷ (+5) = +4 (kedua » kanan)<br>
-                        • (−20) ÷ (−5) = +4 (kedua « kiri)
-                    </div>
-                    
-                    <p style="margin-top: 15px;"><strong>➖ Arah BERBEDA = Hasil NEGATIF</strong></p>
-                    <p>Kedua kelinci menghadap arah berlawanan</p>
-                    <div class="modal-example">
-                        • (+20) ÷ (−5) = −4 (» kanan vs « kiri)<br>
-                        • (−20) ÷ (+5) = −4 (« kiri vs » kanan)
-                    </div>
-                </div>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background: white; border-radius: 15px">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">➕ Penjumlahan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pengurangan.html">➖ Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="perkalian.html">✖️ Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="pembagian.html">➗ Pembagian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Interaktif1.html">🧩 Interaktif Penjumlahan dan Pengurangan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Interaktif2.html">🕹️ Interaktif Perkalian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Interaktif4.html">🧩 Interaktif Pembagian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="game.html">🎮 Permainan</a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
+
+    <div class="container my-5 content">
+        <div class="text-center">
+            <h1>Pembagian Bilangan Bulat</h1>
         </div>
 
         <div class="input-section">
-            <div class="input-group">
-                <input type="number" id="dividend" placeholder="">
-                <span class="operator">÷</span>
-                <input type="number" id="divisor" placeholder="">
-                <span class="operator">=</span>
-                <span class="operator">?</span>
+            <div class="d-flex justify-content-center align-items-center input-group mb-3">
+                <input type="number" class="form-control" id="dividend" placeholder="Dibagi">
+                <div class="operator-box">÷</div>
+                <input type="number" class="form-control" id="divisor" placeholder="Pembagi">
+                <div class="operator-box">=</div>
+                <div class="operator-box">?</div>
             </div>
-            <div class="button-group">
-                <button onclick="calculate()">Hitung Pembagian! 🐇</button>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <button class="btn btn-primary" onclick="calculate()">Hitung Pembagian! 🐇</button>
                 <button class="info-button" onclick="openModal()" title="Informasi Panduan">💡</button>
             </div>
         </div>
@@ -585,20 +642,84 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Panduan Pembelajaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h3>🐇 Kelinci Besar (Dividend)</h3>
+                        <p>• Berada di posisi angka yang dibagi</p>
+                        <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
+                        <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
+                        <div class="modal-example">
+                            <strong>Contoh:</strong><br>
+                            • 20 ÷ 5: Kelinci Besar » di angka 20<br>
+                            • -20 ÷ 5: Kelinci Besar « di angka -20
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3>🐰 Kelinci Kecil (Divisor)</h3>
+                        <p>• Melompat dengan kelipatan pembagi</p>
+                        <p>• <strong>Positif</strong> → Menghadap KANAN (»)</p>
+                        <p>• <strong>Negatif</strong> → Menghadap KIRI («)</p>
+                        <div class="modal-example">
+                            <strong>Contoh:</strong><br>
+                            • 20 ÷ 5: Kelinci Kecil » melompat 5, 10, 15, 20<br>
+                            • 20 ÷ -5: Kelinci Kecil « melompat 5, 10, 15, 20
+                        </div>
+                    </div>
+
+                    <div class="modal-section">
+                        <h3>📐 Aturan Hasil</h3>
+                        <p><strong>✅ Arah SAMA = Hasil POSITIF</strong></p>
+                        <p>Kedua kelinci menghadap arah yang sama</p>
+                        <div class="modal-example">
+                            • (+20) ÷ (+5) = +4 (kedua » kanan)<br>
+                            • (−20) ÷ (−5) = +4 (kedua « kiri)
+                        </div>
+                        
+                        <p style="margin-top: 15px;"><strong>➖ Arah BERBEDA = Hasil NEGATIF</strong></p>
+                        <p>Kedua kelinci menghadap arah berlawanan</p>
+                        <div class="modal-example">
+                            • (+20) ÷ (−5) = −4 (» kanan vs « kiri)<br>
+                            • (−20) ÷ (+5) = −4 (« kiri vs » kanan)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let kelinciBesar, kelinciKecil;
         const SCALE = 80;
         let arrows = [];
         let counters = [];
         
-        const arrowColors = ['#9575cd', '#7986cb', '#64b5f6', '#81c784', '#ffb74d', '#e57373', '#ba68c8', '#4dd0e1'];
+        const arrowColors = ['#B794F4', '#9F7AEA', '#805AD5', '#D4B5F0', '#C4B5D4', '#9FA8DA', '#B39DDB', '#E1BEE7'];
         
         function initNumberLine(divisor, dividend) {
             const numberLine = document.getElementById('numberLine');
-            const mainLine = numberLine.querySelector('.main-line');
             
+            // Simpan referensi main-line sebelum clear
+            let mainLine = numberLine.querySelector('.main-line');
+            
+            // Clear semua konten
             numberLine.innerHTML = '';
-            if (mainLine) numberLine.appendChild(mainLine);
+            
+            // Buat ulang main-line jika tidak ada
+            if (!mainLine) {
+                mainLine = document.createElement('div');
+                mainLine.className = 'main-line';
+            }
+            numberLine.appendChild(mainLine);
             
             arrows = [];
             counters = [];
@@ -608,39 +729,40 @@
             const absDivisor = Math.abs(divisor);
             const absDividend = Math.abs(dividend);
             
-            // Create a very large range: minimum -5000 to +5000
-            const maxRange = Math.max(absDividend + absDivisor * 50, 5000);
-            const minRange = Math.min(-(absDividend + absDivisor * 50), -5000);
+            // Hitung range berdasarkan dividend dan divisor
+            const jumps = Math.ceil(absDividend / absDivisor);
+            const extraJumps = 10; // Tambahan titik di kiri dan kanan
             
-            // Create points for multiples of divisor
-            for (let i = minRange; i <= maxRange; i++) {
-                if (i % absDivisor === 0) {
-                    const point = document.createElement('div');
-                    point.className = i === 0 ? 'point zero' : (i === dividend ? 'point dividend' : 'point');
-                    point.style.left = `${i * SCALE}px`;
-                    numberLine.appendChild(point);
-                    
-                    const label = document.createElement('div');
-                    label.className = i === 0 ? 'point-label zero-label' : (i === dividend ? 'point-label dividend-label' : 'point-label');
-                    label.textContent = i;
-                    label.style.left = `${i * SCALE}px`;
-                    numberLine.appendChild(label);
-                }
+            // Range simetris
+            const minValue = -(jumps + extraJumps) * absDivisor;
+            const maxValue = (jumps + extraJumps) * absDivisor;
+            
+            // Loop dengan kelipatan divisor
+            for (let i = minValue; i <= maxValue; i += absDivisor) {
+                const point = document.createElement('div');
+                point.className = i === 0 ? 'point zero' : (i === dividend ? 'point dividend' : 'point');
+                point.style.left = `${i * SCALE}px`;
+                numberLine.appendChild(point);
+                
+                const label = document.createElement('div');
+                label.className = i === 0 ? 'point-label zero-label' : (i === dividend ? 'point-label dividend-label' : 'point-label');
+                label.textContent = i;
+                label.style.left = `${i * SCALE}px`;
+                numberLine.appendChild(label);
             }
             
-            // Create dividend indicator
+            // Dividend indicator
             const dividendIndicator = document.createElement('div');
             dividendIndicator.className = 'dividend-indicator';
             dividendIndicator.style.left = `${dividend * SCALE}px`;
             dividendIndicator.innerHTML = `
-                <div class="divisor-circle" style="border-color: #7986cb; color: #7986cb;">${dividend}</div>
-                <span style="font-weight: bold; color: #3949ab;">Kelinci Besar 🐇</span>
+                <div class="divisor-circle" style="border-color: #B794F4; color: #B794F4;">${dividend}</div>
+                <span style="font-weight: bold; color: #6B46C1;">Kelinci Besar 🐇</span>
             `;
             numberLine.appendChild(dividendIndicator);
             
-            // Create arrow to Kelinci Besar from 0
             if (dividend !== 0) {
-                createCurvedArrow(0, dividend, '#7986cb', 'Kelinci');
+                createCurvedArrow(0, dividend, '#B794F4', 'Kelinci');
             }
         }
 
@@ -749,7 +871,6 @@
             const dividendInput = document.getElementById('dividend').value;
             const divisorInput = document.getElementById('divisor').value;
             
-            // Check if inputs are empty or zero
             if (!dividendInput || !divisorInput) {
                 document.getElementById('result').textContent = '⚠️ Silakan masukkan angka yang dibagi dan pembagi!';
                 return;
@@ -769,7 +890,6 @@
                 return;
             }
 
-            // Validation: absolute value of dividend must be >= absolute value of divisor
             if (Math.abs(dividend) < Math.abs(divisor)) {
                 document.getElementById('result').textContent = '⚠️ Angka yang dibagi harus lebih besar atau sama dengan pembagi!';
                 return;
@@ -778,7 +898,6 @@
             const result = dividend / divisor;
             const jumps = Math.abs(Math.floor(result));
             
-            // Clear previous elements
             if (kelinciBesar) kelinciBesar.remove();
             if (kelinciKecil) kelinciKecil.remove();
             arrows.forEach(a => a.remove());
@@ -794,57 +913,43 @@
             
             await new Promise(resolve => setTimeout(resolve, 800));
             
-            // Determine directions
             const kelincibesarFacingRight = dividend >= 0;
             const kelinciKecilFacingRight = divisor >= 0;
             
-            // Create Kelinci Besar at dividend position
             kelinciBesar = createKelinci('kelinci-besar', dividend, kelincibesarFacingRight);
-            if (kelincibesarFacingRight) {
-                kelinciBesar.classList.add('pulse');
-            } else {
-                kelinciBesar.classList.add('pulse-flip');
-            }
+            kelinciBesar.classList.add('pulse');
             
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            // Create Kelinci Kecil at starting position
             kelinciKecil = createKelinci('kelinci-kecil', 0, kelinciKecilFacingRight);
             
             await new Promise(resolve => setTimeout(resolve, 500));
             
-            kelinciBesar.classList.remove('pulse', 'pulse-flip');
+            kelinciBesar.classList.remove('pulse');
             
-            // Animate jumps - kelinci kecil moves according to divisor direction
             let currentPos = 0;
             
-            // Determine jump direction based on divisor sign
             const jumpDirection = divisor > 0 ? 1 : -1;
             const absDivisor = Math.abs(divisor);
             
             for (let i = 1; i <= jumps; i++) {
-                // Calculate next position based on dividend direction
                 const nextPos = dividend > 0 ? 
                     (i * absDivisor) * (dividend / Math.abs(dividend)) : 
                     (i * absDivisor) * (dividend / Math.abs(dividend));
                 
                 const color = arrowColors[(i - 1) % arrowColors.length];
                 
-                // Create arrow
                 createCurvedArrow(currentPos, nextPos, color, i);
                 
                 await new Promise(resolve => setTimeout(resolve, 200));
                 
-                // Add jump animation (same for both directions now)
                 kelinciKecil.classList.add('jumping');
                 
                 await new Promise(resolve => setTimeout(resolve, 300));
                 
-                // Move to next position
                 currentPos = nextPos;
                 kelinciKecil.style.left = `${currentPos * SCALE}px`;
                 
-                // Create counter with jump number (1, 2, 3, ...)
                 createJumpCounter(currentPos, i, color);
                 
                 scrollToPosition(currentPos);
@@ -875,30 +980,17 @@
                         🐰 Kelinci Kecil melompat <strong>${jumps} kali</strong> dengan kelipatan <strong>${divisor}</strong><br>
                         untuk mencapai Kelinci Besar!
                     </div>
-                    <div style="font-size: 0.95em; color: #6a1b9a; margin-top: 10px;">
+                    <div style="font-size: 0.95em; color: #6B46C1; margin-top: 10px;">
                         ${signExplanation}
                     </div>
                 </div>`;
         }
 
-        // Modal functions
         function openModal() {
-            document.getElementById('infoModal').style.display = 'block';
+            const modal = new bootstrap.Modal(document.getElementById('infoModal'));
+            modal.show();
         }
 
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('infoModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Initialize with empty number line
         const numberLine = document.getElementById('numberLine');
         const mainLine = numberLine.querySelector('.main-line');
         

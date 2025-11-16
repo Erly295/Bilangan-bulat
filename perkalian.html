@@ -1,314 +1,344 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perkalian Bilangan Bulat ⭐✨</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #e8d5f2 0%,
+          #d4e4f7 50%,
+          #e0c3fc 100%
+        );
+        background-attachment: fixed;
+        font-family: "Quicksand", sans-serif;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Cute floating elements background */
+      body::before {
+        content: "⭐ 💜 ✨ 🌸 💙 🦄 🌈 ☁️";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 2rem;
+        opacity: 0.1;
+        pointer-events: none;
+        word-spacing: 3rem;
+        line-height: 5rem;
+        animation: float 20s infinite linear;
+        z-index: 0;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0);
         }
-        
-        body {
-            background: linear-gradient(135deg, #E8D5F2 0%, #D4E4F7 50%, #E0C3FC 100%);
-            background-attachment: fixed;
-            font-family: 'Quicksand', sans-serif;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+        50% {
+          transform: translateY(-20px);
         }
-        
-        /* Cute floating elements background */
-        body::before {
-            content: '⭐ 💜 ✨ 🌸 💙 🦄 🌈 ☁️';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            opacity: 0.1;
-            pointer-events: none;
-            word-spacing: 3rem;
-            line-height: 5rem;
-            animation: float 20s infinite linear;
-            z-index: 0;
+        100% {
+          transform: translateY(0);
         }
-        
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+      }
+
+      .navbar {
+        background: linear-gradient(
+          135deg,
+          #b794f4 0%,
+          #9f7aea 50%,
+          #805ad5 100%
+        );
+        box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
+        padding: 1.2rem 2rem;
+        border-radius: 0 0 30px 30px;
+        backdrop-filter: blur(10px);
+      }
+
+      .navbar-brand {
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand::before {
+        content: "✨ ";
+      }
+
+      .navbar-brand::after {
+        content: " ✨";
+      }
+
+      .navbar-brand:hover {
+        transform: scale(1.05) rotate(-2deg);
+        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-link {
+        color: #ffffff !important;
+        font-weight: 600;
+        margin: 0 0.5rem;
+        padding: 0.6rem 1.2rem !important;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+      }
+
+      .nav-link.active {
+        background: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      .content {
+        animation: slideInUp 0.6s ease-out;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-        
-        .navbar {
-            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 50%, #805AD5 100%);
-            box-shadow: 0 8px 32px rgba(149, 117, 205, 0.4);
-            padding: 1.2rem 2rem;
-            border-radius: 0 0 30px 30px;
-            backdrop-filter: blur(10px);
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
+      }
+
+      h1 {
+        color: #805ad5;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
+        margin-bottom: 2rem !important;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1::before {
+        content: "⭐";
+        margin-right: 10px;
+      }
+
+      h1::after {
+        content: "⭐";
+        margin-left: 10px;
+      }
+
+      .input-group {
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .form-control {
+        border: 3px solid #d4b5f0;
+        border-radius: 20px !important;
+        padding: 0.8rem 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #805ad5;
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+      }
+
+      .form-control:focus {
+        border-color: #9f7aea;
+        box-shadow: 0 0 0 0.5rem rgba(159, 122, 234, 0.2),
+          0 8px 20px rgba(128, 90, 213, 0.2);
+        transform: scale(1.05);
+      }
+
+      .form-control::placeholder {
+        color: #c4b5d4;
+      }
+
+      .operator-box {
+        width: 4rem;
+        font-size: 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #faf5ff 0%, #e9d8fd 100%);
+        font-weight: bold;
+        border: 3px solid #d4b5f0;
+        border-radius: 20px;
+        color: #805ad5;
+        box-shadow: 0 4px 12px rgba(128, 90, 213, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .operator-box:hover {
+        transform: rotate(10deg) scale(1.1);
+      }
+
+      .btn-info {
+        background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+        border: none;
+        box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
+        transition: all 0.3s ease;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+
+      .btn-info:hover {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
+        background: linear-gradient(135deg, #b794f4 0%, #9f7aea 100%);
+      }
+
+      .canvas-card {
+        border: 4px solid #d4b5f0;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+        box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .canvas-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
+      }
+
+      .card-body {
+        padding: 2rem !important;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #faf5ff 50%,
+          #e9d8fd 100%
+        );
+      }
+
+      #garis {
+        border-radius: 20px;
+      }
+
+      .alert-success {
+        background: linear-gradient(135deg, #e9d8fd 0%, #d4e4f7 100%);
+        border: 3px solid #c4b5d4;
+        border-radius: 25px;
+        color: #805ad5;
+        font-weight: 700;
+        font-size: 1.3rem;
+        box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .result-alert.updated {
+        animation: bounce 0.6s ease;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .modal-content {
+        border-radius: 30px;
+        border: 4px solid #d4b5f0;
+        background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+        box-shadow: 0 10px 40px rgba(128, 90, 213, 0.3);
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #b794f4 0%, #9f7aea 100%);
+        color: white;
+        border-radius: 26px 26px 0 0;
+        border-bottom: none;
+        padding: 1.5rem;
+      }
+
+      .modal-title {
+        font-weight: 700;
+        font-size: 1.5rem;
+      }
+
+      .modal-title::before {
+        content: "💡 ";
+      }
+
+      .modal-body {
+        padding: 2rem;
+        color: #805ad5;
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+
+      .modal-body b {
+        color: #6b46c1;
+        font-size: 1.15rem;
+      }
+
+      .btn-close {
+        background: white;
+        border-radius: 50%;
+        opacity: 1;
+        transition: all 0.3s ease;
+      }
+
+      .btn-close:hover {
+        transform: rotate(90deg) scale(1.2);
+      }
+
+      @media (max-width: 768px) {
         .navbar-brand {
-            color: #ffffff !important;
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+          font-size: 1.2rem;
         }
-        
-        .navbar-brand::before {
-            content: '✨ ';
-        }
-        
-        .navbar-brand::after {
-            content: ' ✨';
-        }
-        
-        .navbar-brand:hover {
-            transform: scale(1.05) rotate(-2deg);
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        .nav-link {
-            color: #ffffff !important;
-            font-weight: 600;
-            margin: 0 0.5rem;
-            padding: 0.6rem 1.2rem !important;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-        }
-        
-        .nav-link.active {
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-        }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .content {
-            animation: slideInUp 0.6s ease-out;
-        }
-        
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+
         h1 {
-            color: #805AD5;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(128, 90, 213, 0.2);
-            margin-bottom: 2rem !important;
-            position: relative;
-            display: inline-block;
+          font-size: 1.8rem;
         }
-        
-        h1::before {
-            content: '⭐';
-            margin-right: 10px;
-        }
-        
-        h1::after {
-            content: '⭐';
-            margin-left: 10px;
-        }
-        
-        .input-group {
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
+
         .form-control {
-            border: 3px solid #D4B5F0;
-            border-radius: 20px !important;
-            padding: 0.8rem 1.2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #805AD5;
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+          width: 100% !important;
         }
-        
-        .form-control:focus {
-            border-color: #9F7AEA;
-            box-shadow: 0 0 0 0.5rem rgba(159, 122, 234, 0.2), 0 8px 20px rgba(128, 90, 213, 0.2);
-            transform: scale(1.05);
-        }
-        
-        .form-control::placeholder {
-            color: #C4B5D4;
-        }
-        
+
         .operator-box {
-            width: 4rem;
-            font-size: 2rem;
-            text-align: center;
-            background: linear-gradient(135deg, #FAF5FF 0%, #E9D8FD 100%);
-            font-weight: bold;
-            border: 3px solid #D4B5F0;
-            border-radius: 20px;
-            color: #805AD5;
-            box-shadow: 0 4px 12px rgba(128, 90, 213, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+          width: 100%;
+          height: 3rem;
         }
-        
-        .operator-box:hover {
-            transform: rotate(10deg) scale(1.1);
-        }
-        
-        .btn-info {
-            background: linear-gradient(135deg, #9F7AEA 0%, #805AD5 100%);
-            border: none;
-            box-shadow: 0 4px 15px rgba(128, 90, 213, 0.4);
-            transition: all 0.3s ease;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        
-        .btn-info:hover {
-            transform: scale(1.15) rotate(10deg);
-            box-shadow: 0 6px 20px rgba(128, 90, 213, 0.6);
-            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
-        }
-        
-        .canvas-card {
-            border: 4px solid #D4B5F0;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
-            box-shadow: 0 8px 32px rgba(128, 90, 213, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .canvas-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
-        }
-        
-        .card-body {
-            padding: 2rem !important;
-            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 50%, #E9D8FD 100%);
-        }
-        
-        #garis {
-            border-radius: 20px;
-        }
-        
-        .alert-success {
-            background: linear-gradient(135deg, #E9D8FD 0%, #D4E4F7 100%);
-            border: 3px solid #C4B5D4;
-            border-radius: 25px;
-            color: #805AD5;
-            font-weight: 700;
-            font-size: 1.3rem;
-            box-shadow: 0 8px 25px rgba(128, 90, 213, 0.2);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .result-alert.updated {
-            animation: bounce 0.6s ease;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .modal-content {
-            border-radius: 30px;
-            border: 4px solid #D4B5F0;
-            background: linear-gradient(135deg, #FFFFFF 0%, #FAF5FF 100%);
-            box-shadow: 0 10px 40px rgba(128, 90, 213, 0.3);
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%);
-            color: white;
-            border-radius: 26px 26px 0 0;
-            border-bottom: none;
-            padding: 1.5rem;
-        }
-        
-        .modal-title {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .modal-title::before {
-            content: '💡 ';
-        }
-        
-        .modal-body {
-            padding: 2rem;
-            color: #805AD5;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-        
-        .modal-body b {
-            color: #6B46C1;
-            font-size: 1.15rem;
-        }
-        
-        .btn-close {
-            background: white;
-            border-radius: 50%;
-            opacity: 1;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-close:hover {
-            transform: rotate(90deg) scale(1.2);
-        }
-        
-        @media (max-width: 768px) {
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .form-control {
-                width: 100% !important;
-            }
-            
-            .operator-box {
-                width: 100%;
-                height: 3rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Pembelajaran Bilangan Bulat</a>
@@ -324,10 +354,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="index.html"
-                data-transition="fade"
+              <a class="nav-link" href="index.html" data-transition="fade"
                 >➕ Penjumlahan</a
               >
             </li>
@@ -337,9 +364,15 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="perkalian.html" data-transition="fade"
+              <a
+                class="nav-link active"
+                href="perkalian.html"
+                data-transition="fade"
                 >✖️ Perkalian</a
               >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pembagian.html">➗ Pembagian</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="Interaktif1.html"
@@ -352,6 +385,11 @@
               >
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="Interaktif4.html"
+                >🧩 Interaktif Pembagian</a
+              >
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="game.html" data-transition="fade"
                 >🎮 Permainan</a
               >
@@ -360,452 +398,576 @@
         </div>
       </div>
     </nav>
-    
+
     <div class="container my-5 content">
-        <div class="text-center">
-            <h1>Perkalian Bilangan Bulat</h1>
+      <div class="text-center">
+        <h1>Perkalian Bilangan Bulat</h1>
+      </div>
+
+      <div class="input-group justify-content-center mb-4">
+        <input
+          type="number"
+          id="factorA"
+          placeholder="Angka Pertama"
+          class="form-control w-auto me-2"
+          oninput="startAnimation()"
+          style="max-width: 200px"
+        />
+        <div class="operator-box">×</div>
+        <input
+          type="number"
+          id="factorB"
+          placeholder="Angka Kedua"
+          class="form-control w-auto me-2"
+          oninput="startAnimation()"
+          style="max-width: 200px"
+        />
+        <button
+          class="btn btn-info rounded-circle d-flex align-items-center justify-content-center"
+          onclick="showInstructions()"
+          title="Petunjuk"
+          style="width: 50px; height: 50px"
+        >
+          💡
+        </button>
+      </div>
+
+      <div class="card canvas-card mb-4">
+        <div class="card-body p-0">
+          <canvas id="garis" width="700" height="250"></canvas>
         </div>
-        
-        <div class="input-group justify-content-center mb-4">
-            <input type="number" id="factorA" placeholder="Angka Pertama" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
-            <div class="operator-box">×</div>
-            <input type="number" id="factorB" placeholder="Angka Kedua" class="form-control w-auto me-2" oninput="startAnimation()" style="max-width: 200px;">
-            <button class="btn btn-info rounded-circle d-flex align-items-center justify-content-center" onclick="showInstructions()" title="Petunjuk" style="width: 50px; height: 50px;">
-                💡
-            </button>
-        </div>
-        
-        <div class="card canvas-card mb-4">
-            <div class="card-body p-0">
-                <canvas id="garis" width="700" height="250"></canvas>
-            </div>
-        </div>
-        
-        <div id="hasil" class="alert alert-success text-center result-alert" role="alert" style="display: none;"></div>
+      </div>
+
+      <div
+        id="hasil"
+        class="alert alert-success text-center result-alert"
+        role="alert"
+        style="display: none"
+      ></div>
     </div>
 
     <div id="instructionModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Instruksi Penggunaan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        <b>🌟 Angka Pertama</b><br>
-                        • Jika positif, maka arah akan ke kanan. <br>
-                        • Jika negatif, maka arah akan ke kiri. <br><br>
-                        
-                        <b>💜 Angka Kedua</b><br>
-                        • Jika positif, maka arah akan tetap. <br>
-                        • Jika negatif maka arah akan berbalik.<br><br>
-                    </p>
-                </div>
-            </div>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Instruksi Penggunaan</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              <b>🌟 Angka Pertama</b><br />
+              • Jika positif, maka arah akan ke kanan. <br />
+              • Jika negatif, maka arah akan ke kiri. <br /><br />
+
+              <b>💜 Angka Kedua</b><br />
+              • Jika positif, maka arah akan tetap. <br />
+              • Jika negatif maka arah akan berbalik.<br /><br />
+            </p>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const canvas = document.getElementById('garis');
-        const ctx = canvas.getContext('2d');
-        const hasilDiv = document.getElementById('hasil');
-        let animationFrameId;
-        const padding = 60;
+      const canvas = document.getElementById("garis");
+      const ctx = canvas.getContext("2d");
+      const hasilDiv = document.getElementById("hasil");
+      let animationFrameId;
+      const padding = 60;
 
-        // Create tooltip element
-        const tooltip = document.createElement("div");
-        tooltip.className = "tooltip";
-        tooltip.style.cssText = "position: absolute; background: linear-gradient(135deg, #9F7AEA, #805AD5); color: white; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 600; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 9999; box-shadow: 0 4px 12px rgba(128, 90, 213, 0.4);";
-        document.body.appendChild(tooltip);
+      // Create tooltip element
+      const tooltip = document.createElement("div");
+      tooltip.className = "tooltip";
+      tooltip.style.cssText =
+        "position: absolute; background: linear-gradient(135deg, #9F7AEA, #805AD5); color: white; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 600; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 9999; box-shadow: 0 4px 12px rgba(128, 90, 213, 0.4);";
+      document.body.appendChild(tooltip);
 
-        // Color palette for steps
-        const colors = ['#B794F4', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#3B82F6', '#EC4899'];
+      // Color palette for steps
+      const colors = [
+        "#B794F4",
+        "#EF4444",
+        "#10B981",
+        "#F59E0B",
+        "#8B5CF6",
+        "#3B82F6",
+        "#EC4899",
+      ];
 
-        // Responsive canvas
-        function resizeCanvas() {
-            const container = canvas.parentElement;
-            canvas.width = container.offsetWidth - 40;
-            canvas.height = 250;
-            if (document.getElementById('factorA').value || document.getElementById('factorB').value) {
-                startAnimation();
-            }
+      // Responsive canvas
+      function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.offsetWidth - 40;
+        canvas.height = 250;
+        if (
+          document.getElementById("factorA").value ||
+          document.getElementById("factorB").value
+        ) {
+          startAnimation();
         }
-        
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+      }
 
-        function drawNumberLine(a, b, result) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
 
-            const canvasWidth = canvas.width - 2 * padding;
-            let ticks = [];
-            
-            if (a === 0 || b === 0) {
-                // Default range if no multiplication
-                for (let i = -5; i <= 5; i++) {
-                    ticks.push(i);
-                }
-            } else {
-                ticks.push(0);
-                const stepSize = Math.abs(b);
-                const numSteps = Math.abs(a);
-                const direction = Math.sign(a * b);
-                
-                // Add intermediate steps
-                for (let i = 1; i <= numSteps; i++) {
-                    ticks.push(i * stepSize * direction);
-                }
-                
-                // Add extra tick for better view
-                ticks.push((numSteps + 1) * stepSize * direction);
-            }
+      function drawNumberLine(a, b, result) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
-            const range = uniqueTicks[uniqueTicks.length - 1] - uniqueTicks[0] || 1;
-            const xScale = canvasWidth / range;
-            
-            const tickPositions = new Map();
-            uniqueTicks.forEach((tick) => {
-                const x = padding + (tick - uniqueTicks[0]) * xScale;
-                tickPositions.set(tick, x);
-            });
+        const canvasWidth = canvas.width - 2 * padding;
+        let ticks = [];
 
-            // Draw main gradient line
-            const gradient = ctx.createLinearGradient(padding, 100, canvas.width - padding, 100);
-            gradient.addColorStop(0, '#B794F4');
-            gradient.addColorStop(0.5, '#9F7AEA');
-            gradient.addColorStop(1, '#B794F4');
-            
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.moveTo(padding, 100);
-            ctx.lineTo(canvas.width - padding, 100);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
+        if (a === 0 || b === 0) {
+          // Default range if no multiplication
+          for (let i = -5; i <= 5; i++) {
+            ticks.push(i);
+          }
+        } else {
+          ticks.push(0);
+          const stepSize = Math.abs(b);
+          const numSteps = Math.abs(a);
+          const direction = Math.sign(a * b);
 
-            // Draw ticks and numbers
-            ctx.font = 'bold 14px Quicksand';
-            ctx.textAlign = 'center';
-            
-            uniqueTicks.forEach((tick) => {
-                const x = tickPositions.get(tick);
-                if (x >= padding - 10 && x <= canvas.width - padding + 10) {
-                    if (tick === 0) {
-                        ctx.strokeStyle = '#9F7AEA';
-                        ctx.lineWidth = 4;
-                        ctx.beginPath();
-                        ctx.moveTo(x, 85);
-                        ctx.lineTo(x, 115);
-                        ctx.stroke();
-                        ctx.fillStyle = '#6B46C1';
-                        ctx.font = 'bold 18px Quicksand';
-                        ctx.fillText('0', x, 135);
-                        ctx.font = 'bold 14px Quicksand';
-                    } else if (tick === result) {
-                        ctx.strokeStyle = '#B794F4';
-                        ctx.lineWidth = 3;
-                        ctx.beginPath();
-                        ctx.moveTo(x, 88);
-                        ctx.lineTo(x, 112);
-                        ctx.stroke();
-                        ctx.fillStyle = '#805AD5';
-                        ctx.font = 'bold 16px Quicksand';
-                        ctx.fillText(tick, x, 135);
-                        ctx.font = 'bold 14px Quicksand';
-                    } else {
-                        ctx.strokeStyle = '#D4B5F0';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.moveTo(x, 93);
-                        ctx.lineTo(x, 107);
-                        ctx.stroke();
-                        ctx.fillStyle = '#9F7AEA';
-                        ctx.fillText(tick, x, 135);
-                    }
-                }
-            });
+          // Add intermediate steps
+          for (let i = 1; i <= numSteps; i++) {
+            ticks.push(i * stepSize * direction);
+          }
 
-            // Draw arrow heads at ends
-            drawArrowhead(canvas.width - padding, 100, "right", '#9F7AEA');
-            drawArrowhead(padding, 100, "left", '#9F7AEA');
-
-            return { tickPositions, uniqueTicks };
+          // Add extra tick for better view
+          ticks.push((numSteps + 1) * stepSize * direction);
         }
 
-        function drawArrowhead(x, y, direction, color) {
-            ctx.fillStyle = color;
-            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
-            ctx.shadowBlur = 5;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            if (direction === "right") {
-                ctx.lineTo(x - 10, y - 8);
-                ctx.lineTo(x - 10, y + 8);
-            } else {
-                ctx.lineTo(x + 10, y - 8);
-                ctx.lineTo(x + 10, y + 8);
-            }
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
+        const uniqueTicks = [...new Set(ticks)].sort((a, b) => a - b);
+        const range = uniqueTicks[uniqueTicks.length - 1] - uniqueTicks[0] || 1;
+        const xScale = canvasWidth / range;
 
-        function drawResultMarker(x, y, value) {
-            ctx.shadowColor = "rgba(107, 70, 193, 0.5)";
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.arc(x, y, 10, 0, 2 * Math.PI);
-            ctx.fillStyle = '#6B46C1';
-            ctx.fill();
-            ctx.shadowBlur = 0;
-            
-            // Inner highlight
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.beginPath();
-            ctx.arc(x - 3, y - 3, 4, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        function getInterpolatedX(value, tickPositions, uniqueTicks, padding, canvasWidth) {
-            const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
-            const index = sortedTicks.findIndex(tick => tick >= value);
-            if (index === -1) return tickPositions.get(sortedTicks[sortedTicks.length - 1]) || canvas.width - padding;
-            const prevTick = sortedTicks[index - 1] || sortedTicks[0];
-            const nextTick = sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
-            const prevX = tickPositions.get(prevTick) || padding;
-            const nextX = tickPositions.get(nextTick) || canvas.width - padding;
-            const ratio = (value - prevTick) / (nextTick - prevTick) || 1;
-            return prevX + (nextX - prevX) * ratio;
-        }
-
-        let resultX, resultY, resultValue, endpointMarkers = [];
-        
-        canvas.addEventListener("mousemove", (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            let hoveredValue = null;
-            for (let marker of endpointMarkers) {
-                if (Math.hypot(mouseX - marker.x, mouseY - marker.y) < 15) {
-                    hoveredValue = marker.value;
-                    break;
-                }
-            }
-            
-            if (hoveredValue !== null) {
-                tooltip.style.left = `${e.clientX + 10}px`;
-                tooltip.style.top = `${e.clientY - 10}px`;
-                tooltip.textContent = `${hoveredValue} ✨`;
-                tooltip.style.opacity = "1";
-            } else if (resultX && Math.hypot(mouseX - resultX, mouseY - resultY) < 15) {
-                tooltip.style.left = `${e.clientX + 10}px`;
-                tooltip.style.top = `${e.clientY - 10}px`;
-                tooltip.textContent = `Hasil: ${resultValue} ✨`;
-                tooltip.style.opacity = "1";
-            } else {
-                tooltip.style.opacity = "0";
-            }
+        const tickPositions = new Map();
+        uniqueTicks.forEach((tick) => {
+          const x = padding + (tick - uniqueTicks[0]) * xScale;
+          tickPositions.set(tick, x);
         });
 
-        canvas.addEventListener("mouseleave", () => {
-            tooltip.style.opacity = "0";
+        // Draw main gradient line
+        const gradient = ctx.createLinearGradient(
+          padding,
+          100,
+          canvas.width - padding,
+          100
+        );
+        gradient.addColorStop(0, "#B794F4");
+        gradient.addColorStop(0.5, "#9F7AEA");
+        gradient.addColorStop(1, "#B794F4");
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 4;
+        ctx.lineCap = "round";
+        ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.moveTo(padding, 100);
+        ctx.lineTo(canvas.width - padding, 100);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Draw ticks and numbers
+        ctx.font = "bold 14px Quicksand";
+        ctx.textAlign = "center";
+
+        uniqueTicks.forEach((tick) => {
+          const x = tickPositions.get(tick);
+          if (x >= padding - 10 && x <= canvas.width - padding + 10) {
+            if (tick === 0) {
+              ctx.strokeStyle = "#9F7AEA";
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.moveTo(x, 85);
+              ctx.lineTo(x, 115);
+              ctx.stroke();
+              ctx.fillStyle = "#6B46C1";
+              ctx.font = "bold 18px Quicksand";
+              ctx.fillText("0", x, 135);
+              ctx.font = "bold 14px Quicksand";
+            } else if (tick === result) {
+              ctx.strokeStyle = "#B794F4";
+              ctx.lineWidth = 3;
+              ctx.beginPath();
+              ctx.moveTo(x, 88);
+              ctx.lineTo(x, 112);
+              ctx.stroke();
+              ctx.fillStyle = "#805AD5";
+              ctx.font = "bold 16px Quicksand";
+              ctx.fillText(tick, x, 135);
+              ctx.font = "bold 14px Quicksand";
+            } else {
+              ctx.strokeStyle = "#D4B5F0";
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(x, 93);
+              ctx.lineTo(x, 107);
+              ctx.stroke();
+              ctx.fillStyle = "#9F7AEA";
+              ctx.fillText(tick, x, 135);
+            }
+          }
         });
 
-        function startAnimation() {
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        // Draw arrow heads at ends
+        drawArrowhead(canvas.width - padding, 100, "right", "#9F7AEA");
+        drawArrowhead(padding, 100, "left", "#9F7AEA");
 
-            const a = parseInt(document.getElementById('factorA').value) || 0;
-            const b = parseInt(document.getElementById('factorB').value) || 0;
-            const result = a * b;
-            const numSteps = Math.abs(a);
-            const stepSize = Math.abs(b) * Math.sign(a * b);
+        return { tickPositions, uniqueTicks };
+      }
 
-            resultValue = result;
+      function drawArrowhead(x, y, direction, color) {
+        ctx.fillStyle = color;
+        ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
+        ctx.shadowBlur = 5;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        if (direction === "right") {
+          ctx.lineTo(x - 10, y - 8);
+          ctx.lineTo(x - 10, y + 8);
+        } else {
+          ctx.lineTo(x + 10, y - 8);
+          ctx.lineTo(x + 10, y + 8);
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      function drawResultMarker(x, y, value) {
+        ctx.shadowColor = "rgba(107, 70, 193, 0.5)";
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = "#6B46C1";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Inner highlight
+        ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+        ctx.beginPath();
+        ctx.arc(x - 3, y - 3, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function getInterpolatedX(
+        value,
+        tickPositions,
+        uniqueTicks,
+        padding,
+        canvasWidth
+      ) {
+        const sortedTicks = [...uniqueTicks].sort((a, b) => a - b);
+        const index = sortedTicks.findIndex((tick) => tick >= value);
+        if (index === -1)
+          return (
+            tickPositions.get(sortedTicks[sortedTicks.length - 1]) ||
+            canvas.width - padding
+          );
+        const prevTick = sortedTicks[index - 1] || sortedTicks[0];
+        const nextTick =
+          sortedTicks[index] || sortedTicks[sortedTicks.length - 1];
+        const prevX = tickPositions.get(prevTick) || padding;
+        const nextX = tickPositions.get(nextTick) || canvas.width - padding;
+        const ratio = (value - prevTick) / (nextTick - prevTick) || 1;
+        return prevX + (nextX - prevX) * ratio;
+      }
+
+      let resultX,
+        resultY,
+        resultValue,
+        endpointMarkers = [];
+
+      canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        let hoveredValue = null;
+        for (let marker of endpointMarkers) {
+          if (Math.hypot(mouseX - marker.x, mouseY - marker.y) < 15) {
+            hoveredValue = marker.value;
+            break;
+          }
+        }
+
+        if (hoveredValue !== null) {
+          tooltip.style.left = `${e.clientX + 10}px`;
+          tooltip.style.top = `${e.clientY - 10}px`;
+          tooltip.textContent = `${hoveredValue} ✨`;
+          tooltip.style.opacity = "1";
+        } else if (
+          resultX &&
+          Math.hypot(mouseX - resultX, mouseY - resultY) < 15
+        ) {
+          tooltip.style.left = `${e.clientX + 10}px`;
+          tooltip.style.top = `${e.clientY - 10}px`;
+          tooltip.textContent = `Hasil: ${resultValue} ✨`;
+          tooltip.style.opacity = "1";
+        } else {
+          tooltip.style.opacity = "0";
+        }
+      });
+
+      canvas.addEventListener("mouseleave", () => {
+        tooltip.style.opacity = "0";
+      });
+
+      function startAnimation() {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+        const a = parseInt(document.getElementById("factorA").value) || 0;
+        const b = parseInt(document.getElementById("factorB").value) || 0;
+        const result = a * b;
+        const numSteps = Math.abs(a);
+        const stepSize = Math.abs(b) * Math.sign(a * b);
+
+        resultValue = result;
+        endpointMarkers = [];
+
+        const { tickPositions, uniqueTicks } = drawNumberLine(a, b, result);
+
+        const startX = tickPositions.get(0) || padding;
+        let targetEndX =
+          tickPositions.get(result) ||
+          getInterpolatedX(
+            result,
+            tickPositions,
+            uniqueTicks,
+            padding,
+            canvas.width
+          );
+
+        // Draw initial marker at 0
+        drawResultMarker(startX, 100, 0);
+        endpointMarkers.push({ x: startX, y: 100, value: 0 });
+
+        let currentStep = 0;
+        let cumulativeValue = 0;
+        const animationDuration = 1000;
+        let startTime;
+
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const progress = (timestamp - startTime) / animationDuration;
+
+          drawNumberLine(a, b, result);
+
+          // Draw initial marker
+          drawResultMarker(startX, 100, 0);
+
+          if (currentStep < numSteps) {
+            const stepProgress = progress * numSteps;
+            const nextStep = Math.floor(stepProgress);
+
+            if (nextStep > currentStep) {
+              currentStep = nextStep;
+              startTime = timestamp;
+              cumulativeValue += stepSize;
+            }
+
+            // Draw all completed steps
+            for (let i = 0; i <= currentStep && i < numSteps; i++) {
+              const segmentStart = i * stepSize;
+              const segmentEnd = (i + 1) * stepSize;
+              const startPosX =
+                tickPositions.get(segmentStart) ||
+                getInterpolatedX(
+                  segmentStart,
+                  tickPositions,
+                  uniqueTicks,
+                  padding,
+                  canvas.width
+                );
+              const endPosX =
+                tickPositions.get(segmentEnd) ||
+                getInterpolatedX(
+                  segmentEnd,
+                  tickPositions,
+                  uniqueTicks,
+                  padding,
+                  canvas.width
+                );
+              const yOffset = i % 2 === 0 ? 60 : 140;
+
+              const color = colors[i % colors.length];
+
+              ctx.strokeStyle = color;
+              ctx.lineWidth = 5;
+              ctx.shadowColor = color
+                .replace(")", ", 0.4)")
+                .replace("rgb", "rgba");
+              ctx.shadowBlur = 10;
+              ctx.beginPath();
+              ctx.moveTo(startPosX, yOffset);
+              ctx.lineTo(endPosX, yOffset);
+              ctx.setLineDash([10, 8]);
+              ctx.stroke();
+              ctx.setLineDash([]);
+              ctx.shadowBlur = 0;
+
+              // Draw arrow
+              const arrowDirection = stepSize > 0 ? "right" : "left";
+              drawArrowhead(endPosX, yOffset, arrowDirection, color);
+
+              // Label
+              ctx.font = "bold 16px Quicksand";
+              ctx.fillStyle = color;
+              ctx.textAlign = "center";
+              const labelX = (startPosX + endPosX) / 2;
+              const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
+
+              const labelText = (
+                a * b >= 0 ? Math.abs(b) : -Math.abs(b)
+              ).toString();
+              const textWidth = ctx.measureText(labelText).width;
+
+              ctx.fillStyle = "white";
+              ctx.strokeStyle = color;
+              ctx.lineWidth = 3;
+              ctx.beginPath();
+              ctx.roundRect(
+                labelX - textWidth / 2 - 10,
+                labelY - 18,
+                textWidth + 20,
+                28,
+                14
+              );
+              ctx.fill();
+              ctx.stroke();
+
+              ctx.fillStyle = color;
+              ctx.fillText(labelText, labelX, labelY);
+
+              // Draw marker at end of segment
+              drawResultMarker(endPosX, 100, segmentEnd);
+              if (i === currentStep) {
+                endpointMarkers = [{ x: endPosX, y: 100, value: segmentEnd }];
+              }
+            }
+
+            if (progress >= 1 && currentStep >= numSteps - 1) {
+              currentStep = numSteps;
+              startTime = timestamp;
+            }
+          } else {
+            // Animation complete - draw all steps
             endpointMarkers = [];
 
-            const { tickPositions, uniqueTicks } = drawNumberLine(a, b, result);
+            for (let i = 0; i < numSteps; i++) {
+              const segmentStart = i * stepSize;
+              const segmentEnd = (i + 1) * stepSize;
+              const startPosX =
+                tickPositions.get(segmentStart) ||
+                getInterpolatedX(
+                  segmentStart,
+                  tickPositions,
+                  uniqueTicks,
+                  padding,
+                  canvas.width
+                );
+              const endPosX =
+                tickPositions.get(segmentEnd) ||
+                getInterpolatedX(
+                  segmentEnd,
+                  tickPositions,
+                  uniqueTicks,
+                  padding,
+                  canvas.width
+                );
+              const yOffset = i % 2 === 0 ? 60 : 140;
 
-            const startX = tickPositions.get(0) || padding;
-            let targetEndX = tickPositions.get(result) || getInterpolatedX(result, tickPositions, uniqueTicks, padding, canvas.width);
+              const color = colors[i % colors.length];
 
-            // Draw initial marker at 0
-            drawResultMarker(startX, 100, 0);
-            endpointMarkers.push({ x: startX, y: 100, value: 0 });
+              ctx.strokeStyle = color;
+              ctx.lineWidth = 5;
+              ctx.shadowColor = color
+                .replace(")", ", 0.4)")
+                .replace("rgb", "rgba");
+              ctx.shadowBlur = 10;
+              ctx.beginPath();
+              ctx.moveTo(startPosX, yOffset);
+              ctx.lineTo(endPosX, yOffset);
+              ctx.setLineDash([10, 8]);
+              ctx.stroke();
+              ctx.setLineDash([]);
+              ctx.shadowBlur = 0;
 
-            let currentStep = 0;
-            let cumulativeValue = 0;
-            const animationDuration = 1000;
-            let startTime;
+              // Draw arrow
+              const arrowDirection = stepSize > 0 ? "right" : "left";
+              drawArrowhead(endPosX, yOffset, arrowDirection, color);
 
-            function animate(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const progress = (timestamp - startTime) / animationDuration;
+              // Label
+              ctx.font = "bold 16px Quicksand";
+              ctx.fillStyle = color;
+              ctx.textAlign = "center";
+              const labelX = (startPosX + endPosX) / 2;
+              const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
 
-                drawNumberLine(a, b, result);
+              const labelText = (
+                a * b >= 0 ? Math.abs(b) : -Math.abs(b)
+              ).toString();
+              const textWidth = ctx.measureText(labelText).width;
 
-                // Draw initial marker
-                drawResultMarker(startX, 100, 0);
+              ctx.fillStyle = "white";
+              ctx.strokeStyle = color;
+              ctx.lineWidth = 3;
+              ctx.beginPath();
+              ctx.roundRect(
+                labelX - textWidth / 2 - 10,
+                labelY - 18,
+                textWidth + 20,
+                28,
+                14
+              );
+              ctx.fill();
+              ctx.stroke();
 
-                if (currentStep < numSteps) {
-                    const stepProgress = progress * numSteps;
-                    const nextStep = Math.floor(stepProgress);
-                    
-                    if (nextStep > currentStep) {
-                        currentStep = nextStep;
-                        startTime = timestamp;
-                        cumulativeValue += stepSize;
-                    }
+              ctx.fillStyle = color;
+              ctx.fillText(labelText, labelX, labelY);
 
-                    // Draw all completed steps
-                    for (let i = 0; i <= currentStep && i < numSteps; i++) {
-                        const segmentStart = i * stepSize;
-                        const segmentEnd = (i + 1) * stepSize;
-                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, tickPositions, uniqueTicks, padding, canvas.width);
-                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, tickPositions, uniqueTicks, padding, canvas.width);
-                        const yOffset = i % 2 === 0 ? 60 : 140;
-                        
-                        const color = colors[i % colors.length];
-                        
-                        ctx.strokeStyle = color;
-                        ctx.lineWidth = 5;
-                        ctx.shadowColor = color.replace(')', ', 0.4)').replace('rgb', 'rgba');
-                        ctx.shadowBlur = 10;
-                        ctx.beginPath();
-                        ctx.moveTo(startPosX, yOffset);
-                        ctx.lineTo(endPosX, yOffset);
-                        ctx.setLineDash([10, 8]);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        ctx.shadowBlur = 0;
-
-                        // Draw arrow
-                        const arrowDirection = stepSize > 0 ? "right" : "left";
-                        drawArrowhead(endPosX, yOffset, arrowDirection, color);
-
-                        // Label
-                        ctx.font = "bold 16px Quicksand";
-                        ctx.fillStyle = color;
-                        ctx.textAlign = "center";
-                        const labelX = (startPosX + endPosX) / 2;
-                        const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
-                        
-                        const labelText = (a * b >= 0 ? Math.abs(b) : -Math.abs(b)).toString();
-                        const textWidth = ctx.measureText(labelText).width;
-                        
-                        ctx.fillStyle = 'white';
-                        ctx.strokeStyle = color;
-                        ctx.lineWidth = 3;
-                        ctx.beginPath();
-                        ctx.roundRect(labelX - textWidth/2 - 10, labelY - 18, textWidth + 20, 28, 14);
-                        ctx.fill();
-                        ctx.stroke();
-                        
-                        ctx.fillStyle = color;
-                        ctx.fillText(labelText, labelX, labelY);
-
-                        // Draw marker at end of segment
-                        drawResultMarker(endPosX, 100, segmentEnd);
-                        if (i === currentStep) {
-                            endpointMarkers = [{ x: endPosX, y: 100, value: segmentEnd }];
-                        }
-                    }
-
-                    if (progress >= 1 && currentStep >= numSteps - 1) {
-                        currentStep = numSteps;
-                        startTime = timestamp;
-                    }
-                } else {
-                    // Animation complete - draw all steps
-                    endpointMarkers = [];
-                    
-                    for (let i = 0; i < numSteps; i++) {
-                        const segmentStart = i * stepSize;
-                        const segmentEnd = (i + 1) * stepSize;
-                        const startPosX = tickPositions.get(segmentStart) || getInterpolatedX(segmentStart, tickPositions, uniqueTicks, padding, canvas.width);
-                        const endPosX = tickPositions.get(segmentEnd) || getInterpolatedX(segmentEnd, tickPositions, uniqueTicks, padding, canvas.width);
-                        const yOffset = i % 2 === 0 ? 60 : 140;
-                        
-                        const color = colors[i % colors.length];
-                        
-                        ctx.strokeStyle = color;
-                        ctx.lineWidth = 5;
-                        ctx.shadowColor = color.replace(')', ', 0.4)').replace('rgb', 'rgba');
-                        ctx.shadowBlur = 10;
-                        ctx.beginPath();
-                        ctx.moveTo(startPosX, yOffset);
-                        ctx.lineTo(endPosX, yOffset);
-                        ctx.setLineDash([10, 8]);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        ctx.shadowBlur = 0;
-
-                        // Draw arrow
-                        const arrowDirection = stepSize > 0 ? "right" : "left";
-                        drawArrowhead(endPosX, yOffset, arrowDirection, color);
-
-                        // Label
-                        ctx.font = "bold 16px Quicksand";
-                        ctx.fillStyle = color;
-                        ctx.textAlign = "center";
-                        const labelX = (startPosX + endPosX) / 2;
-                        const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
-                        
-                        const labelText = (a * b >= 0 ? Math.abs(b) : -Math.abs(b)).toString();
-                        const textWidth = ctx.measureText(labelText).width;
-                        
-                        ctx.fillStyle = 'white';
-                        ctx.strokeStyle = color;
-                        ctx.lineWidth = 3;
-                        ctx.beginPath();
-                        ctx.roundRect(labelX - textWidth/2 - 10, labelY - 18, textWidth + 20, 28, 14);
-                        ctx.fill();
-                        ctx.stroke();
-                        
-                        ctx.fillStyle = color;
-                        ctx.fillText(labelText, labelX, labelY);
-
-                        // Draw marker at end of segment
-                        drawResultMarker(endPosX, 100, segmentEnd);
-                        endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
-                    }
-
-                    // Show result
-                    hasilDiv.style.display = 'block';
-                    hasilDiv.textContent = `${a} × ${b} = ${result}`;
-                    hasilDiv.classList.add("updated");
-                    setTimeout(() => hasilDiv.classList.remove("updated"), 600);
-
-                    const finalProgress = (timestamp - startTime) / animationDuration;
-                    if (finalProgress >= 1) {
-                        resultX = targetEndX;
-                        resultY = 100;
-                        drawResultMarker(targetEndX, 100, result);
-                        return;
-                    }
-                }
-
-                animationFrameId = requestAnimationFrame(animate);
+              // Draw marker at end of segment
+              drawResultMarker(endPosX, 100, segmentEnd);
+              endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
             }
 
-            if (a !== 0 && b !== 0) {
-                animationFrameId = requestAnimationFrame(animate);
-            } else {
-                // No animation for zero
-                hasilDiv.style.display = 'block';
-                hasilDiv.textContent = `${a} × ${b} = ${result}`;
+            // Show result
+            hasilDiv.style.display = "block";
+            hasilDiv.textContent = `${a} × ${b} = ${result}`;
+            hasilDiv.classList.add("updated");
+            setTimeout(() => hasilDiv.classList.remove("updated"), 600);
+
+            const finalProgress = (timestamp - startTime) / animationDuration;
+            if (finalProgress >= 1) {
+              resultX = targetEndX;
+              resultY = 100;
+              drawResultMarker(targetEndX, 100, result);
+              return;
             }
+          }
+
+          animationFrameId = requestAnimationFrame(animate);
         }
 
-        function showInstructions() {
-            const modal = new bootstrap.Modal(document.getElementById('instructionModal'));
-            modal.show();
+        if (a !== 0 && b !== 0) {
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          // No animation for zero
+          hasilDiv.style.display = "block";
+          hasilDiv.textContent = `${a} × ${b} = ${result}`;
         }
+      }
+
+      function showInstructions() {
+        const modal = new bootstrap.Modal(
+          document.getElementById("instructionModal")
+        );
+        modal.show();
+      }
     </script>
-</body>
+  </body>
 </html>
