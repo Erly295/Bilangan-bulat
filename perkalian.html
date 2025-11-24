@@ -231,6 +231,32 @@
         box-shadow: 0 12px 40px rgba(128, 90, 213, 0.3);
       }
 
+      /* Kelinci DOM styles (matching pembagian.html behavior) */
+      .kelinci {
+        position: absolute;
+        top: -20px;
+        transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
+        filter: drop-shadow(0 4px 6px rgba(128, 90, 213, 0.3));
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
+      .kelinci-icon { font-size: 3.0em; }
+      .kelinci-arrow {
+        position: absolute;
+        top: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #805AD5;
+        text-shadow: 0 2px 4px rgba(128, 90, 213, 0.3);
+      }
+
+      @keyframes jump { 0%,100%{ transform: translateX(-50%) translateY(0) scale(1);}25%{transform: translateX(-50%) translateY(-15px) scale(1.05);}50%{transform: translateX(-50%) translateY(-35px) scale(1.1);}75%{transform: translateX(-50%) translateY(-15px) scale(1.05);} }
+      .jumping { animation: jump 0.5s ease-in-out; }
+
       .card-body {
         padding: 2rem !important;
         background: linear-gradient(
@@ -434,7 +460,10 @@
 
       <div class="card canvas-card mb-4">
         <div class="card-body p-0">
-          <canvas id="garis" width="700" height="250"></canvas>
+          <div style="position:relative; width:100%;">
+            <canvas id="garis" width="700" height="250"></canvas>
+            <div id="rabbitLayer" style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;"></div>
+          </div>
         </div>
       </div>
 
@@ -509,6 +538,7 @@
         ) {
           startAnimation();
         }
+        updateRabbitLayer();
       }
 
       window.addEventListener("resize", resizeCanvas);
@@ -614,28 +644,31 @@
           }
         });
 
-        // Draw arrow heads at ends
-        drawArrowhead(canvas.width - padding, 100, "right", "#9F7AEA");
-        drawArrowhead(padding, 100, "left", "#9F7AEA");
+        // Draw arrow heads at ends (removed for perkalian — using rabbits and arcs instead)
 
         return { tickPositions, uniqueTicks };
       }
+    
 
-      function drawArrowhead(x, y, direction, color) {
+      // Draw rabbit emoji at (x,y). Uses canvas text for emoji rendering to match pembagian visualization.
+      function drawRabbit(x, y, options = {}) {
+        const size = options.size || 24;
+        const facingRight = options.facingRight !== undefined ? options.facingRight : true;
+        const color = options.color || '#9F7AEA';
+
+        ctx.save();
+        ctx.font = `bold ${size}px serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(159,122,234,0.5)';
+        ctx.shadowBlur = 8;
+        ctx.fillText('🐇', x, y);
+
+        ctx.font = 'bold 16px Quicksand';
         ctx.fillStyle = color;
-        ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
-        ctx.shadowBlur = 5;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        if (direction === "right") {
-          ctx.lineTo(x - 10, y - 8);
-          ctx.lineTo(x - 10, y + 8);
-        } else {
-          ctx.lineTo(x + 10, y - 8);
-          ctx.lineTo(x + 10, y + 8);
-        }
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        const marker = facingRight ? '»' : '«';
+        ctx.fillText(marker, x + (facingRight ? size * 0.5 : -size * 0.5), y - size * 0.18);
+        ctx.restore();
       }
 
       function drawResultMarker(x, y, value) {
@@ -681,6 +714,87 @@
         resultY,
         resultValue,
         endpointMarkers = [];
+
+      // DOM rabbit helper (perubahan agar kelinci DOM dapat loncat seperti pembagian.html)
+      function clearRabbits() {
+        const layer = document.getElementById('rabbitLayer');
+        if (layer) layer.innerHTML = '';
+      }
+
+      function updateRabbitLayer() {
+        const layer = document.getElementById('rabbitLayer');
+        if (!layer) return;
+        // parent is the relative wrapper we created; align layer to canvas pixels
+        const canvasRect = canvas.getBoundingClientRect();
+        const parentRect = canvas.parentElement.getBoundingClientRect();
+        const offsetLeft = canvas.offsetLeft; // left within parent
+        layer.style.left = offsetLeft + 'px';
+        layer.style.top = canvas.offsetTop + 'px';
+        layer.style.width = canvas.width + 'px';
+        layer.style.height = canvas.height + 'px';
+      }
+
+      function createDOMRabbit(type, x, y, facingRight) {
+        const layer = document.getElementById('rabbitLayer');
+        if (!layer) return null;
+        const el = document.createElement('div');
+        el.className = 'kelinci ' + (type || 'kelinci-kecil');
+        el.style.left = x + 'px';
+        el.style.top = (y - 20) + 'px';
+        el.innerHTML = `<div class="kelinci-icon">${type==='kelinci-besar'? '🐇':'🐰'}</div>`;
+        layer.appendChild(el);
+        return el;
+      }
+
+      // Create a curved SVG arrow between two pixel X positions
+      function createCurvedArrowPx(x1, x2, color) {
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.classList.add('curved-arrow');
+        const startX = Math.min(x1, x2);
+        const endX = Math.max(x1, x2);
+        const width = Math.max(40, endX - startX);
+        const height = 80;
+        svg.style.position = 'absolute';
+        svg.style.left = `${startX - 10}px`;
+        // raise SVG so it sits clearly above the main number line
+        const centerY = canvas.height / 2;
+        svg.style.top = `${centerY - height - 18}px`;
+        svg.style.width = `${width + 20}px`;
+        svg.style.height = `${height}px`;
+
+        const path = document.createElementNS(svgNS, 'path');
+        const controlY = -40;
+        const pathD = `M 5 ${height} Q ${width/2} ${controlY}, ${width-5} ${height}`;
+        path.setAttribute('d', pathD);
+        path.setAttribute('class', 'arrow-path');
+        path.style.stroke = color;
+        path.style.fill = 'none';
+        path.style.strokeWidth = '3';
+        path.style.strokeDasharray = '8,6';
+
+        svg.appendChild(path);
+        document.getElementById('rabbitLayer').appendChild(svg);
+        return svg;
+      }
+
+      // Create a small jump counter at pixel X position
+      function createJumpCounterPx(x, number, color) {
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.left = `${x}px`;
+        container.style.top = `${(canvas.height/2) - 140}px`;
+        container.style.transform = 'translateX(-50%)';
+        container.style.background = color;
+        container.style.borderRadius = '20px';
+        container.style.padding = '6px 10px';
+        container.style.color = 'white';
+        container.style.fontWeight = '700';
+        container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+        container.textContent = number;
+        document.getElementById('rabbitLayer').appendChild(container);
+        return container;
+      }
 
       canvas.addEventListener("mousemove", (e) => {
         const rect = canvas.getBoundingClientRect();
@@ -770,7 +884,7 @@
               cumulativeValue += stepSize;
             }
 
-            // Draw all completed steps
+            // Draw markers for completed steps only (no straight segment lines)
             for (let i = 0; i <= currentStep && i < numSteps; i++) {
               const segmentStart = i * stepSize;
               const segmentEnd = (i + 1) * stepSize;
@@ -792,58 +906,10 @@
                   padding,
                   canvas.width
                 );
-              const yOffset = i % 2 === 0 ? 60 : 140;
 
-              const color = colors[i % colors.length];
-
-              ctx.strokeStyle = color;
-              ctx.lineWidth = 5;
-              ctx.shadowColor = color
-                .replace(")", ", 0.4)")
-                .replace("rgb", "rgba");
-              ctx.shadowBlur = 10;
-              ctx.beginPath();
-              ctx.moveTo(startPosX, yOffset);
-              ctx.lineTo(endPosX, yOffset);
-              ctx.setLineDash([10, 8]);
-              ctx.stroke();
-              ctx.setLineDash([]);
-              ctx.shadowBlur = 0;
-
-              // Draw arrow
-              const arrowDirection = stepSize > 0 ? "right" : "left";
-              drawArrowhead(endPosX, yOffset, arrowDirection, color);
-
-              // Label
-              ctx.font = "bold 16px Quicksand";
-              ctx.fillStyle = color;
-              ctx.textAlign = "center";
-              const labelX = (startPosX + endPosX) / 2;
-              const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
-
-              const labelText = (
-                a * b >= 0 ? Math.abs(b) : -Math.abs(b)
-              ).toString();
-              const textWidth = ctx.measureText(labelText).width;
-
-              ctx.fillStyle = "white";
-              ctx.strokeStyle = color;
-              ctx.lineWidth = 3;
-              ctx.beginPath();
-              ctx.roundRect(
-                labelX - textWidth / 2 - 10,
-                labelY - 18,
-                textWidth + 20,
-                28,
-                14
-              );
-              ctx.fill();
-              ctx.stroke();
-
-              ctx.fillStyle = color;
-              ctx.fillText(labelText, labelX, labelY);
-
-              // Draw marker at end of segment
+              // Only draw end markers for each completed step. Curved arrows are handled
+              // by the DOM `rabbitLayer` (createCurvedArrowPx). This keeps the canvas
+              // free of straight dashed lines so only curved lines appear.
               drawResultMarker(endPosX, 100, segmentEnd);
               if (i === currentStep) {
                 endpointMarkers = [{ x: endPosX, y: 100, value: segmentEnd }];
@@ -879,58 +945,9 @@
                   padding,
                   canvas.width
                 );
-              const yOffset = i % 2 === 0 ? 60 : 140;
 
-              const color = colors[i % colors.length];
-
-              ctx.strokeStyle = color;
-              ctx.lineWidth = 5;
-              ctx.shadowColor = color
-                .replace(")", ", 0.4)")
-                .replace("rgb", "rgba");
-              ctx.shadowBlur = 10;
-              ctx.beginPath();
-              ctx.moveTo(startPosX, yOffset);
-              ctx.lineTo(endPosX, yOffset);
-              ctx.setLineDash([10, 8]);
-              ctx.stroke();
-              ctx.setLineDash([]);
-              ctx.shadowBlur = 0;
-
-              // Draw arrow
-              const arrowDirection = stepSize > 0 ? "right" : "left";
-              drawArrowhead(endPosX, yOffset, arrowDirection, color);
-
-              // Label
-              ctx.font = "bold 16px Quicksand";
-              ctx.fillStyle = color;
-              ctx.textAlign = "center";
-              const labelX = (startPosX + endPosX) / 2;
-              const labelY = yOffset - (i % 2 === 0 ? 18 : -30);
-
-              const labelText = (
-                a * b >= 0 ? Math.abs(b) : -Math.abs(b)
-              ).toString();
-              const textWidth = ctx.measureText(labelText).width;
-
-              ctx.fillStyle = "white";
-              ctx.strokeStyle = color;
-              ctx.lineWidth = 3;
-              ctx.beginPath();
-              ctx.roundRect(
-                labelX - textWidth / 2 - 10,
-                labelY - 18,
-                textWidth + 20,
-                28,
-                14
-              );
-              ctx.fill();
-              ctx.stroke();
-
-              ctx.fillStyle = color;
-              ctx.fillText(labelText, labelX, labelY);
-
-              // Draw marker at end of segment
+              // Only draw end markers for each step. Curved arrows are created
+              // by the DOM layer so the canvas will not render straight segment lines.
               drawResultMarker(endPosX, 100, segmentEnd);
               endpointMarkers.push({ x: endPosX, y: 100, value: segmentEnd });
             }
@@ -953,8 +970,49 @@
           animationFrameId = requestAnimationFrame(animate);
         }
 
+        // Before running animation, clear any DOM rabbits and create a small jumper animation that mimics pembagian
+        clearRabbits();
+        updateRabbitLayer();
+
         if (a !== 0 && b !== 0) {
+          // start canvas animation
           animationFrameId = requestAnimationFrame(animate);
+
+          // run DOM rabbit hops in parallel to the canvas steps
+          (async function runRabbitHops() {
+            const numSteps = Math.abs(a);
+            const stepSize = Math.abs(b) * Math.sign(a * b);
+            const direction = stepSize > 0 ? 1 : -1;
+            const centerOffset = padding + ((0 - (uniqueTicks ? uniqueTicks[0] : 0)) * (canvas.width - 2*padding) / (uniqueTicks ? (uniqueTicks[uniqueTicks.length-1]-uniqueTicks[0] || 1) : 1));
+
+            // compute centerX same as drawNumberLine mapping
+            const centerX = (canvas.width) / 2;
+
+            // small jumper
+            const startX = tickPositions.get(0) || padding;
+            const kelinciKecil = createDOMRabbit('kelinci-kecil', startX, 100, stepSize > 0);
+            await new Promise(r => setTimeout(r, 400));
+
+            let cumulative = 0;
+            for (let i = 0; i < numSteps; i++) {
+              const nextValue = cumulative + stepSize;
+              const nextX = tickPositions.get(nextValue) || getInterpolatedX(nextValue, tickPositions, uniqueTicks, padding, canvas.width);
+              const prevX = tickPositions.get(cumulative) || getInterpolatedX(cumulative, tickPositions, uniqueTicks, padding, canvas.width);
+              // draw curved arrow and counter for this hop
+              const color = colors[i % colors.length] || '#B794F4';
+              createCurvedArrowPx(prevX, nextX, color);
+              createJumpCounterPx(nextX, i+1, color);
+
+              kelinciKecil.classList.add('jumping');
+              await new Promise(r => setTimeout(r, 300));
+              if (kelinciKecil) kelinciKecil.style.left = nextX + 'px';
+              await new Promise(r => setTimeout(r, 300));
+              kelinciKecil.classList.remove('jumping');
+              cumulative = nextValue;
+            }
+
+            // after hops, keep final state (no big rabbit)
+          })();
         } else {
           // No animation for zero
           hasilDiv.style.display = "block";

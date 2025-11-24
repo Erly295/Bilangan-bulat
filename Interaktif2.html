@@ -206,6 +206,55 @@
             margin: 0 auto;
         }
 
+        /* Kelinci DOM styles (matching pembagian.html behavior) */
+        .kelinci {
+            position: absolute;
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.2s ease;
+            z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(128, 90, 213, 0.3));
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .kelinci-icon {
+            font-size: 3.0em;
+        }
+
+        /* Reuse "point" style from pembagian.html for landing dots */
+        .point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #9F7AEA;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 6px rgba(128, 90, 213, 0.3);
+            transform: translate(-50%, -50%);
+            z-index: 8;
+            pointer-events: none;
+        }
+
+        .kelinci-arrow {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #805AD5;
+            text-shadow: 0 2px 4px rgba(128, 90, 213, 0.3);
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+            25% { transform: translateX(-50%) translateY(-15px) scale(1.05); }
+            50% { transform: translateX(-50%) translateY(-35px) scale(1.1); }
+            75% { transform: translateX(-50%) translateY(-15px) scale(1.05); }
+        }
+
+        .jumping { animation: jump 0.5s ease-in-out; }
+
+
         .info-text {
             text-align: center;
             color: #805AD5;
@@ -568,6 +617,7 @@
             <div class="card-body p-0">
                 <div class="canvas-wrapper" id="canvasWrapper">
                     <canvas id="canvas"></canvas>
+                    <div id="rabbitLayer" style="position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none;"></div>
                 </div>
             </div>
         </div>
@@ -673,6 +723,7 @@
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
             centerView();
+            updateRabbitLayer();
         }
         
         function centerView() {
@@ -695,6 +746,21 @@
             
             // Scroll canvas wrapper
             canvasWrapper.scrollLeft = offsetX;
+            // Update rabbit layer positioning to match canvas visual position
+            updateRabbitLayer();
+        }
+
+        function updateRabbitLayer() {
+            const rabbitLayer = document.getElementById('rabbitLayer');
+            if (!rabbitLayer) return;
+            // rabbitLayer should match the canvas pixel coordinate space
+            const wrapperWidth = canvasWrapper.clientWidth;
+            // compute canvas left offset inside wrapper (handles margin:auto and larger canvas)
+            const canvasLeft = canvas.offsetLeft || Math.max(0, Math.floor((wrapperWidth - canvas.width) / 2));
+            rabbitLayer.style.width = canvas.width + 'px';
+            rabbitLayer.style.height = canvas.height + 'px';
+            rabbitLayer.style.left = canvasLeft + 'px';
+            rabbitLayer.style.top = '0px';
         }
         
         function drawNumberLine() {
@@ -776,84 +842,183 @@
             // Gambar panah siswa
             drawStudentArrows();
             
-            // Draw arrowheads at ends
-            drawArrowhead(canvas.width - 10, centerY, "right", '#9F7AEA');
-            drawArrowhead(10, centerY, "left", '#9F7AEA');
+            // arrowheads removed — using curved arcs and rabbit DOM instead
         }
 
-        function drawArrowhead(x, y, direction, color) {
+        // Draw a small rabbit emoji on the canvas. Uses text emoji for simplicity and consistent appearance.
+        function drawRabbit(x, y, options = {}) {
+            const size = options.size || 28;
+            const facingRight = options.facingRight !== undefined ? options.facingRight : true;
+            const color = options.color || '#9F7AEA';
+
+            ctx.save();
+            ctx.font = `bold ${size}px serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = "rgba(159, 122, 234, 0.5)";
+            ctx.shadowBlur = 8;
+            // Emoji rabbit
+            ctx.fillText('🐇', x, y);
+
+            // Small facing marker like in pembagian (» or «)
+            ctx.font = 'bold 18px Quicksand';
             ctx.fillStyle = color;
-            ctx.shadowColor = "rgba(159, 122, 234, 0.3)";
-            ctx.shadowBlur = 5;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            if (direction === "right") {
-                ctx.lineTo(x - 10, y - 8);
-                ctx.lineTo(x - 10, y + 8);
-            } else {
-                ctx.lineTo(x + 10, y - 8);
-                ctx.lineTo(x + 10, y + 8);
-            }
-            ctx.fill();
-            ctx.shadowBlur = 0;
+            const marker = facingRight ? '»' : '«';
+            ctx.fillText(marker, x + (facingRight ? size * 0.6 : -size * 0.6), y - size * 0.2);
+            ctx.restore();
+        }
+
+        // Create a curved SVG path between two pixel X positions inside rabbitLayer
+        function createCurvedArrowPx(x1, x2, color) {
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(svgNS, 'svg');
+            svg.classList.add('curved-arrow');
+            const startX = Math.min(x1, x2);
+            const endX = Math.max(x1, x2);
+            const width = Math.max(40, endX - startX);
+            const height = 80;
+            svg.style.position = 'absolute';
+            svg.style.left = `${startX - 10}px`;
+            // place the svg above the main line so it doesn't touch the number line
+            const centerY = canvas.height / 2;
+            svg.style.top = `${centerY - height - 12}px`;
+            svg.style.width = `${width + 20}px`;
+            svg.style.height = `${height}px`;
+
+            const path = document.createElementNS(svgNS, 'path');
+            const controlY = -40;
+            let pathD = `M 5 ${height} Q ${width/2} ${controlY}, ${width-5} ${height}`;
+            path.setAttribute('d', pathD);
+            path.setAttribute('class', 'arrow-path');
+            path.style.stroke = color;
+            path.style.fill = 'none';
+            path.style.strokeWidth = '3';
+            path.style.strokeDasharray = '8,6';
+
+            svg.appendChild(path);
+
+            document.getElementById('rabbitLayer').appendChild(svg);
+            return svg;
+        }
+
+        // Create a small jump counter at pixel X position
+        function createJumpCounterPx(x, number, color) {
+            const container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.left = `${x}px`;
+            // position counter above the curved arc (consistent with svg height)
+            const centerY = canvas.height / 2;
+            const arcHeight = 80;
+            container.style.top = `${centerY - arcHeight - 40}px`;
+            container.style.transform = 'translateX(-50%)';
+            container.style.background = color;
+            container.style.borderRadius = '20px';
+            container.style.padding = '6px 10px';
+            container.style.color = 'white';
+            container.style.fontWeight = '700';
+            container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            container.textContent = number;
+            document.getElementById('rabbitLayer').appendChild(container);
+            return container;
+        }
+
+        // Create a circular landing point like pembagian.html
+        function createLandingTickPx(x, color) {
+            const tick = document.createElement('div');
+            tick.className = 'point';
+            tick.style.left = `${x}px`;
+            // place centered on the line
+            const centerY = canvas.height / 2;
+            tick.style.top = `${centerY}px`;
+            // allow per-hop color but keep white border
+            tick.style.background = color || '#9F7AEA';
+            tick.style.border = '4px solid white';
+            document.getElementById('rabbitLayer').appendChild(tick);
+            return tick;
         }
 
         function drawStudentArrows() {
             const centerY = canvas.height / 2;
             const centerX = canvas.width / 2;
-            
-            // Arah lompatan mengikuti arah menghadap panah
             const direction = arrowHead;
-            
-            let currentPos = 0;
+
+            // Use DOM kelinci layer to animate hops like pembagian.html
             const colors = ['#ff6b9d', '#c44569', '#ffa502', '#ff6348', '#ff4757', '#9b59b6', '#3498db'];
-            
+            const rabbitLayer = document.getElementById('rabbitLayer');
+            // Clear existing rabbits
+            rabbitLayer.innerHTML = '';
+
+            let currentPos = 0;
+            const hops = [];
             for (let i = 0; i < arrowCount; i++) {
-                const startX = centerX + (currentPos * scale);
-                const endPos = currentPos + (jumpSize * direction);
-                const endX = centerX + (endPos * scale);
-                const y = centerY - 50 - (i * 20);
-                
-                // Gambar panah
-                drawArrow(startX, y, endX, y, arrowHead, colors[i % colors.length]);
-                
-                currentPos = endPos;
+                const nextPos = currentPos + (jumpSize * direction);
+                hops.push({ from: currentPos, to: nextPos, color: colors[i % colors.length] });
+                currentPos = nextPos;
             }
-            
-            // Gambar posisi akhir
+
+            // Small jumper (positioned exactly on the number line centerY)
+            const kelinciKecil = document.createElement('div');
+            kelinciKecil.className = 'kelinci kelinci-kecil';
+            const startX = centerX + (0 * scale);
+            kelinciKecil.style.left = `${startX}px`;
+            // position vertically at the line center
+            kelinciKecil.style.top = `${centerY}px`;
+            kelinciKecil.innerHTML = `<div class="kelinci-arrow">${direction>0? '»':'«'}</div><div class="kelinci-icon">🐰</div>`;
+            rabbitLayer.appendChild(kelinciKecil);
+
+            // Sequentially animate hops
+            (async function runHops() {
+                await new Promise(r => setTimeout(r, 300));
+                for (let i = 0; i < hops.length; i++) {
+                    const hop = hops[i];
+                    const fromX = centerX + (hop.from * scale);
+                    const toX = centerX + (hop.to * scale);
+
+                    // Draw curved arrow, counter and landing tick for this hop
+                    createCurvedArrowPx(fromX, toX, hop.color);
+                    createJumpCounterPx(toX, i+1, hop.color);
+                    createLandingTickPx(toX, hop.color);
+
+                    kelinciKecil.classList.add('jumping');
+                    await new Promise(r => setTimeout(r, 300));
+
+                    kelinciKecil.style.left = `${toX}px`;
+
+                    await new Promise(r => setTimeout(r, 300));
+                    kelinciKecil.classList.remove('jumping');
+                }
+
+                // After hops, keep final state (no big rabbit)
+            })();
+
+            // Label hasil (draw below the main number line to avoid overlap)
             const finalX = centerX + (currentPos * scale);
-            ctx.fillStyle = '#EF4444';
-            ctx.shadowColor = "rgba(239, 68, 68, 0.5)";
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.arc(finalX, centerY, 12, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-            
-            // Inner highlight
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.beginPath();
-            ctx.arc(finalX - 3, centerY - 3, 4, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Label hasil
             ctx.fillStyle = '#EF4444';
             ctx.font = 'bold 18px Quicksand';
             ctx.textAlign = 'center';
             const labelText = 'Hasil: ' + currentPos;
             const textWidth = ctx.measureText(labelText).width;
-            
-            // Background bubble
+
+            // Background bubble placed below the number line
+            const bubbleTop = centerY + 25+ 20; // below the line
+            const textY = centerY + 45 +20;
+
             ctx.fillStyle = 'white';
             ctx.strokeStyle = '#EF4444';
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.roundRect(finalX - textWidth/2 - 10, centerY - 95, textWidth + 20, 30, 15);
-            ctx.fill();
-            ctx.stroke();
-            
+            if (ctx.roundRect) {
+                ctx.roundRect(finalX - textWidth/2 - 10, bubbleTop, textWidth + 20, 30, 15);
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                // fallback rectangle
+                ctx.fillRect(finalX - textWidth/2 - 10, bubbleTop, textWidth + 20, 30);
+                ctx.strokeRect(finalX - textWidth/2 - 10, bubbleTop, textWidth + 20, 30);
+            }
+
             ctx.fillStyle = '#EF4444';
-            ctx.fillText(labelText, finalX, centerY - 75);
+            ctx.fillText(labelText, finalX, textY);
         }
 
         function drawArrow(x1, y1, x2, y2, headDir, color) {
@@ -1118,6 +1283,7 @@
         setArrowHead('right');
         drawNumberLine();
         centerView();
+        window.addEventListener('resize', updateRabbitLayer);
     </script>
 </body>
 </html>
