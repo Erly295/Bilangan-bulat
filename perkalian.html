@@ -743,7 +743,13 @@
         el.className = 'kelinci ' + (type || 'kelinci-kecil');
         el.style.left = x + 'px';
         el.style.top = (y - 20) + 'px';
+        // Kelinci
         el.innerHTML = `<div class="kelinci-icon">${type==='kelinci-besar'? '🐇':'🐰'}</div>`;
+        // Tambahkan panah arah hadap di atas kelinci
+        const arrow = document.createElement('div');
+        arrow.className = 'kelinci-arrow';
+        arrow.innerText = facingRight ? '»' : '«';
+        el.appendChild(arrow);
         layer.appendChild(el);
         return el;
       }
